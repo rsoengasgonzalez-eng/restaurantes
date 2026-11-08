@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4a1733">
+  <meta name="description" content="Descubre restaurantes de Madrid y alrededores por precio, ubicación y opciones para alergias. Reserva y comparte con tu grupo.">
+  <meta property="og:title" content="Mesa Madrid — Tu mesa, bien elegida">
+  <meta property="og:description" content="Restaurantes de Madrid y centros comerciales cercanos, con filtros de precio y alergias.">
+  <meta property="og:image" content="assets/images/hero-table.webp">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <title>Mesa Madrid — Restaurantes y reservas</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#explorar">Saltar a los restaurantes</a>
+
+  <header class="site-header" id="inicio">
+    <a class="brand" href="#inicio" aria-label="Mesa Madrid, inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40"><path d="M12 7v10M8 7v7c0 2 1.8 3.5 4 3.5s4-1.5 4-3.5V7M12 17.5V33M27 7c-3.3 2.8-4.4 8.3-2.3 12.3.7 1.3 1.8 2 3.3 2.2V33M28 7v14.5" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span><strong>Mesa</strong><small>Madrid</small></span>
+    </a>
+    <nav class="header-actions" aria-label="Acciones principales">
+      <button class="icon-button mobile-only" id="openSearchBtn" aria-label="Buscar restaurantes">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+      </button>
+      <button class="nav-button" id="favoritesBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.7a5.4 5.4 0 0 0-7.7 0L12 5.8l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21l8.8-8.6a5.4 5.4 0 0 0 0-7.7Z"/></svg>
+        <span class="desktop-label">Favoritos</span><span class="count-badge" id="favoriteCount">0</span>
+      </button>
+      <button class="nav-button" id="bookingsBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></svg>
+        <span class="desktop-label">Mis reservas</span>
+      </button>
+      <button class="primary-button compact" id="shareBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.5-4.4M8.2 13.2l7.5 4.4"/></svg>
+        <span class="desktop-label">Compartir</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-image" role="img" aria-label="Amigos cenando en una terraza de Madrid"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="eyebrow light">Madrid y hasta 60 km</p>
+        <h1 id="heroTitle">Tu mesa,<br><em>bien elegida.</em></h1>
+        <p class="hero-copy">Encuentra sitios para todos, filtra con confianza y reserva en pocos pasos.</p>
+        <form class="hero-search" id="heroSearchForm" role="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+          <label class="sr-only" for="heroSearch">Buscar restaurante, cocina o zona</label>
+          <input id="heroSearch" type="search" autocomplete="off" placeholder="Restaurante, cocina o zona…">
+          <button type="submit">Buscar mesa</button>
+        </form>
+        <div class="quick-links" aria-label="Búsquedas rápidas">
+          <span>Ideas rápidas:</span>
+          <button data-quick="terraza">Terrazas</button>
+          <button data-allergen="gluten">Sin gluten</button>
+          <button data-quick="centro comercial">Centros comerciales</button>
+        </div>
+      </div>
+      <div class="hero-proof" aria-label="Resumen del servicio">
+        <span><strong id="heroRestaurantCount">15</strong> sitios seleccionados</span>
+        <i aria-hidden="true"></i>
+        <span><strong>6</strong> filtros de alérgenos</span>
+        <i aria-hidden="true"></i>
+        <span><strong>60 km</strong> alrededor de Madrid</span>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Ventajas de Mesa Madrid">
+      <div><span class="trust-icon">✓</span><p><strong>Filtros claros</strong><small>Opciones declaradas por cada local</small></p></div>
+      <div><span class="trust-icon">⌖</span><p><strong>Madrid + alrededores</strong><small>Centro y centros comerciales</small></p></div>
+      <div><span class="trust-icon">◷</span><p><strong>Reserva fácil</strong><small>Solicitud guardada al instante</small></p></div>
+    </section>
+
+    <section class="explore-section" id="explorar" aria-labelledby="exploreTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Encuentra tu sitio</p>
+          <h2 id="exploreTitle">¿Dónde comemos hoy?</h2>
+        </div>
+        <p class="section-intro">Una selección de demostración en Madrid y centros comerciales cercanos. Ajusta los filtros y explora el mapa.</p>
+      </div>
+
+      <div class="filters-shell" id="filtersShell">
+        <div class="filter-topline">
+          <label class="search-field" for="listSearch">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+            <input id="listSearch" type="search" placeholder="Nombre, cocina, barrio o centro…">
+          </label>
+          <button class="filter-toggle" id="mobileFilterBtn" aria-expanded="false" aria-controls="filterBody">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+            Filtros <span id="activeFilterCount">0</span>
+          </button>
+          <button class="ghost-button" id="clearFiltersBtn">Limpiar</button>
+        </div>
+
+        <div class="filter-body" id="filterBody">
+          <fieldset class="filter-group price-filter">
+            <legend>Precio por persona</legend>
+            <div class="chip-row" id="priceFilters">
+              <button type="button" class="filter-chip" data-price="1"><span>€</span><small>hasta 20 €</small></button>
+              <button type="button" class="filter-chip" data-price="2"><span>€€</span><small>20–35 €</small></button>
+              <button type="button" class="filter-chip" data-price="3"><span>€€€</span><small>más de 35 €</small></button>
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group allergen-filter">
+            <legend>Necesito opciones sin… <button type="button" class="info-dot" id="allergenInfoBtn" aria-label="Información sobre filtros de alérgenos">i</button></legend>
+            <div class="chip-row" id="allergenFilters">
+              <button type="button" class="filter-chip icon-chip" data-allergen="gluten">🌾 Gluten</button>
+              <button type="button" class="filter-chip icon-chip" data-allergen="lactosa">🥛 Lactosa</button>
+              <button type="button" class="filter-chip icon-chip" data-allergen="frutos secos">🥜 Frutos secos</button>
+              <button type="button" class="filter-chip icon-chip" data-allergen="huevo">🥚 Huevo</button>
+              <button type="button" class="filter-chip icon-chip" data-allergen="marisco">🦐 Marisco</button>
+              <button type="button" class="filter-chip icon-chip" data-allergen="soja">🫘 Soja</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group location-filter">
+            <legend>Ubicación</legend>
+            <div class="select-distance-row">
+              <label class="select-wrap">Zona
+                <select id="zoneFilter">
+                  <option value="all">Todas las zonas</option>
+                  <option value="madrid">Madrid ciudad</option>
+                  <option value="norte">Zona norte</option>
+                  <option value="este">Zona este</option>
+                  <option value="sur">Zona sur</option>
+                  <option value="oeste">Zona oeste</option>
+                </select>
+              </label>
+              <label class="distance-wrap" for="distanceFilter">
+                <span>Distancia desde Sol <strong><span id="distanceValue">60</span> km</strong></span>
+                <input id="distanceFilter" type="range" min="2" max="60" value="60" step="1">
+                <span class="range-labels"><small>2 km</small><small>60 km</small></span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="mobile-view-switch" role="group" aria-label="Cambiar vista">
+        <button class="active" data-view="list">☷ Lista</button>
+        <button data-view="map">⌖ Mapa</button>
+      </div>
+
+      <div class="results-toolbar">
+        <p aria-live="polite"><strong id="resultCount">15</strong> restaurantes encontrados</p>
+        <label>Ordenar por
+          <select id="sortSelect">
+            <option value="recommended">Recomendados</option>
+            <option value="distance">Más cercanos</option>
+            <option value="rating">Mejor valorados</option>
+            <option value="price">Precio más bajo</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="results-layout" id="resultsLayout">
+        <div class="restaurant-list" id="restaurantList" aria-live="polite"></div>
+        <aside class="map-panel" id="mapPanel" aria-label="Mapa de restaurantes">
+          <div class="map-topbar">
+            <span><i></i> Resultados visibles</span>
+            <button id="recenterBtn" type="button">⌖ Centrar</button>
+          </div>
+          <div class="local-map" id="localMap">
+            <div class="map-art" id="mapArt">
+              <svg class="map-lines" viewBox="0 0 1000 760" preserveAspectRatio="none" aria-hidden="true">
+                <rect width="1000" height="760" fill="#eee9de"/>
+                <path class="park" d="M40 70 260 35l100 130-95 120-220-45Z"/>
+                <path class="park" d="m700 70 245 40-25 175-180 30-100-130Z"/>
+                <path class="park" d="m690 540 265-40 20 210-290 25-80-105Z"/>
+                <path class="water" d="M415-30c5 160 95 196 38 336-38 94-12 159 40 245 41 67 52 144 35 239"/>
+                <g class="roads-main">
+                  <path d="M80 610C240 515 320 465 487 370S760 210 945 100"/>
+                  <path d="M135 120c115 125 218 218 350 250 173 42 325 112 410 270"/>
+                  <path d="M55 365c190 20 335 23 447 5 183-29 311-19 445 0"/>
+                  <ellipse cx="500" cy="380" rx="175" ry="145"/>
+                  <ellipse cx="500" cy="380" rx="285" ry="235"/>
+                </g>
+                <g class="roads-minor">
+                  <path d="M260 0c30 170 92 255 245 370 127 95 218 210 235 390"/>
+                  <path d="M0 225c180 7 343 63 495 145 200 108 330 125 505 120"/>
+                  <path d="M330 760c8-154 28-260 162-390C615 251 700 128 720 0"/>
+                  <path d="M0 540c146-98 320-130 495-170 202-46 353-123 505-237"/>
+                </g>
+              </svg>
+              <span class="map-label city" style="left:48%;top:49%">MADRID</span>
+              <span class="map-label" style="left:43%;top:21%">ALCOBENDAS</span>
+              <span class="map-label" style="left:75%;top:36%">TORREJÓN</span>
+              <span class="map-label" style="left:56%;top:70%">GETAFE</span>
+              <span class="map-label" style="left:25%;top:70%">ALCORCÓN</span>
+              <span class="map-label" style="left:20%;top:37%">LAS ROZAS</span>
+              <div class="map-markers" id="mapMarkers"></div>
+            </div>
+          </div>
+          <div class="map-legend"><span><i class="marker-dot plum"></i>Restaurante</span><span><i class="marker-dot coral"></i>Seleccionado</span><small>Mapa esquemático · abre “Cómo llegar” para navegación precisa</small></div>
+        </aside>
+      </div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <span>🍽️</span>
+        <h3>No encontramos esa combinación</h3>
+        <p>Prueba a ampliar la distancia o quitar algún filtro de alérgenos.</p>
+        <button class="primary-button" id="emptyResetBtn">Ver todos los restaurantes</button>
+      </div>
+    </section>
+
+    <section class="safety-note" aria-labelledby="safetyTitle">
+      <div class="safety-icon">!</div>
+      <div><p class="eyebrow">Tu tranquilidad importa</p><h2 id="safetyTitle">Una ayuda para elegir, nunca una garantía médica.</h2></div>
+      <p>Los filtros señalan locales que declaran poder adaptar opciones. Confirma siempre tus alergias con el restaurante antes de pedir; las cocinas compartidas pueden implicar contaminación cruzada.</p>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="#inicio"><span class="brand-mark">M</span><span><strong>Mesa</strong><small>Madrid</small></span></a>
+    <p>Hecho para organizar comidas memorables, sin dejar a nadie fuera.</p>
+    <nav><a href="#explorar">Explorar</a><button id="footerBookingsBtn">Mis reservas</button><button id="footerShareBtn">Compartir</button></nav>
+    <small>Prototipo demostrativo · Los restaurantes, disponibilidad y reservas son datos de ejemplo.</small>
+  </footer>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+  <section class="modal detail-modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle" hidden>
+    <button class="modal-close" data-close-modal aria-label="Cerrar">×</button>
+    <div id="detailContent"></div>
+  </section>
+
+  <section class="modal reservation-modal" id="reservationModal" role="dialog" aria-modal="true" aria-labelledby="reservationTitle" hidden>
+    <button class="modal-close" data-close-modal aria-label="Cerrar">×</button>
+    <div class="reservation-heading">
+      <p class="eyebrow">Solicitud de reserva</p>
+      <h2 id="reservationTitle">Reserva tu mesa</h2>
+      <p id="reservationRestaurantName"></p>
+    </div>
+    <form id="reservationForm">
+      <input type="hidden" id="reservationRestaurantId">
+      <div class="form-grid two">
+        <label>Fecha<input id="reservationDate" type="date" required></label>
+        <label>Hora<select id="reservationTime" required><option value="">Elige una hora</option></select></label>
+      </div>
+      <label>Número de personas
+        <div class="party-picker" role="group" aria-label="Número de personas">
+          <button type="button" id="partyMinus" aria-label="Una persona menos">−</button>
+          <output id="partyValue">2</output>
+          <button type="button" id="partyPlus" aria-label="Una persona más">+</button>
+        </div>
+      </label>
+      <div class="form-grid two">
+        <label>Nombre y apellidos<input id="guestName" type="text" autocomplete="name" placeholder="Tu nombre" required></label>
+        <label>Teléfono<input id="guestPhone" type="tel" autocomplete="tel" placeholder="600 000 000" required></label>
+      </div>
+      <label>Email <span>(opcional)</span><input id="guestEmail" type="email" autocomplete="email" placeholder="tu@email.com"></label>
+      <label>Alergias o petición especial <span>(recomendado)</span><textarea id="guestNotes" rows="3" placeholder="Ej.: alergia al gluten; necesito confirmar protocolo de cocina…"></textarea></label>
+      <label class="consent-check"><input type="checkbox" required><span>Entiendo que es una solicitud de demostración y que debo confirmar disponibilidad y alérgenos directamente con el restaurante.</span></label>
+      <button class="primary-button full" type="submit">Guardar solicitud de reserva</button>
+      <p class="form-footnote">No se realiza ningún cobro. Los datos quedan guardados únicamente en este dispositivo.</p>
+    </form>
+  </section>
+
+  <section class="modal success-modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle" hidden>
+    <button class="modal-close" data-close-modal aria-label="Cerrar">×</button>
+    <div class="success-check">✓</div>
+    <p class="eyebrow">Solicitud guardada</p>
+    <h2 id="successTitle">¡Ya tienes plan!</h2>
+    <p id="successSummary"></p>
+    <div class="booking-code"><span>Código local</span><strong id="successCode"></strong></div>
+    <div class="success-actions">
+      <button class="primary-button" id="downloadCalendarBtn">Añadir al calendario</button>
+      <button class="secondary-button" id="shareBookingBtn">Compartir por WhatsApp</button>
+    </div>
+    <small>Recuerda contactar con el restaurante para confirmar la reserva y cualquier necesidad alimentaria.</small>
+  </section>
+
+  <section class="modal saved-modal" id="savedModal" role="dialog" aria-modal="true" aria-labelledby="savedTitle" hidden>
+    <button class="modal-close" data-close-modal aria-label="Cerrar">×</button>
+    <p class="eyebrow" id="savedEyebrow">Tu selección</p>
+    <h2 id="savedTitle">Guardados</h2>
+    <div id="savedContent"></div>
+  </section>
+
+  <section class="modal info-modal" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoTitle" hidden>
+    <button class="modal-close" data-close-modal aria-label="Cerrar">×</button>
+    <div class="safety-icon">i</div>
+    <h2 id="infoTitle">Cómo usamos los filtros de alérgenos</h2>
+    <p>Al seleccionar un alérgeno mostramos restaurantes de esta demo que declaran disponer de opciones adaptables. Si eliges varios, el local debe poder atenderlos todos.</p>
+    <p><strong>Importante:</strong> “dispone de opciones” no significa “cocina libre de alérgenos”. Llama siempre al local para confirmar ingredientes, manipulación y riesgo de contaminación cruzada.</p>
+    <button class="primary-button full" data-close-modal>Entendido</button>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name":"restaurantes",
+  "version":"1.0.0",
+  "private":true,
+  "description":"Aplicación estática de restaurantes y reservas para Madrid",
+  "scripts":{"start":"python3 -m http.server 8080"}
+}

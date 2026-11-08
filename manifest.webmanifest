@@ -1,0 +1,14 @@
+{
+  "name": "Mesa Madrid",
+  "short_name": "Mesa Madrid",
+  "description": "Restaurantes, filtros de alérgenos y solicitudes de reserva en Madrid y alrededores.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf8f2",
+  "theme_color": "#4a1733",
+  "icons": [
+    {"src":"favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
