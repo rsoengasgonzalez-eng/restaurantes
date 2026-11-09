@@ -84,222 +84,191 @@
   {"id":"verde-canada","name":"Verde La CaÃ±ada","cuisine":"Plant based","price":2,"rating":4.7,"reviews":594,"distance":30.4,"zone":"oeste","area":"Centro Â· Villanueva de la CaÃ±ada","place":"Cocina vegetal","lat":40.4469,"lng":-4.0043,"image":"food-plant.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["100% vegetal","Ingredientes seÃ±alizados","Brunch"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Verde La CaÃ±ada propone platos vegetales creativos e ingredientes claramente explicados en Centro. Un espacio cocina vegetal con servicio cercano y opciones adaptables bajo solicitud."},
   {"id":"senda-villalba","name":"Senda Villalba","cuisine":"MediterrÃ¡nea","price":2,"rating":4.9,"reviews":667,"distance":38.1,"zone":"oeste","area":"EstaciÃ³n Â· Collado Villalba","place":"Cocina de temporada","lat":40.6262,"lng":-4.0081,"image":"food-mediterranean.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Senda Villalba propone producto de temporada, verduras, arroces y cocina luminosa en EstaciÃ³n. Un espacio cocina de temporada con servicio cercano y opciones adaptables bajo solicitud."},
   {"id":"mirador-hoyo","name":"Mirador de Hoyo","cuisine":"FusiÃ³n","price":3,"rating":4.5,"reviews":740,"distance":35.6,"zone":"oeste","area":"Centro Â· Hoyo de Manzanares","place":"Terraza de sierra","lat":40.6227,"lng":-3.9073,"image":"food-brunch.webp","safe":["gluten","lactosa","huevo"],"features":["Carta creativa","CÃ³cteles","Platos para compartir"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Mirador de Hoyo propone una carta viajera con tÃ©cnicas actuales y platos para compartir en Centro. Un espacio terraza de sierra con servicio cercano y opciones adaptables bajo solicitud."}
-];  const allergenLabels = { gluten:'Gluten', lactosa:'Lactosa', 'frutos secos':'Frutos secos', huevo:'Huevo', marisco:'Marisco', soja:'Soja' }; const state = { search:'', prices:new Set(), allergens:new Set(), zone:'all', distance:60, sort:'recommended', selected:null, party:2, currentBooking:null }; const $ = (selector, root=document) => root.querySelector(selector); const $$ = (selector, root=document) => [...root.querySelectorAll(selector)]; const els = {}; const bounds = { minLat:40.12, maxLat:40.72, minLng:-4.18, maxLng:-3.30 };  function esc(value='') { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); } function readStorage(key, fallback=[]) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } } function writeStorage(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { showToast('No se pudo guardar en este navegador'); } } function priceLabel(n) { return 'â‚¬'.repeat(n); } function formatDate(dateString) { return new Intl.DateTimeFormat('es-ES',{weekday:'short',day:'numeric',month:'short'}).format(new Date(`${dateString}T12:00:00`)); } function directionsUrl(r) { return `https://www.google.com/maps/search/?api=1&query=${r.lat},${r.lng}`; }
+];
 
-function uiIcon(name, size=18) {
-  const paths = {
-    star:'<path d="m12 2.7 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9L12 2.7Z"/>',
-    arrow:'<path d="M7 17 17 7M8 7h9v9"/>',
-    calendar:'<path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/>',
-    pin:'<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
-    spark:'<path d="m12 2 1.5 5.1L18 9l-4.5 1.9L12 16l-1.5-5.1L6 9l4.5-1.9L12 2ZM5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8L5 15Z"/>',
-    people:'<path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 20v-2a4 4 0 0 0-3-3.9M16 2.1a4 4 0 0 1 0 7.8"/>',
-    heart:'<path d="M20.8 4.7a5.4 5.4 0 0 0-7.7 0L12 5.8l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21l8.8-8.6a5.4 5.4 0 0 0 0-7.7Z"/>'
-  };
-  return `<svg class="ui-icon ui-icon-${name}" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths[name]||paths.spark}</svg>`;
-}
+/* Runtime estable: renderizado y filtros sin dependencias externas. */
+var allergenLabels={gluten:'Gluten',lactosa:'Lactosa','frutos secos':'Frutos secos',huevo:'Huevo',marisco:'Marisco',soja:'Soja'};
+var state={search:'',prices:new Set(),allergens:new Set(),zone:'all',distance:60,sort:'recommended',selected:null,party:2,currentBooking:null};
+var els={};
+var appStarted=false;
+var bounds={minLat:40.12,maxLat:40.72,minLng:-4.18,maxLng:-3.30};
 
-function injectPolishStyles() {
-  if ($('#mesaMadridPolish')) return;
-  const style=document.createElement('style');
-  style.id='mesaMadridPolish';
-  style.textContent=`
-    :root{--mm-ink:#171331;--mm-purple:#4c35c8;--mm-purple-dark:#2b1d72;--mm-coral:#f46f55;--mm-mint:#5bc9a5;--mm-cream:#fbf8f2;--mm-line:rgba(42,31,89,.12);--mm-shadow:0 18px 45px rgba(40,28,85,.12)}
-    html{scroll-behavior:smooth}body{background:radial-gradient(circle at 8% 0%,rgba(244,111,85,.08),transparent 30rem),linear-gradient(180deg,#fff 0%,var(--mm-cream) 100%);color:var(--mm-ink)}
-    .ui-icon{display:inline-block;vertical-align:-.18em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}.ui-icon-star{fill:#f6b73c;stroke:#f6b73c}
-    .restaurant-card{position:relative;overflow:hidden;border:1px solid var(--mm-line)!important;border-radius:22px!important;background:rgba(255,255,255,.96)!important;box-shadow:0 8px 28px rgba(36,25,77,.08)!important;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
-    .restaurant-card:hover,.restaurant-card:focus-within{transform:translateY(-4px);box-shadow:var(--mm-shadow)!important;border-color:rgba(76,53,200,.28)!important}.restaurant-card.selected{outline:3px solid rgba(76,53,200,.22);border-color:var(--mm-purple)!important}
-    .card-image{isolation:isolate}.card-image:after{content:'';position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(20,13,50,.28));z-index:1;pointer-events:none}.card-image img{transition:transform .45s ease,filter .3s ease}.restaurant-card:hover .card-image img{transform:scale(1.045);filter:saturate(1.06)}
-    .distance-pill{z-index:2!important;backdrop-filter:blur(10px);background:rgba(255,255,255,.92)!important;border:1px solid rgba(255,255,255,.75)!important;box-shadow:0 4px 14px rgba(18,13,44,.14)}.favorite-button{z-index:3!important;backdrop-filter:blur(10px)}
-    .card-body{padding:1.15rem 1.2rem 1.2rem!important}.card-kicker{letter-spacing:.025em}.card-kicker>span:first-child{color:var(--mm-purple-dark);font-weight:800}.rating{display:inline-flex;align-items:center;gap:.25rem}.rating small{color:#746e86}
-    .card-title-button h3{font-size:1.3rem;line-height:1.15;letter-spacing:-.025em}.card-title-button:hover h3{color:var(--mm-purple)}.card-location{line-height:1.45}.card-place-row{display:inline-flex;align-items:center;gap:.4rem;margin-top:.28rem;color:#6f6883;font-size:.86rem}.card-meta{gap:.4rem!important}.diet-tag{border:1px solid rgba(91,201,165,.28)!important;background:rgba(91,201,165,.1)!important;color:#235e4d!important;font-weight:700}.more-tag{background:rgba(76,53,200,.08)!important;border-color:rgba(76,53,200,.18)!important;color:var(--mm-purple-dark)!important}
-    .primary-button{display:inline-flex!important;align-items:center;justify-content:center;gap:.5rem;background:linear-gradient(135deg,var(--mm-purple),var(--mm-purple-dark))!important;box-shadow:0 8px 18px rgba(76,53,200,.22);transition:transform .2s ease,box-shadow .2s ease}.primary-button:hover{transform:translateY(-1px);box-shadow:0 11px 24px rgba(76,53,200,.3)}.directions-button{display:grid!important;place-items:center;border:1px solid var(--mm-line)!important;background:#fff!important;color:var(--mm-purple)!important}.directions-button:hover{background:rgba(76,53,200,.07)!important}
-    .map-marker{width:34px!important;height:34px!important;border:3px solid #fff!important;background:linear-gradient(145deg,var(--mm-coral),#d94c39)!important;color:#fff!important;box-shadow:0 6px 16px rgba(110,43,34,.26)!important;transition:transform .2s ease,filter .2s ease!important}.map-marker:after{content:'';position:absolute;left:50%;bottom:-7px;width:10px;height:10px;background:#d94c39;transform:translateX(-50%) rotate(45deg);border-right:2px solid #fff;border-bottom:2px solid #fff;z-index:-1}.map-marker span{font-weight:900;font-size:.72rem}.map-marker:hover,.map-marker.active{transform:translate(-50%,-50%) scale(1.2)!important;filter:saturate(1.15);z-index:30!important;background:linear-gradient(145deg,var(--mm-purple),var(--mm-purple-dark))!important}.map-marker.active:after{background:var(--mm-purple-dark)}
-    .detail-hero{position:relative;overflow:hidden}.detail-hero:after{content:'';position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(20,13,50,.75));pointer-events:none}.detail-hero-copy{z-index:2!important}.detail-fact{border:1px solid var(--mm-line);border-radius:16px;background:#fff;padding:1rem!important}.detail-fact strong{display:flex;align-items:center;gap:.35rem}.detail-allergens{border-radius:18px!important;background:rgba(91,201,165,.08)!important;border:1px solid rgba(91,201,165,.22)!important}
-    input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:3px solid rgba(76,53,200,.25)!important;outline-offset:2px}.toast{box-shadow:var(--mm-shadow)!important}
-    @media(max-width:850px){.restaurant-card{border-radius:18px!important}.card-body{padding:1rem!important}.map-marker{width:31px!important;height:31px!important}.detail-fact{padding:.8rem!important}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
-  `;
-  document.head.append(style);
-}
+function q(selector,root){return (root||document).querySelector(selector);}
+function qa(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
+function on(target,eventName,handler){var node=typeof target==='string'?q(target):target;if(!node)return;node.addEventListener(eventName,handler);}
+function escapeHtml(value){return String(value==null?'':value).replace(/[&<>'"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c];});}
+function storageRead(key,fallback){try{var value=localStorage.getItem(key);return value?JSON.parse(value):fallback;}catch(error){return fallback;}}
+function storageWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch(error){showToast('No se pudo guardar en este navegador');}}
+function priceLabel(value){var out='';for(var i=0;i<Number(value||0);i+=1)out+='â‚¬';return out;}
+function formatDistance(value){return Number(value).toFixed(1).replace('.',',');}
+function formatDate(value){try{return new Intl.DateTimeFormat('es-ES',{weekday:'short',day:'numeric',month:'short'}).format(new Date(value+'T12:00:00'));}catch(error){return value;}}
+function directionsUrl(r){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.lat+','+r.lng);}
+function heartIcon(){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.7a5.4 5.4 0 0 0-7.7 0L12 5.8l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21l8.8-8.6a5.4 5.4 0 0 0 0-7.7Z"/></svg>';}
 
-function improveStaticCopy() {
-  document.documentElement.classList.add('mesa-polished');
-  document.title=`Mesa Madrid Â· ${restaurants.length} restaurantes para elegir bien`;
-  const text=(selector,value)=>{ const node=$(selector); if(node) node.textContent=value; };
-  const placeholder=(selector,value)=>{ const node=$(selector); if(node){node.placeholder=value;node.setAttribute('aria-label',value.replace('â€¦',''));} };
-  placeholder('#heroSearch','Busca por cocina, barrio o restauranteâ€¦');
-  placeholder('#listSearch','Filtra por nombre, cocina, zona o ambienteâ€¦');
-  text('#emptyState h2','No encontramos una mesa con esos filtros');
-  text('#emptyState p','Prueba a ampliar la distancia o a quitar algÃºn filtro. Hay muchas opciones esperando.');
-  const heroTitle=$('.hero-copy h1'); if(heroTitle) heroTitle.innerHTML='Tu prÃ³xima mesa, <em>sin dar mil vueltas.</em>';
-  text('.hero-copy > p','Explora restaurantes de Madrid y alrededores, compara opciones y organiza tu reserva en pocos pasos.');
-  const recenter=$('#recenterBtn'); if(recenter){recenter.title='Volver a ver todos los restaurantes';recenter.setAttribute('aria-label',recenter.title);}
-  const share=$('#shareBtn'); if(share) share.title='Compartir Mesa Madrid';
-}
-  function init() {
-  Object.assign(els, {
-    list:$('#restaurantList'), markers:$('#mapMarkers'), count:$('#resultCount'), empty:$('#emptyState'), resultsLayout:$('#resultsLayout'),
-    search:$('#listSearch'), heroSearch:$('#heroSearch'), distance:$('#distanceFilter'), distanceValue:$('#distanceValue'), zone:$('#zoneFilter'), sort:$('#sortSelect'),
-    backdrop:$('#modalBackdrop'), toast:$('#toast'), filterBody:$('#filterBody'), activeFilterCount:$('#activeFilterCount'), favoriteCount:$('#favoriteCount')
-  });
+function init(){
+  if(appStarted)return;
+  appStarted=true;
+  els.list=q('#restaurantList');
+  els.markers=q('#mapMarkers');
+  els.count=q('#resultCount');
+  els.empty=q('#emptyState');
+  els.resultsLayout=q('#resultsLayout');
+  els.search=q('#listSearch');
+  els.heroSearch=q('#heroSearch');
+  els.distance=q('#distanceFilter');
+  els.distanceValue=q('#distanceValue');
+  els.zone=q('#zoneFilter');
+  els.sort=q('#sortSelect');
+  els.backdrop=q('#modalBackdrop');
+  els.toast=q('#toast');
+  els.filterBody=q('#filterBody');
+  els.activeFilterCount=q('#activeFilterCount');
+  els.favoriteCount=q('#favoriteCount');
 
-  // Render first. A missing optional control must never leave the list and map empty.
-  if (!els.list || !els.markers) {
-    console.error('Mesa Madrid: faltan #restaurantList o #mapMarkers en index.html.');
+  if(!els.list||!els.markers){
+    console.error('Mesa Madrid no puede iniciarse: faltan #restaurantList o #mapMarkers.');
     return;
   }
+
+  // El renderizado sucede antes de cualquier mejora opcional.
   render();
-
-  // Progressive enhancement: copy, styles and secondary controls cannot block results.
-  try { injectPolishStyles(); improveStaticCopy(); } catch (error) { console.warn('Mesa Madrid: mejora visual parcial.', error); }
-  try { bindEvents(); } catch (error) { console.error('Mesa Madrid: error al activar controles.', error); }
-  try { setDateDefaults(); } catch (error) { console.warn('Mesa Madrid: formulario de fecha no disponible.', error); }
+  bindEvents();
+  setDateDefaults();
   updateFavoriteCount();
-
-  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    navigator.serviceWorker.register('./service-worker.js').then(registration => registration.update()).catch(()=>{});
-  }
+  improveCopy();
+  clearObsoleteWorkerCache();
+  window.MesaMadrid={restaurants:restaurants,state:state,render:render,getFiltered:getFiltered,resetFilters:resetFilters};
 }
 
-function listen(target, eventName, handler, options) {
-  const node = typeof target === 'string' ? $(target) : target;
-  if (!node) return false;
-  node.addEventListener(eventName, handler, options);
-  return true;
+function improveCopy(){
+  document.title='Mesa Madrid Â· 100 restaurantes para elegir bien';
+  if(els.search)els.search.placeholder='Filtra por restaurante, cocina, barrio o ambienteâ€¦';
+  if(els.heroSearch)els.heroSearch.placeholder='Busca por cocina, barrio o restauranteâ€¦';
+  var emptyTitle=q('#emptyState h2');if(emptyTitle)emptyTitle.textContent='No encontramos una mesa con esos filtros';
+  var emptyText=q('#emptyState p');if(emptyText)emptyText.textContent='AmplÃ­a la distancia o elimina algÃºn filtro para descubrir mÃ¡s opciones.';
 }
 
-function scrollToResults() {
-  const target=$('#explorar');
-  if (target) target.scrollIntoView({behavior:'smooth',block:'start'});
+function clearObsoleteWorkerCache(){
+  // Evita que una versiÃ³n anterior de app.js vuelva a servirse desde el service worker.
+  try{
+    if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(reg){reg.unregister();});}).catch(function(){});}
+    if(window.caches&&caches.keys){caches.keys().then(function(keys){keys.forEach(function(key){if(/mesa|madrid|restaurant|static|app/i.test(key))caches.delete(key);});}).catch(function(){});}
+  }catch(error){}
 }
 
-function bindEvents() {
-  listen('#heroSearchForm','submit',e=>{
-    e.preventDefault();
-    state.search=els.heroSearch ? els.heroSearch.value.trim() : '';
-    if (els.search) els.search.value=state.search;
-    scrollToResults(); render();
-  });
-  listen(els.search,'input',e=>{
-    state.search=e.target.value.trim();
-    if (els.heroSearch) els.heroSearch.value=state.search;
-    render();
-  });
-  $$('.quick-links button[data-quick]').forEach(b=>listen(b,'click',()=>{
-    state.search=b.dataset.quick||'';
-    if(els.search) els.search.value=state.search;
-    if(els.heroSearch) els.heroSearch.value=state.search;
-    scrollToResults(); render();
-  }));
-  $$('.quick-links button[data-allergen]').forEach(b=>listen(b,'click',()=>{
-    const value=b.dataset.allergen;
-    if(value) toggleSet(state.allergens,value);
-    syncFilterUI(); scrollToResults(); render();
-  }));
-  listen('#priceFilters','click',e=>{
-    const b=e.target.closest('[data-price]'); if(!b)return;
-    toggleSet(state.prices,Number(b.dataset.price)); syncFilterUI(); render();
-  });
-  listen('#allergenFilters','click',e=>{
-    const b=e.target.closest('[data-allergen]'); if(!b)return;
-    toggleSet(state.allergens,b.dataset.allergen); syncFilterUI(); render();
-  });
-  listen(els.distance,'input',e=>{
-    state.distance=Number(e.target.value)||60;
-    if(els.distanceValue) els.distanceValue.textContent=state.distance;
-    render();
-  });
-  listen(els.zone,'change',e=>{state.zone=e.target.value||'all';render();});
-  listen(els.sort,'change',e=>{state.sort=e.target.value||'recommended';render();});
-  listen('#clearFiltersBtn','click',resetFilters);
-  listen('#emptyResetBtn','click',resetFilters);
-  listen('#mobileFilterBtn','click',e=>{
-    if(!els.filterBody)return;
-    const open=els.filterBody.classList.toggle('open'); e.currentTarget.setAttribute('aria-expanded',String(open));
-  });
-  listen('#openSearchBtn','click',()=>{scrollToResults();setTimeout(()=>els.search&&els.search.focus(),400);});
-  $$('.mobile-view-switch button').forEach(b=>listen(b,'click',()=>setMobileView(b.dataset.view)));
-  listen('#recenterBtn','click',()=>{const art=$('#mapArt');if(art)art.style.transform='scale(1)';state.selected=null;renderMarkers(getFiltered());});
-  listen(els.list,'click',onListClick);
-  listen(els.markers,'click',onMarkerClick);
-  listen('#favoritesBtn','click',showFavorites);
-  listen('#bookingsBtn','click',showBookings);
-  listen('#footerBookingsBtn','click',showBookings);
-  listen('#shareBtn','click',shareApp);
-  listen('#footerShareBtn','click',shareApp);
-  listen('#allergenInfoBtn','click',()=>openModal('infoModal'));
-  $$('[data-close-modal]').forEach(b=>listen(b,'click',closeModals));
-  listen(els.backdrop,'click',closeModals);
-  listen(document,'keydown',e=>{if(e.key==='Escape')closeModals();});
-  listen('#partyMinus','click',()=>updateParty(-1));
-  listen('#partyPlus','click',()=>updateParty(1));
-  listen('#reservationForm','submit',submitReservation);
-  listen('#downloadCalendarBtn','click',downloadCalendar);
-  listen('#shareBookingBtn','click',shareCurrentBooking);
-  listen('#savedContent','click',onSavedClick);
-  listen(window,'popstate',closeModals);
+function bindEvents(){
+  on('#heroSearchForm','submit',function(event){event.preventDefault();state.search=els.heroSearch?els.heroSearch.value.trim():'';if(els.search)els.search.value=state.search;scrollToResults();render();});
+  on(els.search,'input',function(event){state.search=event.target.value.trim();if(els.heroSearch)els.heroSearch.value=state.search;render();});
+  qa('.quick-links button[data-quick]').forEach(function(button){on(button,'click',function(){state.search=button.getAttribute('data-quick')||'';if(els.search)els.search.value=state.search;if(els.heroSearch)els.heroSearch.value=state.search;scrollToResults();render();});});
+  qa('.quick-links button[data-allergen]').forEach(function(button){on(button,'click',function(){toggleSet(state.allergens,button.getAttribute('data-allergen'));syncFilterUI();scrollToResults();render();});});
+  on('#priceFilters','click',function(event){var button=closest(event.target,'[data-price]');if(!button)return;toggleSet(state.prices,Number(button.getAttribute('data-price')));syncFilterUI();render();});
+  on('#allergenFilters','click',function(event){var button=closest(event.target,'[data-allergen]');if(!button)return;toggleSet(state.allergens,button.getAttribute('data-allergen'));syncFilterUI();render();});
+  on(els.distance,'input',function(event){state.distance=Number(event.target.value)||60;if(els.distanceValue)els.distanceValue.textContent=state.distance;render();});
+  on(els.zone,'change',function(event){state.zone=event.target.value||'all';render();});
+  on(els.sort,'change',function(event){state.sort=event.target.value||'recommended';render();});
+  on('#clearFiltersBtn','click',resetFilters);on('#emptyResetBtn','click',resetFilters);
+  on('#mobileFilterBtn','click',function(event){if(!els.filterBody)return;var open=els.filterBody.classList.toggle('open');event.currentTarget.setAttribute('aria-expanded',String(open));});
+  on('#openSearchBtn','click',function(){scrollToResults();setTimeout(function(){if(els.search)els.search.focus();},300);});
+  qa('.mobile-view-switch button').forEach(function(button){on(button,'click',function(){setMobileView(button.getAttribute('data-view'));});});
+  on('#recenterBtn','click',function(){var art=q('#mapArt');if(art)art.style.transform='scale(1)';state.selected=null;renderMarkers(getFiltered());});
+  on(els.list,'click',onListClick);on(els.markers,'click',onMarkerClick);
+  on('#favoritesBtn','click',showFavorites);on('#bookingsBtn','click',showBookings);on('#footerBookingsBtn','click',showBookings);
+  on('#shareBtn','click',shareApp);on('#footerShareBtn','click',shareApp);on('#allergenInfoBtn','click',function(){openModal('infoModal');});
+  qa('[data-close-modal]').forEach(function(button){on(button,'click',closeModals);});on(els.backdrop,'click',closeModals);
+  on(document,'keydown',function(event){if(event.key==='Escape')closeModals();});
+  on('#partyMinus','click',function(){updateParty(-1);});on('#partyPlus','click',function(){updateParty(1);});
+  on('#reservationForm','submit',submitReservation);on('#downloadCalendarBtn','click',downloadCalendar);on('#shareBookingBtn','click',shareCurrentBooking);on('#savedContent','click',onSavedClick);
 }
 
-function toggleSet(set, value) { set.has(value) ? set.delete(value) : set.add(value); } function filteredBySearch(r, q) {   if (!q) return true;   const haystack = [r.name,r.cuisine,r.area,r.place,...r.features].join(' ').toLocaleLowerCase('es');   return haystack.includes(q.toLocaleLowerCase('es')); } function getFiltered() {   const list=restaurants.filter(r => filteredBySearch(r,state.search) && (!state.prices.size || state.prices.has(r.price)) && (!state.allergens.size || [...state.allergens].every(a=>r.safe.includes(a))) && (state.zone==='all'||r.zone===state.zone) && r.distance<=state.distance);   return list.sort((a,b) => state.sort==='distance' ? a.distance-b.distance : state.sort==='rating' ? b.rating-a.rating || b.reviews-a.reviews : state.sort==='price' ? a.price-b.price || b.rating-a.rating : (b.rating*20+Math.log(b.reviews))-(a.rating*20+Math.log(a.reviews))); } function render() {
-  const list=getFiltered();
-  if(els.count) els.count.textContent=list.length;
-  const heroCount=$('#heroRestaurantCount'); if(heroCount) heroCount.textContent=restaurants.length;
-  els.list.innerHTML=list.map(cardTemplate).join('');
+function closest(node,selector){while(node&&node!==document){if(node.matches&&node.matches(selector))return node;node=node.parentNode;}return null;}
+function scrollToResults(){var target=q('#explorar');if(target&&target.scrollIntoView)target.scrollIntoView({behavior:'smooth',block:'start'});}
+function toggleSet(set,value){if(set.has(value))set.delete(value);else set.add(value);}
+function normalize(value){return String(value||'').toLocaleLowerCase('es').normalize?String(value||'').toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g,''):String(value||'').toLocaleLowerCase('es');}
+function filteredBySearch(r,query){if(!query)return true;var fields=[r.name,r.cuisine,r.area,r.place,r.description].concat(r.features||[]);return normalize(fields.join(' ')).indexOf(normalize(query))!==-1;}
+
+function getFiltered(){
+  var output=restaurants.filter(function(r){
+    if(!filteredBySearch(r,state.search))return false;
+    if(state.prices.size&&!state.prices.has(Number(r.price)))return false;
+    if(state.allergens.size){var selected=Array.from(state.allergens);for(var i=0;i<selected.length;i+=1){if(r.safe.indexOf(selected[i])===-1)return false;}}
+    if(state.zone!=='all'&&r.zone!==state.zone)return false;
+    return Number(r.distance)<=Number(state.distance);
+  });
+  output.sort(function(a,b){
+    if(state.sort==='distance')return a.distance-b.distance;
+    if(state.sort==='rating')return b.rating-a.rating||b.reviews-a.reviews;
+    if(state.sort==='price')return a.price-b.price||b.rating-a.rating;
+    if(state.sort==='name')return a.name.localeCompare(b.name,'es');
+    return (b.rating*20+Math.log(Math.max(1,b.reviews)))-(a.rating*20+Math.log(Math.max(1,a.reviews)));
+  });
+  return output;
+}
+
+function render(){
+  var list=getFiltered();
+  if(els.count)els.count.textContent=String(list.length);
+  var heroCount=q('#heroRestaurantCount');if(heroCount)heroCount.textContent=String(restaurants.length);
+  var cards=[];for(var i=0;i<list.length;i+=1){cards.push(cardTemplate(list[i]));}
+  els.list.innerHTML=cards.join('');
   renderMarkers(list);
-  if(els.empty) els.empty.hidden=list.length!==0;
-  if(els.resultsLayout) els.resultsLayout.hidden=false;
-  const active=state.prices.size+state.allergens.size+(state.zone!=='all'?1:0)+(state.distance<60?1:0)+(state.search?1:0);
-  if(els.activeFilterCount) els.activeFilterCount.textContent=active;
   els.list.setAttribute('data-rendered-count',String(list.length));
   els.markers.setAttribute('data-rendered-count',String(list.length));
-}
-function cardTemplate(r) {
-  const favorites=readStorage('mesaMadridFavorites');
-  const active=favorites.includes(r.id);
-  const tags=r.safe.slice(0,3).map(a=>`<span class="diet-tag">Sin ${esc(allergenLabels[a]).toLowerCase()}</span>`).join('');
-  const more=r.safe.length>3?`<span class="diet-tag more-tag" title="${r.safe.slice(3).map(a=>esc(allergenLabels[a])).join(', ')}">+${r.safe.length-3}</span>`:'';
-  return `<article class="restaurant-card ${state.selected===r.id?'selected':''}" data-id="${r.id}">
-    <div class="card-image">
-      <button class="image-button" data-action="detail" aria-label="Descubrir ${esc(r.name)}"><img src="assets/images/${r.image}" alt="Propuesta de cocina ${esc(r.cuisine)} en ${esc(r.area)}" loading="lazy" width="960" height="640"></button>
-      <span class="distance-pill">${r.distance.toFixed(1).replace('.',',')} km desde Sol</span>
-      <button class="favorite-button ${active?'active':''}" data-action="favorite" aria-label="${active?'Quitar de':'AÃ±adir a'} favoritos">${uiIcon('heart',20)}</button>
-    </div>
-    <div class="card-body">
-      <div class="card-kicker"><span>${esc(r.cuisine)} Â· ${priceLabel(r.price)}</span><span class="rating">${uiIcon('star',14)} ${r.rating} <small>(${r.reviews})</small></span></div>
-      <button class="card-title-button" data-action="detail"><h3>${esc(r.name)}</h3></button>
-      <p class="card-location">${esc(r.area)}</p><p class="card-place-row">${uiIcon('pin',15)} ${esc(r.place)}</p>
-      <div class="card-meta">${tags}${more}</div>
-      <div class="card-actions"><button class="primary-button" data-action="reserve">${uiIcon('calendar',17)} Reservar mesa</button><a class="directions-button" href="${directionsUrl(r)}" target="_blank" rel="noopener" aria-label="CÃ³mo llegar a ${esc(r.name)}" title="CÃ³mo llegar">${uiIcon('arrow',18)}</a></div>
-    </div>
-  </article>`;
-}
-function renderMarkers(list) {
-  if(!els.markers) return;
-  const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
-  els.markers.innerHTML=list.map((r,i)=>{
-    const x=clamp(((r.lng-bounds.minLng)/(bounds.maxLng-bounds.minLng))*88+6,5,95);
-    const y=clamp((1-(r.lat-bounds.minLat)/(bounds.maxLat-bounds.minLat))*84+8,6,94);
-    return `<button class="map-marker ${state.selected===r.id?'active':''}" style="left:${x}%;top:${y}%" data-id="${r.id}" aria-label="${esc(r.name)}, ${esc(r.area)}" title="${esc(r.name)} Â· ${esc(r.cuisine)}"><span>${i+1}</span></button>`;
-  }).join('');
-}
-function onListClick(e) { const card=e.target.closest('[data-id]'); const action=e.target.closest('[data-action]')?.dataset.action; if(!card||!action)return; const r=restaurants.find(x=>x.id===card.dataset.id); if(action==='favorite') toggleFavorite(r.id); if(action==='detail') openDetail(r); if(action==='reserve') openReservation(r); } function onMarkerClick(e) { const marker=e.target.closest('[data-id]'); if(!marker)return; state.selected=marker.dataset.id; render(); const card=$(`.restaurant-card[data-id="${state.selected}"]`); if(card && innerWidth>850) card.scrollIntoView({behavior:'smooth',block:'center'}); else if(card) { setMobileView('list'); setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'center'}),50); } } function toggleFavorite(id) { const fav=readStorage('mesaMadridFavorites'); const next=fav.includes(id)?fav.filter(x=>x!==id):[...fav,id]; writeStorage('mesaMadridFavorites',next); updateFavoriteCount(); render(); showToast(next.includes(id)?'AÃ±adido a favoritos':'Eliminado de favoritos'); } function updateFavoriteCount() { const n=readStorage('mesaMadridFavorites').length; if(els.favoriteCount) els.favoriteCount.textContent=n; }  function openDetail(r) {
-  state.selected=r.id; renderMarkers(getFiltered());
-  $('#detailContent').innerHTML=`<div class="detail-hero"><img src="assets/images/${r.image}" alt="Propuesta gastronÃ³mica de ${esc(r.name)}"><div class="detail-hero-copy"><p>${esc(r.cuisine)} Â· ${priceLabel(r.price)}</p><h2 id="detailTitle">${esc(r.name)}</h2></div></div><div class="detail-body"><p class="detail-summary">${esc(r.description)}</p><div class="detail-facts"><div class="detail-fact"><span>ValoraciÃ³n</span><strong>${uiIcon('star',16)} ${r.rating} (${r.reviews})</strong></div><div class="detail-fact"><span>Distancia</span><strong>${uiIcon('pin',16)} ${r.distance.toFixed(1).replace('.',',')} km</strong></div><div class="detail-fact"><span>Zona</span><strong>${esc(r.area.split('Â·').pop().trim())}</strong></div><div class="detail-fact"><span>Ideal para</span><strong>${esc(r.features[0])}</strong></div></div><div class="detail-allergens"><h3>Opciones adaptables</h3><p>El restaurante indica alternativas para: ${r.safe.map(a=>esc(allergenLabels[a])).join(' Â· ')}. ConfÃ­rmalo al reservar si tienes una alergia.</p><div class="chip-row">${r.safe.map(a=>`<span class="diet-tag">Sin ${esc(allergenLabels[a]).toLowerCase()}</span>`).join('')}</div></div><div class="detail-actions"><button class="primary-button" data-detail-reserve="${r.id}">${uiIcon('calendar',17)} Solicitar reserva</button><a class="secondary-button" href="${directionsUrl(r)}" target="_blank" rel="noopener">${uiIcon('arrow',17)} CÃ³mo llegar</a></div></div>`;
-  $('[data-detail-reserve]').addEventListener('click',()=>openReservation(r)); openModal('detailModal');
-}
-function openReservation(r) {   closeModals(false); state.party=2; $('#partyValue').textContent='2';   $('#reservationRestaurantId').value=r.id; $('#reservationRestaurantName').textContent=`${r.name} Â· ${r.area}`;   $('#reservationTime').innerHTML='<option value="">Elige una hora</option>'+r.times.map(t=>`<option value="${t}">${t}</option>`).join('');   const notes=[...state.allergens].map(a=>allergenLabels[a]); $('#guestNotes').value=notes.length?`Necesito opciones sin: ${notes.join(', ')}. Por favor, confirmar protocolo de alÃ©rgenos.`:'';   openModal('reservationModal'); } function setDateDefaults() { const input=$('#reservationDate'); if(!input)return; const d=new Date(); d.setDate(d.getDate()+1); const iso=d.toISOString().slice(0,10); input.min=new Date().toISOString().slice(0,10); input.value=iso; } function updateParty(delta) { state.party=Math.min(12,Math.max(1,state.party+delta)); $('#partyValue').textContent=state.party; } function submitReservation(e) {   e.preventDefault(); const r=restaurants.find(x=>x.id===$('#reservationRestaurantId').value); const form=e.currentTarget;   if(!form.reportValidity()||!r)return;   const code=`MM-${Math.random().toString(36).slice(2,7).toUpperCase()}`;   const booking={ id:crypto.randomUUID?crypto.randomUUID():Date.now().toString(), code, restaurantId:r.id, restaurant:r.name, area:r.area, date:$('#reservationDate').value, time:$('#reservationTime').value, party:state.party, name:$('#guestName').value.trim(), phone:$('#guestPhone').value.trim(), email:$('#guestEmail').value.trim(), notes:$('#guestNotes').value.trim(), createdAt:new Date().toISOString() };   writeStorage('mesaMadridBookings',[booking,...readStorage('mesaMadridBookings')]); state.currentBooking=booking;   closeModals(false); $('#successSummary').textContent=`${r.name}, ${formatDate(booking.date)} a las ${booking.time}, para ${booking.party} ${booking.party===1?'persona':'personas'}.`; $('#successCode').textContent=code; openModal('successModal'); form.reset(); setDateDefaults(); }  function showFavorites() {   const fav=readStorage('mesaMadridFavorites'); const items=fav.map(id=>restaurants.find(r=>r.id===id)).filter(Boolean);   $('#savedEyebrow').textContent='Tu selecciÃ³n'; $('#savedTitle').textContent='Restaurantes favoritos';   $('#savedContent').innerHTML=items.length?`<div class="saved-list">${items.map(r=>`<div class="saved-item" data-saved-id="${r.id}"><img src="assets/images/${r.image}" alt=""><div><h3>${esc(r.name)}</h3><p>${esc(r.cuisine)} Â· ${priceLabel(r.price)} Â· ${esc(r.area)}</p></div><button data-saved-action="reserve">Reservar</button></div>`).join('')}</div>`:`<div class="no-saved">AÃºn no has guardado ningÃºn restaurante.<br>Usa el corazÃ³n de cada ficha para crear tu lista.</div>`;   openModal('savedModal'); } function showBookings() {   const bookings=readStorage('mesaMadridBookings'); $('#savedEyebrow').textContent='Tus planes'; $('#savedTitle').textContent='Mis solicitudes de reserva';   $('#savedContent').innerHTML=bookings.length?`<div class="saved-list">${bookings.map(b=>`<div class="saved-item booking-item" data-booking-id="${esc(b.id)}"><div><h3>${esc(b.restaurant)}</h3><p>${esc(formatDate(b.date))} Â· ${esc(b.time)} Â· ${b.party} ${b.party===1?'persona':'personas'}<br><span class="booking-status">â— Pendiente de confirmaciÃ³n Â· ${esc(b.code)}</span></p></div><button class="delete-booking" data-saved-action="delete">Eliminar</button></div>`).join('')}</div>`:`<div class="no-saved">No tienes solicitudes guardadas en este dispositivo.<br>Elige un restaurante y pulsa â€œReservar mesaâ€.</div>`;   openModal('savedModal'); } function onSavedClick(e) { const action=e.target.dataset.savedAction; if(action==='reserve'){ const id=e.target.closest('[data-saved-id]').dataset.savedId; openReservation(restaurants.find(r=>r.id===id)); } if(action==='delete'){ const id=e.target.closest('[data-booking-id]').dataset.bookingId; writeStorage('mesaMadridBookings',readStorage('mesaMadridBookings').filter(b=>b.id!==id)); showBookings(); showToast('Solicitud eliminada'); } }  function resetFilters() {
-  state.search=''; state.prices.clear(); state.allergens.clear(); state.zone='all'; state.distance=60; state.sort='recommended'; state.selected=null;
-  if(els.search) els.search.value=''; if(els.heroSearch) els.heroSearch.value=''; if(els.zone) els.zone.value='all';
-  if(els.distance) els.distance.value=60; if(els.distanceValue) els.distanceValue.textContent=60; if(els.sort) els.sort.value='recommended';
-  syncFilterUI(); render();
-}
-function syncFilterUI() { $$('#priceFilters [data-price]').forEach(b=>b.classList.toggle('active',state.prices.has(Number(b.dataset.price)))); $$('#allergenFilters [data-allergen]').forEach(b=>b.classList.toggle('active',state.allergens.has(b.dataset.allergen))); } function setMobileView(view) {
-  $$('.mobile-view-switch button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-  if(els.resultsLayout) els.resultsLayout.classList.toggle('map-view',view==='map');
-  if(view==='map') setTimeout(()=>{const art=$('#mapArt');if(art)art.style.transform='scale(1)';},30);
+  if(els.empty)els.empty.hidden=list.length!==0;
+  if(els.resultsLayout)els.resultsLayout.hidden=false;
+  var active=state.prices.size+state.allergens.size+(state.zone!=='all'?1:0)+(state.distance<60?1:0)+(state.search?1:0);
+  if(els.activeFilterCount)els.activeFilterCount.textContent=String(active);
 }
 
-function openModal(id) { closeModals(false); els.backdrop.hidden=false; const modal=$(`#${id}`); modal.hidden=false; document.body.classList.add('modal-open'); setTimeout(()=>modal.querySelector('button, input, select, textarea, a')?.focus(),20); } function closeModals(updateBody=true) { $$('.modal').forEach(m=>m.hidden=true); els.backdrop.hidden=true; if(updateBody) document.body.classList.remove('modal-open'); else document.body.classList.remove('modal-open'); } function showToast(message) { els.toast.textContent=message; els.toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>els.toast.classList.remove('show'),2400); }  async function shareApp() { const data={title:'Mesa Madrid',text:`He encontrado Mesa Madrid: ${restaurants.length} restaurantes para comparar por cocina, precio, zona y opciones adaptables.`,url:location.href}; if(navigator.share){ try{await navigator.share(data);}catch{} } else { await copyText(`${data.text}\n${data.url}`); showToast('Enlace copiado. Ya puedes compartirlo.'); } }
-async function shareCurrentBooking() { const b=state.currentBooking;if(!b)return; const text=`Plan en ${b.restaurant}\nFecha: ${formatDate(b.date)} a las ${b.time}\nPersonas: ${b.party}\nCÃ³digo local: ${b.code}\n\nSolicitud pendiente de confirmar con el restaurante.`; const url=`https://wa.me/?text=${encodeURIComponent(text)}`; window.open(url,'_blank','noopener'); }
-async function copyText(text){ try{await navigator.clipboard.writeText(text);}catch{ const ta=document.createElement('textarea');ta.value=text;document.body.append(ta);ta.select();document.execCommand('copy');ta.remove(); } } function downloadCalendar() {   const b=state.currentBooking;if(!b)return; const r=restaurants.find(x=>x.id===b.restaurantId); const start=new Date(`${b.date}T${b.time}:00`); const end=new Date(start.getTime()+90*60000); const stamp=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');   const body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mesa Madrid//ES','BEGIN:VEVENT',`UID:${b.id}@mesamadrid`,`DTSTAMP:${stamp(new Date())}`,`DTSTART:${stamp(start)}`,`DTEND:${stamp(end)}`,`SUMMARY:Comida en ${b.restaurant}`,`DESCRIPTION:Solicitud ${b.code}. Pendiente de confirmar con el restaurante.${b.notes?' Notas: '+b.notes:''}`,`LOCATION:${r.area}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([body],{type:'text/calendar'}));a.download=`reserva-${b.restaurant.toLowerCase().replace(/[^a-z0-9]+/g,'-')}.ics`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500); showToast('Evento de calendario descargado'); }  let appStarted=false; function startApp(){if(appStarted)return;appStarted=true;init();} if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',startApp,{once:true});}else{startApp();}
+function cardTemplate(r){
+  var favorites=storageRead('mesaMadridFavorites',[]);var active=favorites.indexOf(r.id)!==-1;
+  var tags=(r.safe||[]).slice(0,3).map(function(a){return '<span class="diet-tag">Sin '+escapeHtml((allergenLabels[a]||a).toLowerCase())+'</span>';}).join('');
+  var more=(r.safe||[]).length>3?'<span class="diet-tag more-tag">+'+((r.safe||[]).length-3)+'</span>':'';
+  return '<article class="restaurant-card '+(state.selected===r.id?'selected':'')+'" data-id="'+escapeHtml(r.id)+'">'+
+    '<div class="card-image"><button class="image-button" data-action="detail" aria-label="Ver '+escapeHtml(r.name)+'"><img src="assets/images/'+escapeHtml(r.image)+'" alt="Propuesta de cocina '+escapeHtml(r.cuisine)+'" loading="lazy" width="960" height="640"></button><span class="distance-pill">'+formatDistance(r.distance)+' km desde Sol</span><button class="favorite-button '+(active?'active':'')+'" data-action="favorite" aria-label="'+(active?'Quitar de':'AÃ±adir a')+' favoritos">'+heartIcon()+'</button></div>'+
+    '<div class="card-body"><div class="card-kicker"><span>'+escapeHtml(r.cuisine)+' Â· '+priceLabel(r.price)+'</span><span class="rating"><b>â˜…</b> '+escapeHtml(r.rating)+' <small>('+escapeHtml(r.reviews)+')</small></span></div><button class="card-title-button" data-action="detail"><h3>'+escapeHtml(r.name)+'</h3></button><p class="card-location">'+escapeHtml(r.area)+'<br>'+escapeHtml(r.place)+'</p><div class="card-meta">'+tags+more+'</div><div class="card-actions"><button class="primary-button" data-action="reserve">Reservar mesa</button><a class="directions-button" href="'+directionsUrl(r)+'" target="_blank" rel="noopener" aria-label="CÃ³mo llegar a '+escapeHtml(r.name)+'">â†—</a></div></div></article>';
+}
+
+function renderMarkers(list){
+  var html=[];for(var i=0;i<list.length;i+=1){var r=list[i];var x=((r.lng-bounds.minLng)/(bounds.maxLng-bounds.minLng))*88+6;var y=(1-(r.lat-bounds.minLat)/(bounds.maxLat-bounds.minLat))*84+8;x=Math.max(5,Math.min(95,x));y=Math.max(6,Math.min(94,y));html.push('<button class="map-marker '+(state.selected===r.id?'active':'')+'" style="left:'+x.toFixed(3)+'%;top:'+y.toFixed(3)+'%" data-id="'+escapeHtml(r.id)+'" aria-label="'+escapeHtml(r.name)+'"><span>'+(i+1)+'</span></button>');}
+  els.markers.innerHTML=html.join('');
+}
+
+function onListClick(event){var card=closest(event.target,'[data-id]');var actionNode=closest(event.target,'[data-action]');if(!card||!actionNode)return;var r=findRestaurant(card.getAttribute('data-id'));if(!r)return;var action=actionNode.getAttribute('data-action');if(action==='favorite')toggleFavorite(r.id);else if(action==='detail')openDetail(r);else if(action==='reserve')openReservation(r);}
+function onMarkerClick(event){var marker=closest(event.target,'[data-id]');if(!marker)return;state.selected=marker.getAttribute('data-id');render();var card=q('.restaurant-card[data-id="'+cssEscape(state.selected)+'"]');if(card){if(window.innerWidth<=850)setMobileView('list');setTimeout(function(){card.scrollIntoView({behavior:'smooth',block:'center'});},30);}}
+function cssEscape(value){return String(value).replace(/(["\\])/g,'\\$1');}
+function findRestaurant(id){for(var i=0;i<restaurants.length;i+=1)if(restaurants[i].id===id)return restaurants[i];return null;}
+function toggleFavorite(id){var fav=storageRead('mesaMadridFavorites',[]);var index=fav.indexOf(id);if(index===-1)fav.push(id);else fav.splice(index,1);storageWrite('mesaMadridFavorites',fav);updateFavoriteCount();render();showToast(index===-1?'AÃ±adido a favoritos':'Eliminado de favoritos');}
+function updateFavoriteCount(){if(els.favoriteCount)els.favoriteCount.textContent=String(storageRead('mesaMadridFavorites',[]).length);}
+
+function openDetail(r){
+  state.selected=r.id;renderMarkers(getFiltered());var content=q('#detailContent');if(!content)return;
+  content.innerHTML='<div class="detail-hero"><img src="assets/images/'+escapeHtml(r.image)+'" alt="Propuesta gastronÃ³mica de '+escapeHtml(r.name)+'"><div class="detail-hero-copy"><p>'+escapeHtml(r.cuisine)+' Â· '+priceLabel(r.price)+'</p><h2 id="detailTitle">'+escapeHtml(r.name)+'</h2></div></div><div class="detail-body"><p class="detail-summary">'+escapeHtml(r.description)+'</p><div class="detail-facts"><div class="detail-fact"><span>ValoraciÃ³n</span><strong>â˜… '+escapeHtml(r.rating)+' ('+escapeHtml(r.reviews)+')</strong></div><div class="detail-fact"><span>Distancia</span><strong>'+formatDistance(r.distance)+' km</strong></div><div class="detail-fact"><span>Zona</span><strong>'+escapeHtml(r.area.split('Â·').pop().trim())+'</strong></div><div class="detail-fact"><span>Ambiente</span><strong>'+escapeHtml(r.features[0])+'</strong></div></div><div class="detail-allergens"><h3>Opciones adaptables</h3><p>Confirma siempre los alÃ©rgenos directamente con el restaurante.</p><div class="chip-row">'+r.safe.map(function(a){return '<span class="diet-tag">Sin '+escapeHtml((allergenLabels[a]||a).toLowerCase())+'</span>';}).join('')+'</div></div><div class="detail-actions"><button class="primary-button" data-detail-reserve="'+escapeHtml(r.id)+'">Solicitar reserva</button><a class="secondary-button" href="'+directionsUrl(r)+'" target="_blank" rel="noopener">CÃ³mo llegar â†—</a></div></div>';
+  var reserve=q('[data-detail-reserve]',content);on(reserve,'click',function(){openReservation(r);});openModal('detailModal');
+}
+
+function openReservation(r){closeModals();state.party=2;setText('#partyValue','2');var id=q('#reservationRestaurantId');if(id)id.value=r.id;setText('#reservationRestaurantName',r.name+' Â· '+r.area);var time=q('#reservationTime');if(time)time.innerHTML='<option value="">Elige una hora</option>'+r.times.map(function(t){return '<option value="'+escapeHtml(t)+'">'+escapeHtml(t)+'</option>';}).join('');var notes=q('#guestNotes');if(notes){var selected=Array.from(state.allergens).map(function(a){return allergenLabels[a]||a;});notes.value=selected.length?'Necesito opciones sin: '+selected.join(', ')+'. Por favor, confirmar protocolo de alÃ©rgenos.':'';}openModal('reservationModal');}
+function setText(selector,value){var node=q(selector);if(node)node.textContent=value;}
+function setDateDefaults(){var input=q('#reservationDate');if(!input)return;var today=new Date();var tomorrow=new Date(today.getTime());tomorrow.setDate(tomorrow.getDate()+1);input.min=localIsoDate(today);input.value=localIsoDate(tomorrow);}
+function localIsoDate(date){var y=date.getFullYear();var m=String(date.getMonth()+1).padStart(2,'0');var d=String(date.getDate()).padStart(2,'0');return y+'-'+m+'-'+d;}
+function updateParty(delta){state.party=Math.min(12,Math.max(1,state.party+delta));setText('#partyValue',String(state.party));}
+function submitReservation(event){event.preventDefault();var form=event.currentTarget;if(form.reportValidity&&!form.reportValidity())return;var r=findRestaurant(valueOf('#reservationRestaurantId'));if(!r)return;var booking={id:String(Date.now()),code:'MM-'+Math.random().toString(36).slice(2,7).toUpperCase(),restaurantId:r.id,restaurant:r.name,area:r.area,date:valueOf('#reservationDate'),time:valueOf('#reservationTime'),party:state.party,name:valueOf('#guestName').trim(),phone:valueOf('#guestPhone').trim(),email:valueOf('#guestEmail').trim(),notes:valueOf('#guestNotes').trim(),createdAt:new Date().toISOString()};var bookings=storageRead('mesaMadridBookings',[]);bookings.unshift(booking);storageWrite('mesaMadridBookings',bookings);state.currentBooking=booking;closeModals();setText('#successSummary',r.name+', '+formatDate(booking.date)+' a las '+booking.time+', para '+booking.party+' '+(booking.party===1?'persona':'personas')+'.');setText('#successCode',booking.code);openModal('successModal');if(form.reset)form.reset();setDateDefaults();}
+function valueOf(selector){var node=q(selector);return node?String(node.value||''):'';}
+
+function showFavorites(){var ids=storageRead('mesaMadridFavorites',[]);var items=ids.map(findRestaurant).filter(function(x){return !!x;});setText('#savedEyebrow','Tu selecciÃ³n');setText('#savedTitle','Restaurantes favoritos');var content=q('#savedContent');if(!content)return;content.innerHTML=items.length?'<div class="saved-list">'+items.map(function(r){return '<div class="saved-item" data-saved-id="'+escapeHtml(r.id)+'"><img src="assets/images/'+escapeHtml(r.image)+'" alt=""><div><h3>'+escapeHtml(r.name)+'</h3><p>'+escapeHtml(r.cuisine)+' Â· '+priceLabel(r.price)+' Â· '+escapeHtml(r.area)+'</p></div><button data-saved-action="reserve">Reservar</button></div>';}).join('')+'</div>':'<div class="no-saved">AÃºn no has guardado ningÃºn restaurante.<br>Usa el corazÃ³n de cada ficha para crear tu lista.</div>';openModal('savedModal');}
+function showBookings(){var bookings=storageRead('mesaMadridBookings',[]);setText('#savedEyebrow','Tus planes');setText('#savedTitle','Mis solicitudes de reserva');var content=q('#savedContent');if(!content)return;content.innerHTML=bookings.length?'<div class="saved-list">'+bookings.map(function(b){return '<div class="saved-item booking-item" data-booking-id="'+escapeHtml(b.id)+'"><div><h3>'+escapeHtml(b.restaurant)+'</h3><p>'+escapeHtml(formatDate(b.date))+' Â· '+escapeHtml(b.time)+' Â· '+escapeHtml(b.party)+' personas<br><span class="booking-status">â— Pendiente de confirmaciÃ³n Â· '+escapeHtml(b.code)+'</span></p></div><button class="delete-booking" data-saved-action="delete">Eliminar</button></div>';}).join('')+'</div>':'<div class="no-saved">No tienes solicitudes guardadas en este dispositivo.</div>';openModal('savedModal');}
+function onSavedClick(event){var button=closest(event.target,'[data-saved-action]');if(!button)return;var action=button.getAttribute('data-saved-action');if(action==='reserve'){var item=closest(button,'[data-saved-id]');var r=item?findRestaurant(item.getAttribute('data-saved-id')):null;if(r)openReservation(r);}else if(action==='delete'){var bookingItem=closest(button,'[data-booking-id]');if(!bookingItem)return;var id=bookingItem.getAttribute('data-booking-id');storageWrite('mesaMadridBookings',storageRead('mesaMadridBookings',[]).filter(function(b){return b.id!==id;}));showBookings();showToast('Solicitud eliminada');}}
+
+function resetFilters(){state.search='';state.prices.clear();state.allergens.clear();state.zone='all';state.distance=60;state.sort='recommended';state.selected=null;if(els.search)els.search.value='';if(els.heroSearch)els.heroSearch.value='';if(els.zone)els.zone.value='all';if(els.distance)els.distance.value='60';if(els.distanceValue)els.distanceValue.textContent='60';if(els.sort)els.sort.value='recommended';syncFilterUI();render();}
+function syncFilterUI(){qa('#priceFilters [data-price]').forEach(function(b){b.classList.toggle('active',state.prices.has(Number(b.getAttribute('data-price'))));});qa('#allergenFilters [data-allergen]').forEach(function(b){b.classList.toggle('active',state.allergens.has(b.getAttribute('data-allergen')));});}
+function setMobileView(view){qa('.mobile-view-switch button').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-view')===view);});if(els.resultsLayout)els.resultsLayout.classList.toggle('map-view',view==='map');}
+function openModal(id){closeModals();if(els.backdrop)els.backdrop.hidden=false;var modal=q('#'+id);if(!modal)return;modal.hidden=false;document.body.classList.add('modal-open');setTimeout(function(){var first=q('button, input, select, textarea, a',modal);if(first&&first.focus)first.focus();},20);}
+function closeModals(){qa('.modal').forEach(function(m){m.hidden=true;});if(els.backdrop)els.backdrop.hidden=true;document.body.classList.remove('modal-open');}
+function showToast(message){if(!els.toast)return;els.toast.textContent=message;els.toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(function(){els.toast.classList.remove('show');},2400);}
+
+function shareApp(){var text='Mesa Madrid reÃºne '+restaurants.length+' restaurantes para comparar por cocina, precio, zona y opciones adaptables.';if(navigator.share){navigator.share({title:'Mesa Madrid',text:text,url:location.href}).catch(function(){});}else{copyText(text+'\n'+location.href);showToast('Enlace copiado para compartir');}}
+function shareCurrentBooking(){var b=state.currentBooking;if(!b)return;var text='Plan en '+b.restaurant+'\nFecha: '+formatDate(b.date)+' a las '+b.time+'\nPersonas: '+b.party+'\nCÃ³digo local: '+b.code+'\n\nPendiente de confirmar con el restaurante.';window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');}
+function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text).catch(function(){fallbackCopy(text);});fallbackCopy(text);return Promise.resolve();}
+function fallbackCopy(text){var area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();try{document.execCommand('copy');}catch(error){}document.body.removeChild(area);}
+function downloadCalendar(){var b=state.currentBooking;if(!b)return;var r=findRestaurant(b.restaurantId);if(!r)return;var start=new Date(b.date+'T'+b.time+':00');var end=new Date(start.getTime()+90*60000);function stamp(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');}var body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mesa Madrid//ES','BEGIN:VEVENT','UID:'+b.id+'@mesamadrid','DTSTAMP:'+stamp(new Date()),'DTSTART:'+stamp(start),'DTEND:'+stamp(end),'SUMMARY:Comida en '+b.restaurant,'DESCRIPTION:Solicitud '+b.code+'. Pendiente de confirmar.','LOCATION:'+r.area,'END:VEVENT','END:VCALENDAR'].join('\r\n');var link=document.createElement('a');link.href=URL.createObjectURL(new Blob([body],{type:'text/calendar'}));link.download='reserva-mesa-madrid.ics';link.click();setTimeout(function(){URL.revokeObjectURL(link.href);},500);showToast('Evento de calendario descargado');}
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
