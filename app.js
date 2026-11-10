@@ -1,303 +1,293 @@
-/* Mesa Madrid \u2014 static demo app. No third-party runtime dependencies. */ 'use strict';  const restaurants = [   { id:'azotea-sol', name:'Azotea del Laurel', cuisine:'Mediterr\u00e1nea', price:3, rating:4.8, reviews:328, distance:0.8, zone:'madrid', area:'Centro \u00b7 Madrid', place:'Terraza con vistas', lat:40.417, lng:-3.705, image:'food-mediterranean.webp', safe:['gluten','lactosa','frutos secos','huevo'], features:['Terraza','Carta de al\u00e9rgenos','Opci\u00f3n vegana'], times:['13:00','13:30','14:00','14:30','20:30','21:00','21:30','22:00'], description:'Cocina mediterr\u00e1nea contempor\u00e1nea, producto de temporada y una terraza serena sobre los tejados del centro.' },   { id:'nami', name:'Nami Omakase', cuisine:'Japonesa', price:3, rating:4.9, reviews:186, distance:2.1, zone:'madrid', area:'Chamber\u00ed \u00b7 Madrid', place:'Barra de autor', lat:40.431, lng:-3.703, image:'food-japanese.webp', safe:['gluten','lactosa','huevo'], features:['Men\u00fa degustaci\u00f3n','Barra','Sala tranquila'], times:['13:30','14:00','20:00','20:30','21:00','21:30'], description:'Una barra \u00edntima de inspiraci\u00f3n japonesa, con pases cuidados y alternativas adaptables con aviso previo.' },   { id:'verde-claro', name:'Verde Claro', cuisine:'Plant based', price:2, rating:4.7, reviews:512, distance:2.7, zone:'madrid', area:'Salamanca \u00b7 Madrid', place:'Cocina vegetal', lat:40.426, lng:-3.680, image:'food-plant.webp', safe:['gluten','lactosa','frutos secos','huevo','marisco','soja'], features:['100% vegetal','Brunch','Dog friendly'], times:['10:00','10:30','11:00','13:30','14:00','20:30','21:00'], description:'Platos vegetales llenos de color, un brunch luminoso y un equipo acostumbrado a conversar sobre ingredientes.' },   { id:'casa-carmela', name:'Casa Carmela', cuisine:'Espa\u00f1ola', price:2, rating:4.6, reviews:744, distance:4.4, zone:'madrid', area:'Retiro \u00b7 Madrid', place:'Tapas y arroces', lat:40.408, lng:-3.675, image:'food-spanish.webp', safe:['gluten','lactosa','frutos secos','marisco'], features:['Arroces','Grupos','Men\u00fa infantil'], times:['13:00','13:30','14:00','14:30','15:00','20:30','21:00','21:30'], description:'Recetas espa\u00f1olas para compartir, arroces al centro y sobremesas largas en un espacio c\u00e1lido y familiar.' },   { id:'forno-27', name:'Forno 27', cuisine:'Italiana', price:2, rating:4.7, reviews:603, distance:6.8, zone:'madrid', area:'C.C. La Vaguada \u00b7 Madrid', place:'Centro comercial', lat:40.479, lng:-3.708, image:'food-italian.webp', safe:['gluten','lactosa','frutos secos','huevo'], features:['Masa sin gluten','Familias','Parking'], times:['12:30','13:00','13:30','14:00','20:00','20:30','21:00','21:30','22:00'], description:'Pasta fresca y horno a la vista, con una carta familiar y masas alternativas preparadas bajo solicitud.' },   { id:'bloom-brunch', name:'Bloom Brunch Club', cuisine:'Brunch', price:1, rating:4.5, reviews:421, distance:9.3, zone:'este', area:'C.C. Plenilunio \u00b7 Madrid', place:'Centro comercial', lat:40.447, lng:-3.588, image:'food-brunch.webp', safe:['gluten','lactosa','frutos secos','huevo','soja'], features:['Todo el d\u00eda','Caf\u00e9 de especialidad','Parking'], times:['09:30','10:00','10:30','11:00','12:30','13:00','13:30'], description:'Brunch durante todo el d\u00eda, caf\u00e9 de especialidad y opciones dulces y saladas f\u00e1ciles de personalizar.' },   { id:'salvia', name:'Salvia Cocina Viva', cuisine:'Mediterr\u00e1nea', price:2, rating:4.8, reviews:279, distance:10.6, zone:'sur', area:'C.C. Islazul \u00b7 Madrid', place:'Centro comercial', lat:40.363, lng:-3.738, image:'food-mediterranean.webp', safe:['gluten','lactosa','frutos secos','huevo','marisco'], features:['Cocina abierta','Familias','Men\u00fa del d\u00eda'], times:['13:00','13:30','14:00','14:30','20:00','20:30','21:00'], description:'Sabores del Mediterr\u00e1neo en una carta flexible, pensada para familias y grupos con necesidades distintas.' },   { id:'kioto-norte', name:'Kioto Norte', cuisine:'Japonesa', price:2, rating:4.6, reviews:355, distance:17.2, zone:'norte', area:'C.C. Plaza Norte 2 \u00b7 S.S. de los Reyes', place:'Centro comercial', lat:40.541, lng:-3.613, image:'food-japanese.webp', safe:['gluten','lactosa','frutos secos','huevo'], features:['Carta extensa','Parking','Grupos'], times:['13:00','13:30','14:00','14:30','20:30','21:00','21:30','22:00'], description:'Sushi, robata y platos calientes en un comedor amplio, con alternativas se\u00f1alizadas y servicio \u00e1gil.' },   { id:'olivo-oeste', name:'El Olivo del Oeste', cuisine:'Espa\u00f1ola', price:2, rating:4.5, reviews:468, distance:19.4, zone:'oeste', area:'C.C. Gran Plaza 2 \u00b7 Majadahonda', place:'Centro comercial', lat:40.476, lng:-3.871, image:'food-spanish.webp', safe:['gluten','lactosa','frutos secos','huevo','marisco'], features:['Producto local','Terraza','Parking'], times:['13:00','13:30','14:00','14:30','20:00','20:30','21:00','21:30'], description:'Cocina espa\u00f1ola actual, producto cercano y una agradable terraza para comer sin prisas al oeste de Madrid.' },   { id:'luna-rossa', name:'Luna Rossa', cuisine:'Italiana', price:2, rating:4.7, reviews:389, distance:20.1, zone:'sur', area:'C.C. ParqueSur \u00b7 Legan\u00e9s', place:'Centro comercial', lat:40.339, lng:-3.737, image:'food-italian.webp', safe:['gluten','lactosa','frutos secos','huevo'], features:['Pasta fresca','Men\u00fa infantil','Parking'], times:['12:30','13:00','13:30','14:00','20:00','20:30','21:00','21:30','22:00'], description:'Una trattoria desenfadada con pasta hecha a diario, horno de le\u00f1a y platos para compartir en grupo.' },   { id:'raiz-h2o', name:'Ra\u00edz H2O', cuisine:'Plant based', price:2, rating:4.8, reviews:241, distance:22.7, zone:'este', area:'C.C. H2O \u00b7 Rivas-Vaciamadrid', place:'Centro comercial', lat:40.351, lng:-3.535, image:'food-plant.webp', safe:['gluten','lactosa','frutos secos','huevo','marisco','soja'], features:['100% vegetal','Sin gluten','Parking'], times:['12:30','13:00','13:30','14:00','20:00','20:30','21:00'], description:'Cocina vegetal creativa con ingredientes de temporada, recetas reconfortantes y fichas de ingredientes claras.' },   { id:'brasa-x', name:'Brasa X', cuisine:'Parrilla', price:3, rating:4.6, reviews:534, distance:23.8, zone:'sur', area:'X-Madrid \u00b7 Alcorc\u00f3n', place:'Centro comercial', lat:40.350, lng:-3.831, image:'food-spanish.webp', safe:['gluten','lactosa','frutos secos','huevo','soja'], features:['Parrilla','Grupos','Parking'], times:['13:00','13:30','14:00','14:30','20:30','21:00','21:30','22:00'], description:'Producto a la brasa, platos generosos y un ambiente urbano para celebraciones y comidas de grupo.' },   { id:'limon-oasiz', name:'Lim\u00f3n & Sal', cuisine:'Mediterr\u00e1nea', price:2, rating:4.5, reviews:296, distance:25.4, zone:'este', area:'Oasiz \u00b7 Torrej\u00f3n de Ardoz', place:'Centro comercial', lat:40.451, lng:-3.481, image:'food-mediterranean.webp', safe:['gluten','lactosa','frutos secos','huevo','marisco'], features:['Terraza','Lago','Parking'], times:['13:00','13:30','14:00','14:30','20:00','20:30','21:00','21:30'], description:'Cocina fresca junto al lago, ensaladas, pescados y brasas suaves en una terraza abierta y luminosa.' },   { id:'atelier-rozas', name:'Atelier Las Rozas', cuisine:'Fusi\u00f3n', price:3, rating:4.8, reviews:214, distance:26.9, zone:'oeste', area:'Las Rozas Village \u00b7 Las Rozas', place:'Centro comercial', lat:40.518, lng:-3.902, image:'food-brunch.webp', safe:['gluten','lactosa','frutos secos','huevo','marisco','soja'], features:['Terraza','C\u00f3cteles','Parking'], times:['12:00','12:30','13:00','13:30','20:00','20:30','21:00'], description:'Una carta cosmopolita para completar el d\u00eda de compras, con platos ligeros, c\u00f3cteles y terraza ajardinada.' },   { id:'campo-xanadu', name:'Campo & Fuego', cuisine:'Parrilla', price:3, rating:4.7, reviews:617, distance:31.6, zone:'oeste', area:'C.C. Xanad\u00fa \u00b7 Arroyomolinos', place:'Centro comercial', lat:40.300, lng:-3.925, image:'food-spanish.webp', safe:['gluten','lactosa','frutos secos','huevo','soja'], features:['Carnes','Grupos','Parking'], times:['13:00','13:30','14:00','14:30','20:30','21:00','21:30','22:00'], description:'Brasas de encina, verduras de temporada y mesas amplias para reunir a todo el grupo al suroeste de Madrid.' },
-  {"id":"mercado-umbral","name":"Mercado Umbral","cuisine":"Espa\u00f1ola","price":2,"rating":4.5,"reviews":128,"distance":0.7,"zone":"madrid","area":"Centro \u00b7 Madrid","place":"Casa de comidas","lat":40.4162,"lng":-3.7074,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Mercado Umbral propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio casa de comidas con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"sesamo-lavapies","name":"S\u00e9samo Lavapi\u00e9s","cuisine":"Libanesa","price":2,"rating":4.6,"reviews":201,"distance":1.1,"zone":"madrid","area":"Lavapi\u00e9s \u00b7 Madrid","place":"Mezze y horno","lat":40.4097,"lng":-3.7004,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Mezze para compartir","Opciones vegetales","Pan al horno"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"S\u00e9samo Lavapi\u00e9s propone mezze, horno y sabores frescos del Mediterr\u00e1neo oriental en Lavapi\u00e9s. Un espacio mezze y horno con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"cobre-malasana","name":"Cobre Malasa\u00f1a","cuisine":"Fusi\u00f3n","price":2,"rating":4.7,"reviews":274,"distance":1.3,"zone":"madrid","area":"Malasa\u00f1a \u00b7 Madrid","place":"Bistr\u00f3 urbano","lat":40.4251,"lng":-3.7083,"image":"food-brunch.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Carta creativa","C\u00f3cteles","Platos para compartir"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Cobre Malasa\u00f1a propone una carta viajera con t\u00e9cnicas actuales y platos para compartir en Malasa\u00f1a. Un espacio bistr\u00f3 urbano con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"osaka-doce","name":"Osaka 12","cuisine":"Japonesa","price":3,"rating":4.8,"reviews":347,"distance":1.6,"zone":"madrid","area":"Chueca \u00b7 Madrid","place":"Izakaya contempor\u00e1nea","lat":40.4225,"lng":-3.697,"image":"food-japanese.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Osaka 12 propone sushi, cocina caliente y pases preparados al momento en Chueca. Un espacio izakaya contempor\u00e1nea con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"trattoria-olmo","name":"Trattoria Olmo","cuisine":"Italiana","price":2,"rating":4.6,"reviews":420,"distance":1.8,"zone":"madrid","area":"La Latina \u00b7 Madrid","place":"Trattoria de barrio","lat":40.412,"lng":-3.7122,"image":"food-italian.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Pasta fresca","Horno","Men\u00fa infantil"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Trattoria Olmo propone pasta fresca, salsas caseras y especialidades de horno en La Latina. Un espacio trattoria de barrio con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"maiz-azul","name":"Ma\u00edz Azul","cuisine":"Mexicana","price":2,"rating":4.7,"reviews":493,"distance":2.0,"zone":"madrid","area":"Conde Duque \u00b7 Madrid","place":"Antojer\u00eda mexicana","lat":40.4284,"lng":-3.7115,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Tortillas de ma\u00edz","Salsas aparte","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Ma\u00edz Azul propone antojitos, moles y tacos con salsas servidas aparte en Conde Duque. Un espacio antojer\u00eda mexicana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bombay-circulo","name":"Bombay C\u00edrculo","cuisine":"India","price":2,"rating":4.9,"reviews":566,"distance":2.2,"zone":"madrid","area":"Arg\u00fcelles \u00b7 Madrid","place":"Cocina especiada","lat":40.4296,"lng":-3.7184,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo"],"features":["Nivel de picante adaptable","Opciones vegetales","Arroces"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Bombay C\u00edrculo propone curries arom\u00e1ticos, arroces y un picante f\u00e1cil de ajustar en Arg\u00fcelles. Un espacio cocina especiada con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"nube-seul","name":"Nube Se\u00fal","cuisine":"Coreana","price":2,"rating":4.5,"reviews":639,"distance":2.4,"zone":"madrid","area":"Trafalgar \u00b7 Madrid","place":"Mesa coreana","lat":40.4329,"lng":-3.7035,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Barbacoa coreana","Fermentados","Platos para compartir"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Nube Se\u00fal propone recetas coreanas, fermentados y propuestas para el centro de la mesa en Trafalgar. Un espacio mesa coreana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"lima-brava","name":"Lima Brava","cuisine":"Peruana","price":3,"rating":4.6,"reviews":712,"distance":2.6,"zone":"madrid","area":"Las Letras \u00b7 Madrid","place":"Cevicher\u00eda de autor","lat":40.4144,"lng":-3.696,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Ceviches","Platos para compartir","C\u00f3cteles"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Lima Brava propone ceviches, tiraditos y fondos llenos de sabor en Las Letras. Un espacio cevicher\u00eda de autor con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"jardin-levante","name":"Jard\u00edn Levante","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.7,"reviews":785,"distance":2.8,"zone":"madrid","area":"Ibiza \u00b7 Madrid","place":"Patio mediterr\u00e1neo","lat":40.4188,"lng":-3.6742,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Jard\u00edn Levante propone producto de temporada, verduras, arroces y cocina luminosa en Ibiza. Un espacio patio mediterr\u00e1neo con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"huerta-atocha","name":"La Huerta de Atocha","cuisine":"Plant based","price":2,"rating":4.8,"reviews":168,"distance":3.0,"zone":"madrid","area":"Atocha \u00b7 Madrid","place":"Cocina vegetal","lat":40.4059,"lng":-3.6908,"image":"food-plant.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["100% vegetal","Ingredientes se\u00f1alizados","Brunch"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"La Huerta de Atocha propone platos vegetales creativos e ingredientes claramente explicados en Atocha. Un espacio cocina vegetal con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"brasa-chamberi","name":"Brasa Chamber\u00ed","cuisine":"Parrilla","price":3,"rating":4.6,"reviews":241,"distance":3.1,"zone":"madrid","area":"Chamber\u00ed \u00b7 Madrid","place":"Parrilla abierta","lat":40.4361,"lng":-3.7048,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Parrilla","Grupos","Producto de temporada"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Brasa Chamber\u00ed propone verduras y carnes a la brasa con guarniciones para compartir en Chamber\u00ed. Un espacio parrilla abierta con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"cafe-almendra","name":"Caf\u00e9 Almendra","cuisine":"Brunch","price":1,"rating":4.7,"reviews":314,"distance":3.3,"zone":"madrid","area":"Moncloa \u00b7 Madrid","place":"Caf\u00e9 de especialidad","lat":40.435,"lng":-3.7195,"image":"food-brunch.webp","safe":["gluten","lactosa","huevo"],"features":["Caf\u00e9 de especialidad","Desayuno tard\u00edo","Opciones dulces y saladas"],"times":["09:30","10:00","10:30","12:30","13:00","13:30","20:00"],"description":"Caf\u00e9 Almendra propone caf\u00e9 de especialidad y una carta de desayuno disponible hasta tarde en Moncloa. Un espacio caf\u00e9 de especialidad con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"casa-atlantica","name":"Casa Atl\u00e1ntica","cuisine":"Gallega","price":2,"rating":4.9,"reviews":387,"distance":3.5,"zone":"madrid","area":"Pac\u00edfico \u00b7 Madrid","place":"Marisquer\u00eda informal","lat":40.4029,"lng":-3.675,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Producto atl\u00e1ntico","Arroces","Grupos"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Casa Atl\u00e1ntica propone producto atl\u00e1ntico, arroces y cocina gallega para compartir en Pac\u00edfico. Un espacio marisquer\u00eda informal con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"izarra-madrid","name":"Izarra Madrid","cuisine":"Vasca","price":3,"rating":4.5,"reviews":460,"distance":3.7,"zone":"madrid","area":"Salamanca \u00b7 Madrid","place":"Barra y comedor","lat":40.4278,"lng":-3.6842,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Pintxos","Producto de mercado","Barra"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Izarra Madrid propone pintxos, brasas y producto de mercado en Salamanca. Un espacio barra y comedor con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"patio-triana","name":"Patio de Triana","cuisine":"Andaluza","price":2,"rating":4.6,"reviews":533,"distance":3.9,"zone":"madrid","area":"Delicias \u00b7 Madrid","place":"Patio andaluz","lat":40.3978,"lng":-3.693,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Fritura y arroces","Patio","Raciones"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Patio de Triana propone sabores del sur, arroces y raciones generosas en Delicias. Un espacio patio andaluz con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"zoco-prado","name":"Zoco del Prado","cuisine":"Marroqu\u00ed","price":2,"rating":4.7,"reviews":606,"distance":4.1,"zone":"madrid","area":"Huertas \u00b7 Madrid","place":"Sal\u00f3n de t\u00e9 y cocina","lat":40.4128,"lng":-3.6935,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Tajines","T\u00e9s","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Zoco del Prado propone tajines, cusc\u00fas y especias c\u00e1lidas en Huertas. Un espacio sal\u00f3n de t\u00e9 y cocina con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"saigon-verde","name":"Saig\u00f3n Verde","cuisine":"Vietnamita","price":2,"rating":4.8,"reviews":679,"distance":4.3,"zone":"madrid","area":"Ventas \u00b7 Madrid","place":"Cocina vietnamita","lat":40.431,"lng":-3.6634,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Pho y arroces","Hierbas frescas","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Saig\u00f3n Verde propone caldos arom\u00e1ticos, hierbas frescas y platos de arroz en Ventas. Un espacio cocina vietnamita con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"buenos-aires-40","name":"Buenos Aires 40","cuisine":"Argentina","price":3,"rating":4.6,"reviews":752,"distance":4.5,"zone":"madrid","area":"Nuevos Ministerios \u00b7 Madrid","place":"Parrilla argentina","lat":40.4461,"lng":-3.6921,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo"],"features":["Carnes a la brasa","Empanadas","Grupos"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Buenos Aires 40 propone parrilla, empanadas y guarniciones cl\u00e1sicas en Nuevos Ministerios. Un espacio parrilla argentina con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bistro-lumiere","name":"Bistr\u00f3 Lumi\u00e8re","cuisine":"Francesa","price":3,"rating":4.7,"reviews":135,"distance":4.7,"zone":"madrid","area":"Almagro \u00b7 Madrid","place":"Bistr\u00f3 cl\u00e1sico","lat":40.4346,"lng":-3.6933,"image":"food-brunch.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Cocina de temporada","Bistr\u00f3","Carta de vinos"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Bistr\u00f3 Lumi\u00e8re propone recetas de bistr\u00f3 y producto de temporada en Almagro. Un espacio bistr\u00f3 cl\u00e1sico con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"agora-griega","name":"\u00c1gora Griega","cuisine":"Griega","price":2,"rating":4.9,"reviews":208,"distance":4.9,"zone":"madrid","area":"Prosperidad \u00b7 Madrid","place":"Taberna griega","lat":40.4414,"lng":-3.67,"image":"food-mediterranean.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Mezze","Parrilla","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"\u00c1gora Griega propone mezze, verduras y especialidades a la parrilla en Prosperidad. Un espacio taberna griega con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"lisboa-28","name":"Lisboa 28","cuisine":"Portuguesa","price":2,"rating":4.5,"reviews":281,"distance":5.1,"zone":"madrid","area":"Usera \u00b7 Madrid","place":"Casa portuguesa","lat":40.385,"lng":-3.7074,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Bacalao","Dulces portugueses","Carta de vinos"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Lisboa 28 propone bacalao, guisos marineros y dulces tradicionales en Usera. Un espacio casa portuguesa con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"addis-norte","name":"Addis Abeba Norte","cuisine":"Et\u00edope","price":2,"rating":4.6,"reviews":354,"distance":5.3,"zone":"madrid","area":"Tetu\u00e1n \u00b7 Madrid","place":"Comedor et\u00edope","lat":40.4603,"lng":-3.6998,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Platos para compartir","Opciones vegetales","Cocina especiada"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Addis Abeba Norte propone guisos especiados y bandejas pensadas para compartir en Tetu\u00e1n. Un espacio comedor et\u00edope con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"arepa-real","name":"Arepa Real","cuisine":"Venezolana","price":1,"rating":4.7,"reviews":427,"distance":5.5,"zone":"madrid","area":"Carabanchel \u00b7 Madrid","place":"Arepera familiar","lat":40.3892,"lng":-3.7313,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Arepas","Cocina familiar","Opciones sin gluten"],"times":["09:30","10:00","10:30","12:30","13:00","13:30","20:00"],"description":"Arepa Real propone arepas, cachapas y sabores caseros en Carabanchel. Un espacio arepera familiar con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"canton-retiro","name":"Cant\u00f3n Retiro","cuisine":"China","price":2,"rating":4.8,"reviews":500,"distance":5.7,"zone":"madrid","area":"Estrella \u00b7 Madrid","place":"Cocina cantonesa","lat":40.4117,"lng":-3.66,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo"],"features":["Dim sum","Platos para compartir","Carta extensa"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Cant\u00f3n Retiro propone dim sum, salteados y platos para compartir en Estrella. Un espacio cocina cantonesa con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bangkok-rio","name":"Bangkok R\u00edo","cuisine":"Tailandesa","price":2,"rating":4.6,"reviews":573,"distance":5.9,"zone":"madrid","area":"Madrid R\u00edo \u00b7 Madrid","place":"Cocina tailandesa","lat":40.404,"lng":-3.7215,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Picante adaptable","Curries","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Bangkok R\u00edo propone curries, hierbas arom\u00e1ticas y un picante ajustable en Madrid R\u00edo. Un espacio cocina tailandesa con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"mar-y-sal","name":"Mar y Sal","cuisine":"Mediterr\u00e1nea","price":3,"rating":4.7,"reviews":646,"distance":6.2,"zone":"madrid","area":"Chamart\u00edn \u00b7 Madrid","place":"Arroces y pescado","lat":40.4596,"lng":-3.6777,"image":"food-mediterranean.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Mar y Sal propone producto de temporada, verduras, arroces y cocina luminosa en Chamart\u00edn. Un espacio arroces y pescado con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"umami-bernabeu","name":"Umami Bernab\u00e9u","cuisine":"Japonesa","price":3,"rating":4.9,"reviews":719,"distance":6.5,"zone":"madrid","area":"Castellana \u00b7 Madrid","place":"Barra nikkei","lat":40.4517,"lng":-3.6907,"image":"food-japanese.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Umami Bernab\u00e9u propone sushi, cocina caliente y pases preparados al momento en Castellana. Un espacio barra nikkei con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"farina-latina","name":"Farina Latina","cuisine":"Italiana","price":2,"rating":4.5,"reviews":792,"distance":7.1,"zone":"madrid","area":"Hortaleza \u00b7 Madrid","place":"Horno italiano","lat":40.4691,"lng":-3.6425,"image":"food-italian.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Pasta fresca","Horno","Men\u00fa infantil"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Farina Latina propone pasta fresca, salsas caseras y especialidades de horno en Hortaleza. Un espacio horno italiano con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"sol-oaxaca","name":"Sol de Oaxaca","cuisine":"Mexicana","price":2,"rating":4.6,"reviews":175,"distance":8.4,"zone":"madrid","area":"Vallecas \u00b7 Madrid","place":"Tacos y moles","lat":40.3807,"lng":-3.6435,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Tortillas de ma\u00edz","Salsas aparte","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Sol de Oaxaca propone antojitos, moles y tacos con salsas servidas aparte en Vallecas. Un espacio tacos y moles con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"encina-alcobendas","name":"La Encina de Alcobendas","cuisine":"Espa\u00f1ola","price":2,"rating":4.7,"reviews":248,"distance":13.8,"zone":"norte","area":"Centro \u00b7 Alcobendas","place":"Mes\u00f3n contempor\u00e1neo","lat":40.541,"lng":-3.635,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"La Encina de Alcobendas propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio mes\u00f3n contempor\u00e1neo con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"tokio-moraleja","name":"Tokio Moraleja","cuisine":"Japonesa","price":3,"rating":4.8,"reviews":321,"distance":14.9,"zone":"norte","area":"La Moraleja \u00b7 Alcobendas","place":"Sushi bar","lat":40.5158,"lng":-3.6468,"image":"food-japanese.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Tokio Moraleja propone sushi, cocina caliente y pases preparados al momento en La Moraleja. Un espacio sushi bar con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"granero-norte","name":"El Granero del Norte","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.6,"reviews":394,"distance":17.5,"zone":"norte","area":"Dehesa Vieja \u00b7 S.S. de los Reyes","place":"Cocina de mercado","lat":40.557,"lng":-3.6202,"image":"food-mediterranean.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"El Granero del Norte propone producto de temporada, verduras, arroces y cocina luminosa en Dehesa Vieja. Un espacio cocina de mercado con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"masala-tres-cantos","name":"Masala Tres Cantos","cuisine":"India","price":2,"rating":4.7,"reviews":467,"distance":22.1,"zone":"norte","area":"Sector Literatos \u00b7 Tres Cantos","place":"Curry house","lat":40.599,"lng":-3.713,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Nivel de picante adaptable","Opciones vegetales","Arroces"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Masala Tres Cantos propone curries arom\u00e1ticos, arroces y un picante f\u00e1cil de ajustar en Sector Literatos. Un espacio curry house con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"oliva-colmenar","name":"Oliva Colmenar","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.9,"reviews":540,"distance":30.6,"zone":"norte","area":"Centro \u00b7 Colmenar Viejo","place":"Comedor familiar","lat":40.658,"lng":-3.7665,"image":"food-mediterranean.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Oliva Colmenar propone producto de temporada, verduras, arroces y cocina luminosa en Centro. Un espacio comedor familiar con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"robata-norte","name":"Robata Norte","cuisine":"Japonesa","price":3,"rating":4.5,"reviews":613,"distance":18.3,"zone":"norte","area":"Avenida de Tenerife \u00b7 S.S. de los Reyes","place":"Robata y sushi","lat":40.5491,"lng":-3.6263,"image":"food-japanese.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Robata Norte propone sushi, cocina caliente y pases preparados al momento en Avenida de Tenerife. Un espacio robata y sushi con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"verde-montecarmelo","name":"Verde Montecarmelo","cuisine":"Plant based","price":2,"rating":4.6,"reviews":686,"distance":11.6,"zone":"norte","area":"Montecarmelo \u00b7 Madrid","place":"Caf\u00e9 vegetal","lat":40.5061,"lng":-3.6964,"image":"food-plant.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["100% vegetal","Ingredientes se\u00f1alizados","Brunch"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Verde Montecarmelo propone platos vegetales creativos e ingredientes claramente explicados en Montecarmelo. Un espacio caf\u00e9 vegetal con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"brasa-fuencarral","name":"Brasa Fuencarral","cuisine":"Parrilla","price":2,"rating":4.7,"reviews":759,"distance":10.8,"zone":"norte","area":"Fuencarral \u00b7 Madrid","place":"Parrilla de barrio","lat":40.4944,"lng":-3.6932,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Parrilla","Grupos","Producto de temporada"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Brasa Fuencarral propone verduras y carnes a la brasa con guarniciones para compartir en Fuencarral. Un espacio parrilla de barrio con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"azahar-coslada","name":"Azahar Coslada","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.8,"reviews":142,"distance":12.6,"zone":"este","area":"Centro \u00b7 Coslada","place":"Terraza urbana","lat":40.4238,"lng":-3.5612,"image":"food-mediterranean.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Azahar Coslada propone producto de temporada, verduras, arroces y cocina luminosa en Centro. Un espacio terraza urbana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"curry-san-fernando","name":"Curry San Fernando","cuisine":"India","price":2,"rating":4.6,"reviews":215,"distance":16.4,"zone":"este","area":"Centro \u00b7 San Fernando de Henares","place":"Cocina del norte de India","lat":40.4236,"lng":-3.5328,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Nivel de picante adaptable","Opciones vegetales","Arroces"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Curry San Fernando propone curries arom\u00e1ticos, arroces y un picante f\u00e1cil de ajustar en Centro. Un espacio cocina del norte de india con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"ramen-torrejon","name":"Ramen Torrej\u00f3n","cuisine":"Japonesa","price":2,"rating":4.7,"reviews":288,"distance":22.4,"zone":"este","area":"Parque Europa \u00b7 Torrej\u00f3n de Ardoz","place":"Ramen bar","lat":40.4563,"lng":-3.4753,"image":"food-japanese.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Ramen Torrej\u00f3n propone sushi, cocina caliente y pases preparados al momento en Parque Europa. Un espacio ramen bar con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"patio-complutense","name":"Patio Complutense","cuisine":"Espa\u00f1ola","price":2,"rating":4.9,"reviews":361,"distance":31.4,"zone":"este","area":"Casco hist\u00f3rico \u00b7 Alcal\u00e1 de Henares","place":"Patio castellano","lat":40.4818,"lng":-3.3648,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Patio Complutense propone recetas espa\u00f1olas reconocibles y producto de temporada en Casco hist\u00f3rico. Un espacio patio castellano con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"loto-alcala","name":"Loto de Alcal\u00e1","cuisine":"Tailandesa","price":2,"rating":4.5,"reviews":434,"distance":32.2,"zone":"este","area":"La Garena \u00b7 Alcal\u00e1 de Henares","place":"Cocina asi\u00e1tica","lat":40.4897,"lng":-3.3812,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo"],"features":["Picante adaptable","Curries","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Loto de Alcal\u00e1 propone curries, hierbas arom\u00e1ticas y un picante ajustable en La Garena. Un espacio cocina asi\u00e1tica con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"tierra-rivas","name":"Tierra Rivas","cuisine":"Plant based","price":2,"rating":4.6,"reviews":507,"distance":19.5,"zone":"este","area":"Rivas Futura \u00b7 Rivas-Vaciamadrid","place":"Cocina vegetal","lat":40.3559,"lng":-3.5287,"image":"food-plant.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["100% vegetal","Ingredientes se\u00f1alizados","Brunch"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Tierra Rivas propone platos vegetales creativos e ingredientes claramente explicados en Rivas Futura. Un espacio cocina vegetal con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bambu-vicalvaro","name":"Bamb\u00fa Vic\u00e1lvaro","cuisine":"Vietnamita","price":2,"rating":4.7,"reviews":580,"distance":10.4,"zone":"este","area":"Vic\u00e1lvaro \u00b7 Madrid","place":"Pho y cocina callejera","lat":40.402,"lng":-3.6084,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Pho y arroces","Hierbas frescas","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Bamb\u00fa Vic\u00e1lvaro propone caldos arom\u00e1ticos, hierbas frescas y platos de arroz en Vic\u00e1lvaro. Un espacio pho y cocina callejera con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"pista-barajas","name":"La Pista de Barajas","cuisine":"Espa\u00f1ola","price":2,"rating":4.8,"reviews":653,"distance":13.2,"zone":"este","area":"Barajas \u00b7 Madrid","place":"Taberna viajera","lat":40.4736,"lng":-3.578,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"La Pista de Barajas propone recetas espa\u00f1olas reconocibles y producto de temporada en Barajas. Un espacio taberna viajera con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bodega-arganda","name":"Bodega Arganda","cuisine":"Espa\u00f1ola","price":2,"rating":4.6,"reviews":726,"distance":28.7,"zone":"este","area":"Centro \u00b7 Arganda del Rey","place":"Bodega y asador","lat":40.3006,"lng":-3.438,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Bodega Arganda propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio bodega y asador con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"plaza-getafe","name":"La Plaza de Getafe","cuisine":"Espa\u00f1ola","price":2,"rating":4.7,"reviews":799,"distance":14.2,"zone":"sur","area":"Centro \u00b7 Getafe","place":"Casa de comidas","lat":40.3059,"lng":-3.7327,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"La Plaza de Getafe propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio casa de comidas con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"pasta-leganes","name":"Pasta Legan\u00e9s","cuisine":"Italiana","price":2,"rating":4.9,"reviews":182,"distance":13.8,"zone":"sur","area":"Zarzaquemada \u00b7 Legan\u00e9s","place":"Pasta fresca","lat":40.3372,"lng":-3.7457,"image":"food-italian.webp","safe":["gluten","lactosa","huevo"],"features":["Pasta fresca","Horno","Men\u00fa infantil"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Pasta Legan\u00e9s propone pasta fresca, salsas caseras y especialidades de horno en Zarzaquemada. Un espacio pasta fresca con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"lima-fuenlabrada","name":"Lima Fuenlabrada","cuisine":"Peruana","price":2,"rating":4.5,"reviews":255,"distance":20.5,"zone":"sur","area":"Centro \u00b7 Fuenlabrada","place":"Cocina peruana","lat":40.2837,"lng":-3.8002,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Ceviches","Platos para compartir","C\u00f3cteles"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Lima Fuenlabrada propone ceviches, tiraditos y fondos llenos de sabor en Centro. Un espacio cocina peruana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"brasa-mostoles","name":"Brasa M\u00f3stoles","cuisine":"Parrilla","price":2,"rating":4.6,"reviews":328,"distance":21.4,"zone":"sur","area":"Hospital \u00b7 M\u00f3stoles","place":"Asador familiar","lat":40.3225,"lng":-3.8647,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Parrilla","Grupos","Producto de temporada"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Brasa M\u00f3stoles propone verduras y carnes a la brasa con guarniciones para compartir en Hospital. Un espacio asador familiar con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"nopal-alcorcon","name":"Nopal Alcorc\u00f3n","cuisine":"Mexicana","price":2,"rating":4.7,"reviews":401,"distance":18.1,"zone":"sur","area":"Parque Lisboa \u00b7 Alcorc\u00f3n","place":"Taquer\u00eda","lat":40.3491,"lng":-3.8244,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Tortillas de ma\u00edz","Salsas aparte","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Nopal Alcorc\u00f3n propone antojitos, moles y tacos con salsas servidas aparte en Parque Lisboa. Un espacio taquer\u00eda con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"olivo-pinto","name":"Olivo Pinto","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.8,"reviews":474,"distance":22.9,"zone":"sur","area":"Centro \u00b7 Pinto","place":"Cocina mediterr\u00e1nea","lat":40.2415,"lng":-3.6999,"image":"food-mediterranean.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Olivo Pinto propone producto de temporada, verduras, arroces y cocina luminosa en Centro. Un espacio cocina mediterr\u00e1nea con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"sakura-valdemoro","name":"Sakura Valdemoro","cuisine":"Japonesa","price":2,"rating":4.6,"reviews":547,"distance":28.4,"zone":"sur","area":"Centro \u00b7 Valdemoro","place":"Sushi y cocina caliente","lat":40.1912,"lng":-3.674,"image":"food-japanese.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Sakura Valdemoro propone sushi, cocina caliente y pases preparados al momento en Centro. Un espacio sushi y cocina caliente con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"canela-parla","name":"Canela Parla","cuisine":"Marroqu\u00ed","price":2,"rating":4.7,"reviews":620,"distance":24.6,"zone":"sur","area":"Las Am\u00e9ricas \u00b7 Parla","place":"Cusc\u00fas y taj\u00edn","lat":40.2381,"lng":-3.77,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo"],"features":["Tajines","T\u00e9s","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Canela Parla propone tajines, cusc\u00fas y especias c\u00e1lidas en Las Am\u00e9ricas. Un espacio cusc\u00fas y taj\u00edn con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"verde-villaverde","name":"Verde Villaverde","cuisine":"Plant based","price":1,"rating":4.9,"reviews":693,"distance":11.8,"zone":"sur","area":"Villaverde \u00b7 Madrid","place":"Cocina vegetal casual","lat":40.35,"lng":-3.7108,"image":"food-plant.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["100% vegetal","Ingredientes se\u00f1alizados","Brunch"],"times":["09:30","10:00","10:30","12:30","13:00","13:30","20:00"],"description":"Verde Villaverde propone platos vegetales creativos e ingredientes claramente explicados en Villaverde. Un espacio cocina vegetal casual con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bahia-usera","name":"Bah\u00eda Usera","cuisine":"China","price":2,"rating":4.5,"reviews":766,"distance":7.8,"zone":"sur","area":"Usera \u00b7 Madrid","place":"Mariscos y dim sum","lat":40.3825,"lng":-3.7091,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Dim sum","Platos para compartir","Carta extensa"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Bah\u00eda Usera propone dim sum, salteados y platos para compartir en Usera. Un espacio mariscos y dim sum con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"terraza-pozuelo","name":"Terraza Pozuelo","cuisine":"Mediterr\u00e1nea","price":3,"rating":4.6,"reviews":149,"distance":12.7,"zone":"oeste","area":"Avenida de Europa \u00b7 Pozuelo","place":"Terraza contempor\u00e1nea","lat":40.4389,"lng":-3.7937,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Terraza Pozuelo propone producto de temporada, verduras, arroces y cocina luminosa en Avenida de Europa. Un espacio terraza contempor\u00e1nea con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"sierra-majadahonda","name":"Sierra Majadahonda","cuisine":"Espa\u00f1ola","price":3,"rating":4.7,"reviews":222,"distance":16.8,"zone":"oeste","area":"Centro \u00b7 Majadahonda","place":"Asador serrano","lat":40.4737,"lng":-3.8718,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Sierra Majadahonda propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio asador serrano con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"olio-rozas","name":"Olio Las Rozas","cuisine":"Italiana","price":2,"rating":4.8,"reviews":295,"distance":20.9,"zone":"oeste","area":"Eur\u00f3polis \u00b7 Las Rozas","place":"Trattoria moderna","lat":40.5007,"lng":-3.8899,"image":"food-italian.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Pasta fresca","Horno","Men\u00fa infantil"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Olio Las Rozas propone pasta fresca, salsas caseras y especialidades de horno en Eur\u00f3polis. Un espacio trattoria moderna con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"jardin-boadilla","name":"Jard\u00edn Boadilla","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.6,"reviews":368,"distance":18.9,"zone":"oeste","area":"Casco hist\u00f3rico \u00b7 Boadilla del Monte","place":"Jard\u00edn gastron\u00f3mico","lat":40.4055,"lng":-3.876,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Jard\u00edn Boadilla propone producto de temporada, verduras, arroces y cocina luminosa en Casco hist\u00f3rico. Un espacio jard\u00edn gastron\u00f3mico con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"fuego-villaviciosa","name":"Fuego Villaviciosa","cuisine":"Parrilla","price":3,"rating":4.7,"reviews":441,"distance":24.7,"zone":"oeste","area":"Centro \u00b7 Villaviciosa de Od\u00f3n","place":"Parrilla castellana","lat":40.3579,"lng":-3.9006,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Parrilla","Grupos","Producto de temporada"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Fuego Villaviciosa propone verduras y carnes a la brasa con guarniciones para compartir en Centro. Un espacio parrilla castellana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"campina-brunete","name":"Campi\u00f1a Brunete","cuisine":"Espa\u00f1ola","price":2,"rating":4.9,"reviews":514,"distance":28.5,"zone":"oeste","area":"Plaza Mayor \u00b7 Brunete","place":"Mes\u00f3n de pueblo","lat":40.4053,"lng":-3.9985,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Campi\u00f1a Brunete propone recetas espa\u00f1olas reconocibles y producto de temporada en Plaza Mayor. Un espacio mes\u00f3n de pueblo con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bosque-galapagar","name":"El Bosque de Galapagar","cuisine":"Mediterr\u00e1nea","price":3,"rating":4.5,"reviews":587,"distance":33.7,"zone":"oeste","area":"Centro \u00b7 Galapagar","place":"Cocina de temporada","lat":40.5783,"lng":-4.0043,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"El Bosque de Galapagar propone producto de temporada, verduras, arroces y cocina luminosa en Centro. Un espacio cocina de temporada con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"mirador-torrelodones","name":"Mirador Torrelodones","cuisine":"Fusi\u00f3n","price":3,"rating":4.6,"reviews":660,"distance":29.8,"zone":"oeste","area":"Colonia \u00b7 Torrelodones","place":"Mirador gastron\u00f3mico","lat":40.5763,"lng":-3.9295,"image":"food-brunch.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Carta creativa","C\u00f3cteles","Platos para compartir"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Mirador Torrelodones propone una carta viajera con t\u00e9cnicas actuales y platos para compartir en Colonia. Un espacio mirador gastron\u00f3mico con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"duna-malasana","name":"Duna Malasa\u00f1a","cuisine":"Marroqu\u00ed","price":2,"rating":4.7,"reviews":733,"distance":1.5,"zone":"madrid","area":"Malasa\u00f1a \u00b7 Madrid","place":"Cocina magreb\u00ed contempor\u00e1nea","lat":40.4238,"lng":-3.7068,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Tajines","T\u00e9s","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Duna Malasa\u00f1a propone tajines, cusc\u00fas y especias c\u00e1lidas en Malasa\u00f1a. Un espacio cocina magreb\u00ed contempor\u00e1nea con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"kumo-castilla","name":"Kumo Plaza Castilla","cuisine":"Japonesa","price":3,"rating":4.8,"reviews":806,"distance":5.8,"zone":"madrid","area":"Plaza Castilla \u00b7 Madrid","place":"Barra japonesa","lat":40.4669,"lng":-3.6892,"image":"food-japanese.webp","safe":["gluten","lactosa","huevo"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Kumo Plaza Castilla propone sushi, cocina caliente y pases preparados al momento en Plaza Castilla. Un espacio barra japonesa con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"ortolano-embajadores","name":"Ortolano Embajadores","cuisine":"Italiana","price":2,"rating":4.6,"reviews":189,"distance":2.4,"zone":"madrid","area":"Embajadores \u00b7 Madrid","place":"Osteria urbana","lat":40.4055,"lng":-3.701,"image":"food-italian.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Pasta fresca","Horno","Men\u00fa infantil"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Ortolano Embajadores propone pasta fresca, salsas caseras y especialidades de horno en Embajadores. Un espacio osteria urbana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"cacao-lavapies","name":"Cacao Lavapi\u00e9s","cuisine":"Brunch","price":1,"rating":4.7,"reviews":262,"distance":1.3,"zone":"madrid","area":"Lavapi\u00e9s \u00b7 Madrid","place":"Brunch y cacao","lat":40.4101,"lng":-3.6992,"image":"food-brunch.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Caf\u00e9 de especialidad","Desayuno tard\u00edo","Opciones dulces y saladas"],"times":["09:30","10:00","10:30","12:30","13:00","13:30","20:00"],"description":"Cacao Lavapi\u00e9s propone caf\u00e9 de especialidad y una carta de desayuno disponible hasta tarde en Lavapi\u00e9s. Un espacio brunch y cacao con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"huerta-san-sebastian","name":"Huerta de San Sebasti\u00e1n","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.9,"reviews":335,"distance":17.8,"zone":"norte","area":"Tempranales \u00b7 S.S. de los Reyes","place":"Cocina de huerta","lat":40.5621,"lng":-3.6151,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Huerta de San Sebasti\u00e1n propone producto de temporada, verduras, arroces y cocina luminosa en Tempranales. Un espacio cocina de huerta con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"brasa-san-agustin","name":"Brasa San Agust\u00edn","cuisine":"Parrilla","price":3,"rating":4.5,"reviews":408,"distance":35.2,"zone":"norte","area":"Centro \u00b7 San Agust\u00edn del Guadalix","place":"Asador de sierra","lat":40.6782,"lng":-3.6163,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Parrilla","Grupos","Producto de temporada"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Brasa San Agust\u00edn propone verduras y carnes a la brasa con guarniciones para compartir en Centro. Un espacio asador de sierra con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"olmo-tres-cantos","name":"El Olmo de Tres Cantos","cuisine":"Espa\u00f1ola","price":2,"rating":4.6,"reviews":481,"distance":22.8,"zone":"norte","area":"Estaci\u00f3n \u00b7 Tres Cantos","place":"Casa de comidas","lat":40.6,"lng":-3.712,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"El Olmo de Tres Cantos propone recetas espa\u00f1olas reconocibles y producto de temporada en Estaci\u00f3n. Un espacio casa de comidas con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"sushi-alcobendas","name":"Sushi Alcobendas","cuisine":"Japonesa","price":2,"rating":4.7,"reviews":554,"distance":14.4,"zone":"norte","area":"Valdelasfuentes \u00b7 Alcobendas","place":"Sushi casual","lat":40.548,"lng":-3.654,"image":"food-japanese.webp","safe":["gluten","lactosa","huevo"],"features":["Sushi y platos calientes","Barra","Opciones adaptables"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Sushi Alcobendas propone sushi, cocina caliente y pases preparados al momento en Valdelasfuentes. Un espacio sushi casual con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"azafran-loeches","name":"Azafr\u00e1n Loeches","cuisine":"Espa\u00f1ola","price":2,"rating":4.8,"reviews":627,"distance":27.8,"zone":"este","area":"Centro \u00b7 Loeches","place":"Mes\u00f3n castellano","lat":40.3834,"lng":-3.4147,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Azafr\u00e1n Loeches propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio mes\u00f3n castellano con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"lago-mejorada","name":"Lago Mejorada","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.6,"reviews":700,"distance":21.7,"zone":"este","area":"Centro \u00b7 Mejorada del Campo","place":"Terraza familiar","lat":40.397,"lng":-3.488,"image":"food-mediterranean.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Lago Mejorada propone producto de temporada, verduras, arroces y cocina luminosa en Centro. Un espacio terraza familiar con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"bambu-velilla","name":"Bamb\u00fa Velilla","cuisine":"China","price":2,"rating":4.7,"reviews":773,"distance":24.9,"zone":"este","area":"Centro \u00b7 Velilla de San Antonio","place":"Cocina asi\u00e1tica","lat":40.3658,"lng":-3.4854,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Dim sum","Platos para compartir","Carta extensa"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Bamb\u00fa Velilla propone dim sum, salteados y platos para compartir en Centro. Un espacio cocina asi\u00e1tica con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"trigo-alcala","name":"Trigo de Alcal\u00e1","cuisine":"Italiana","price":2,"rating":4.9,"reviews":156,"distance":31.0,"zone":"este","area":"Ensanche \u00b7 Alcal\u00e1 de Henares","place":"Pizzer\u00eda artesanal","lat":40.497,"lng":-3.3618,"image":"food-italian.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Pasta fresca","Horno","Men\u00fa infantil"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Trigo de Alcal\u00e1 propone pasta fresca, salsas caseras y especialidades de horno en Ensanche. Un espacio pizzer\u00eda artesanal con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"encina-ciempozuelos","name":"Encina Ciempozuelos","cuisine":"Espa\u00f1ola","price":2,"rating":4.5,"reviews":229,"distance":34.6,"zone":"sur","area":"Centro \u00b7 Ciempozuelos","place":"Asador familiar","lat":40.1591,"lng":-3.6184,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Encina Ciempozuelos propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio asador familiar con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"mesa-humanes","name":"Mesa Humanes","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.6,"reviews":302,"distance":23.5,"zone":"sur","area":"Centro \u00b7 Humanes de Madrid","place":"Cocina de mercado","lat":40.2505,"lng":-3.8284,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Mesa Humanes propone producto de temporada, verduras, arroces y cocina luminosa en Centro. Un espacio cocina de mercado con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"patio-grinon","name":"Patio Gri\u00f1\u00f3n","cuisine":"Andaluza","price":2,"rating":4.7,"reviews":375,"distance":29.7,"zone":"sur","area":"Casco antiguo \u00b7 Gri\u00f1\u00f3n","place":"Patio andaluz","lat":40.2125,"lng":-3.8547,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Fritura y arroces","Patio","Raciones"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Patio Gri\u00f1\u00f3n propone sabores del sur, arroces y raciones generosas en Casco antiguo. Un espacio patio andaluz con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"fuego-navalcarnero","name":"Fuego Navalcarnero","cuisine":"Parrilla","price":3,"rating":4.8,"reviews":448,"distance":32.9,"zone":"sur","area":"Centro \u00b7 Navalcarnero","place":"Parrilla y bodega","lat":40.289,"lng":-4.012,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Parrilla","Grupos","Producto de temporada"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Fuego Navalcarnero propone verduras y carnes a la brasa con guarniciones para compartir en Centro. Un espacio parrilla y bodega con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"casa-escorial","name":"Casa Escorial","cuisine":"Espa\u00f1ola","price":3,"rating":4.6,"reviews":521,"distance":42.1,"zone":"oeste","area":"Centro \u00b7 San Lorenzo de El Escorial","place":"Cocina serrana","lat":40.592,"lng":-4.1471,"image":"food-spanish.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Producto de temporada","Raciones para compartir","Men\u00fa del d\u00eda"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Casa Escorial propone recetas espa\u00f1olas reconocibles y producto de temporada en Centro. Un espacio cocina serrana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"verde-canada","name":"Verde La Ca\u00f1ada","cuisine":"Plant based","price":2,"rating":4.7,"reviews":594,"distance":30.4,"zone":"oeste","area":"Centro \u00b7 Villanueva de la Ca\u00f1ada","place":"Cocina vegetal","lat":40.4469,"lng":-4.0043,"image":"food-plant.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["100% vegetal","Ingredientes se\u00f1alizados","Brunch"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Verde La Ca\u00f1ada propone platos vegetales creativos e ingredientes claramente explicados en Centro. Un espacio cocina vegetal con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"senda-villalba","name":"Senda Villalba","cuisine":"Mediterr\u00e1nea","price":2,"rating":4.9,"reviews":667,"distance":38.1,"zone":"oeste","area":"Estaci\u00f3n \u00b7 Collado Villalba","place":"Cocina de temporada","lat":40.6262,"lng":-4.0081,"image":"food-mediterranean.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Senda Villalba propone producto de temporada, verduras, arroces y cocina luminosa en Estaci\u00f3n. Un espacio cocina de temporada con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"mirador-hoyo","name":"Mirador de Hoyo","cuisine":"Fusi\u00f3n","price":3,"rating":4.5,"reviews":740,"distance":35.6,"zone":"oeste","area":"Centro \u00b7 Hoyo de Manzanares","place":"Terraza de sierra","lat":40.6227,"lng":-3.9073,"image":"food-brunch.webp","safe":["gluten","lactosa","huevo"],"features":["Carta creativa","C\u00f3cteles","Platos para compartir"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Mirador de Hoyo propone una carta viajera con t\u00e9cnicas actuales y platos para compartir en Centro. Un espacio terraza de sierra con servicio cercano y opciones adaptables bajo solicitud."}
-];
+"use strict";
 
-/* Runtime estable: renderizado y filtros sin dependencias externas. */
-var allergenLabels={gluten:'Gluten',lactosa:'Lactosa','frutos secos':'Frutos secos',huevo:'Huevo',marisco:'Marisco',soja:'Soja'};
-var state={search:'',prices:new Set(),allergens:new Set(),zone:'all',distance:60,sort:'recommended',selected:null,party:2,currentBooking:null};
-var els={};
-var appStarted=false;
-var bounds={minLat:40.12,maxLat:40.72,minLng:-4.18,maxLng:-3.30};
+const SOL = { lat: 40.4168, lng: -3.7038 };
+const WORLD = { width: 1600, height: 1100, south: 39.96, north: 40.62, west: -4.15, east: -3.26 };
+const state = {
+  prices: new Set(), allergies: new Set(), zone: "all", maxDistance: 60,
+  search: "", sort: "recommended", favoritesOnly: false, selectedId: null,
+  favorites: new Set(JSON.parse(localStorage.getItem("mesa-favorites") || "[]")), filtered: []
+};
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
 
-function q(selector,root){return (root||document).querySelector(selector);}
-function qa(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
-function on(target,eventName,handler){var node=typeof target==='string'?q(target):target;if(!node)return;node.addEventListener(eventName,handler);}
-function escapeHtml(value){return String(value==null?'':value).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}
-function storageRead(key,fallback){try{var value=localStorage.getItem(key);return value?JSON.parse(value):fallback;}catch(error){return fallback;}}
-function storageWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch(error){showToast('No se pudo guardar en este navegador');}}
-function priceLabel(value){var out='';for(var i=0;i<Number(value||0);i+=1)out+='\u20ac';return out;}
-function formatDistance(value){return Number(value).toFixed(1).replace('.',',');}
-function formatDate(value){try{return new Intl.DateTimeFormat('es-ES',{weekday:'short',day:'numeric',month:'short'}).format(new Date(value+'T12:00:00'));}catch(error){return value;}}
-function directionsUrl(r){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.lat+','+r.lng);}
-function heartIcon(){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.7a5.4 5.4 0 0 0-7.7 0L12 5.8l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7L12 21l8.8-8.6a5.4 5.4 0 0 0 0-7.7Z"/></svg>';}
-
-function cuisinePalette(cuisine){
-  var key=normalize(cuisine);
-  if(/japonesa|china|coreana|vietnamita|tailandesa/.test(key))return ['#231942','#ef8354','#f6efe8'];
-  if(/plant|vegetal/.test(key))return ['#315c4a','#91c788','#f2f3e8'];
-  if(/italiana/.test(key))return ['#7b2636','#d7a94b','#f6efe8'];
-  if(/brunch|cafe|francesa|fusion/.test(key))return ['#6c4162','#e6b8a2','#fff4e9'];
-  if(/india|libanesa|marroqui|etiope/.test(key))return ['#8f3f2f','#e4a853','#f8ecd7'];
-  if(/mexicana|peruana|venezolana|argentina/.test(key))return ['#a23e32','#f2c14e','#f7efe5'];
-  return ['#4b1736','#d57a66','#f5efe9'];
-}
-function imageForRestaurant(r){
-  var colors=cuisinePalette(r.cuisine);var title=escapeHtml(r.cuisine);var place=escapeHtml(r.place);
-  var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-label="'+title+'">'+
-    '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+colors[0]+'"/><stop offset="1" stop-color="'+colors[1]+'"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-opacity=".24"/></filter></defs>'+
-    '<rect width="960" height="640" fill="url(#g)"/><circle cx="780" cy="90" r="180" fill="#fff" opacity=".08"/><circle cx="110" cy="570" r="230" fill="#fff" opacity=".07"/>'+
-    '<g filter="url(#s)" transform="translate(480 292)"><circle r="176" fill="'+colors[2]+'"/><circle r="126" fill="#fff" opacity=".72"/><circle r="84" fill="'+colors[1]+'" opacity=".30"/>'+
-    '<path d="M-245-145v290M-270-145v85c0 42 50 42 50 0v-85M235-145c-42 45-35 120 0 143v147" fill="none" stroke="'+colors[2]+'" stroke-width="18" stroke-linecap="round"/>'+
-    '<path d="M-45-12c48-62 118-50 142 6-58 38-112 38-142-6Z" fill="'+colors[0]+'" opacity=".86"/><path d="M-24-12c25-22 51-31 81-27" fill="none" stroke="'+colors[2]+'" stroke-width="8" stroke-linecap="round"/></g>'+
-    '<text x="480" y="535" text-anchor="middle" font-family="Georgia,serif" font-size="48" font-weight="700" fill="#fff">'+title+'</text><text x="480" y="580" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" fill="#fff" opacity=".86">'+place+'</text></svg>';
-  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+function haversineKm(a, b) {
+  const rad = d => d * Math.PI / 180, R = 6371;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
 }
 
-function init(){
-  if(appStarted)return;
-  els.list=q('#restaurantList');
-  els.markers=q('#mapMarkers');
-  els.count=q('#resultCount');
-  els.empty=q('#emptyState');
-  els.resultsLayout=q('#resultsLayout');
-  els.search=q('#listSearch');
-  els.heroSearch=q('#heroSearch');
-  els.distance=q('#distanceFilter');
-  els.distanceValue=q('#distanceValue');
-  els.zone=q('#zoneFilter');
-  els.sort=q('#sortSelect');
-  els.backdrop=q('#modalBackdrop');
-  els.toast=q('#toast');
-  els.filterBody=q('#filterBody');
-  els.activeFilterCount=q('#activeFilterCount');
-  els.favoriteCount=q('#favoriteCount');
+function validateRestaurants(items) {
+  if (!Array.isArray(items)) throw new Error("No se ha podido cargar el conjunto de restaurantes.");
+  const ids = new Set();
+  const valid = items.filter(r => {
+    const coordinateOK = Number.isFinite(r.lat) && Number.isFinite(r.lng) && r.lat >= -90 && r.lat <= 90 && r.lng >= -180 && r.lng <= 180;
+    const recordOK = r.id && r.name && r.address && coordinateOK && !ids.has(r.id);
+    if (recordOK) ids.add(r.id);
+    else console.error("Restaurante descartado por datos inválidos", r);
+    return recordOK;
+  });
+  if (!valid.length) throw new Error("No hay restaurantes con coordenadas válidas.");
+  return valid.map(r => ({ ...r, distance: haversineKm(SOL, r) }));
+}
 
-  if(!els.list||!els.markers){
-    console.error('Mesa Madrid no puede iniciarse: faltan #restaurantList o #mapMarkers.');
-    return;
+class MadridMap {
+  constructor(viewport, world, markerLayer, popup) {
+    this.viewport = viewport; this.world = world; this.markerLayer = markerLayer; this.popup = popup;
+    this.scale = 1; this.x = 0; this.y = 0; this.ready = false; this.drag = null;
+    this.items = []; this.onMarkerClick = () => {};
   }
-  appStarted=true;
-  if(els.markers.parentElement)els.markers.parentElement.classList.add('mesa-map-host');
-
-  render();
-  bindEvents();
-  setDateDefaults();
-  updateFavoriteCount();
-  improveCopy();
-  setupServiceWorker();
-  window.MesaMadrid={restaurants:restaurants,state:state,render:render,getFiltered:getFiltered,resetFilters:resetFilters};
+  async init() {
+    this.viewport.addEventListener("wheel", e => {
+      e.preventDefault();
+      const rect = this.viewport.getBoundingClientRect();
+      this.zoomAt(e.deltaY < 0 ? 1.22 : 0.82, e.clientX - rect.left, e.clientY - rect.top);
+    }, { passive: false });
+    this.viewport.addEventListener("pointerdown", e => {
+      if (e.target.closest(".map-marker,.map-controls,.map-popup")) return;
+      this.viewport.setPointerCapture(e.pointerId);
+      this.drag = { px: e.clientX, py: e.clientY, x: this.x, y: this.y };
+    });
+    this.viewport.addEventListener("pointermove", e => {
+      if (!this.drag) return;
+      this.x = this.drag.x + e.clientX - this.drag.px; this.y = this.drag.y + e.clientY - this.drag.py;
+      this.constrain(); this.updateTransform();
+    });
+    this.viewport.addEventListener("pointerup", () => this.drag = null);
+    this.viewport.addEventListener("pointercancel", () => this.drag = null);
+    this.viewport.addEventListener("keydown", e => {
+      const amount = e.shiftKey ? 100 : 40;
+      if (["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","+","=","-"].includes(e.key)) e.preventDefault();
+      if (e.key === "ArrowLeft") this.x += amount;
+      if (e.key === "ArrowRight") this.x -= amount;
+      if (e.key === "ArrowUp") this.y += amount;
+      if (e.key === "ArrowDown") this.y -= amount;
+      if (e.key === "+" || e.key === "=") this.zoom(1.25);
+      if (e.key === "-") this.zoom(.8);
+      this.constrain(); this.updateTransform();
+    });
+    $("#zoomInBtn").addEventListener("click", () => this.zoom(1.25));
+    $("#zoomOutBtn").addEventListener("click", () => this.zoom(.8));
+    $("#resetMapBtn").addEventListener("click", () => this.fit(this.items));
+    $("#fitMapBtn").addEventListener("click", () => this.fit(this.items));
+    this.popup.addEventListener("click", e => {
+      if (e.target.closest(".popup-close")) this.closePopup();
+      const reserve = e.target.closest("[data-popup-reserve]");
+      if (reserve) { e.preventDefault(); openReservation(reserve.dataset.popupReserve); }
+    });
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    this.ready = true;
+    this.updateTransform();
+    return this;
+  }
+  project(item) {
+    return {
+      x: (item.lng - WORLD.west) / (WORLD.east - WORLD.west) * WORLD.width,
+      y: (WORLD.north - item.lat) / (WORLD.north - WORLD.south) * WORLD.height
+    };
+  }
+  updateTransform() {
+    this.world.style.transform = `translate(${this.x}px,${this.y}px) scale(${this.scale})`;
+    this.markerLayer.style.setProperty("--inv-scale", 1 / this.scale);
+  }
+  constrain() {
+    const w = this.viewport.clientWidth, h = this.viewport.clientHeight;
+    const scaledW = WORLD.width * this.scale, scaledH = WORLD.height * this.scale;
+    const pad = 80;
+    this.x = scaledW <= w ? (w - scaledW) / 2 : Math.min(pad, Math.max(w - scaledW - pad, this.x));
+    this.y = scaledH <= h ? (h - scaledH) / 2 : Math.min(pad, Math.max(h - scaledH - pad, this.y));
+  }
+  zoom(factor) { this.zoomAt(factor, this.viewport.clientWidth / 2, this.viewport.clientHeight / 2); }
+  zoomAt(factor, cx, cy) {
+    const old = this.scale, next = Math.max(.38, Math.min(4.2, old * factor));
+    const wx = (cx - this.x) / old, wy = (cy - this.y) / old;
+    this.scale = next; this.x = cx - wx * next; this.y = cy - wy * next;
+    this.constrain(); this.updateTransform();
+  }
+  fit(items) {
+    if (!this.ready) return;
+    if (!items.length) { this.scale = .48; this.x = (this.viewport.clientWidth - WORLD.width * this.scale) / 2; this.y = (this.viewport.clientHeight - WORLD.height * this.scale) / 2; this.updateTransform(); return; }
+    const points = items.map(i => this.project(i));
+    let minX = Math.min(...points.map(p => p.x)), maxX = Math.max(...points.map(p => p.x));
+    let minY = Math.min(...points.map(p => p.y)), maxY = Math.max(...points.map(p => p.y));
+    if (maxX - minX < 180) { minX -= 90; maxX += 90; }
+    if (maxY - minY < 150) { minY -= 75; maxY += 75; }
+    const pad = 70, vw = this.viewport.clientWidth, vh = this.viewport.clientHeight;
+    this.scale = Math.max(.42, Math.min(3.2, (vw - pad * 2) / (maxX - minX), (vh - pad * 2) / (maxY - minY)));
+    this.x = vw / 2 - ((minX + maxX) / 2) * this.scale;
+    this.y = vh / 2 - ((minY + maxY) / 2) * this.scale;
+    this.constrain(); this.updateTransform();
+  }
+  focus(item) {
+    if (!item) return;
+    const p = this.project(item), vw = this.viewport.clientWidth, vh = this.viewport.clientHeight;
+    this.scale = Math.max(this.scale, 2.15);
+    this.x = vw / 2 - p.x * this.scale; this.y = vh / 2 - p.y * this.scale;
+    this.constrain(); this.updateTransform();
+    this.showPopup(item);
+  }
+  renderMarkers(items, selectedId, onMarkerClick, shouldFit = true) {
+    if (!this.ready) throw new Error("Intento de crear marcadores antes de inicializar el mapa.");
+    this.items = items; this.onMarkerClick = onMarkerClick;
+    const fragment = document.createDocumentFragment();
+    items.forEach((item, index) => {
+      const p = this.project(item), marker = document.createElement("button");
+      marker.className = "map-marker" + (item.id === selectedId ? " selected" : "");
+      marker.type = "button"; marker.dataset.id = item.id;
+      marker.style.left = `${p.x}px`; marker.style.top = `${p.y}px`; marker.style.zIndex = item.id === selectedId ? 30 : 1 + index % 5;
+      marker.setAttribute("aria-label", `${item.name}, ${"€".repeat(item.price)}, ${item.address}`);
+      marker.title = `${item.name} · ${"€".repeat(item.price)}`;
+      marker.innerHTML = `<span>${item.price}</span>`;
+      marker.addEventListener("click", e => { e.stopPropagation(); onMarkerClick(item.id); });
+      fragment.appendChild(marker);
+    });
+    this.markerLayer.replaceChildren(fragment);
+    $("#markerCount").textContent = `${items.length} marcador${items.length === 1 ? "" : "es"}`;
+    $("#mapStatusText").textContent = `${items.length} restaurantes visibles en el mapa`;
+    if (shouldFit) this.fit(items);
+    this.updateTransform();
+  }
+  selectMarker(id) {
+    $$(".map-marker", this.markerLayer).forEach(m => m.classList.toggle("selected", m.dataset.id === id));
+  }
+  showPopup(item) {
+    this.popup.hidden = false;
+    this.popup.innerHTML = `<button class="popup-close" type="button" aria-label="Cerrar">×</button><h3>${escapeHtml(item.name)}</h3><p><b>${escapeHtml(item.cuisine)} · ${"€".repeat(item.price)}</b></p><p>${escapeHtml(item.address)}, ${escapeHtml(item.area)} · ${item.distance.toFixed(1).replace(".", ",")} km desde Sol</p><a class="popup-reserve" href="#reservar" data-popup-reserve="${item.id}">Reservar mesa</a>`;
+  }
+  closePopup() { this.popup.hidden = true; }
 }
 
-function improveCopy(){
-  document.title='Mesa Madrid \u00b7 100 restaurantes para elegir bien';
-  if(els.search)els.search.placeholder='Filtra por restaurante, cocina, barrio o ambiente\u2026';
-  if(els.heroSearch)els.heroSearch.placeholder='Busca por cocina, barrio o restaurante\u2026';
-  var emptyTitle=q('#emptyState h2');if(emptyTitle)emptyTitle.textContent='No encontramos una mesa con esos filtros';
-  var emptyText=q('#emptyState p');if(emptyText)emptyText.textContent='Ampl\u00eda la distancia o elimina alg\u00fan filtro para descubrir m\u00e1s opciones.';
-}
-
-function setupServiceWorker(){
-  if(!('serviceWorker' in navigator)||!location.protocol.startsWith('http'))return;
-  window.addEventListener('load',function(){
-    navigator.serviceWorker.register('./service-worker.js?v=20261110',{updateViaCache:'none'}).then(function(registration){return registration.update();}).catch(function(error){console.warn('No se pudo actualizar el modo sin conexion.',error);});
-  },{once:true});
-}
-
-function bindEvents(){
-  on('#heroSearchForm','submit',function(event){event.preventDefault();state.search=els.heroSearch?els.heroSearch.value.trim():'';if(els.search)els.search.value=state.search;scrollToResults();render();});
-  on(els.search,'input',function(event){state.search=event.target.value.trim();if(els.heroSearch)els.heroSearch.value=state.search;render();});
-  qa('.quick-links button[data-quick]').forEach(function(button){on(button,'click',function(){state.search=button.getAttribute('data-quick')||'';if(els.search)els.search.value=state.search;if(els.heroSearch)els.heroSearch.value=state.search;scrollToResults();render();});});
-  qa('.quick-links button[data-allergen]').forEach(function(button){on(button,'click',function(){toggleSet(state.allergens,button.getAttribute('data-allergen'));syncFilterUI();scrollToResults();render();});});
-  on('#priceFilters','click',function(event){var button=closest(event.target,'[data-price]');if(!button)return;toggleSet(state.prices,Number(button.getAttribute('data-price')));syncFilterUI();render();});
-  on('#allergenFilters','click',function(event){var button=closest(event.target,'[data-allergen]');if(!button)return;toggleSet(state.allergens,button.getAttribute('data-allergen'));syncFilterUI();render();});
-  on(els.distance,'input',function(event){state.distance=Number(event.target.value)||60;if(els.distanceValue)els.distanceValue.textContent=state.distance;render();});
-  on(els.zone,'change',function(event){state.zone=event.target.value||'all';render();});
-  on(els.sort,'change',function(event){state.sort=event.target.value||'recommended';render();});
-  on('#clearFiltersBtn','click',resetFilters);on('#emptyResetBtn','click',resetFilters);
-  on('#mobileFilterBtn','click',function(event){if(!els.filterBody)return;var open=els.filterBody.classList.toggle('open');event.currentTarget.setAttribute('aria-expanded',String(open));});
-  on('#openSearchBtn','click',function(){scrollToResults();setTimeout(function(){if(els.search)els.search.focus();},300);});
-  qa('.mobile-view-switch button').forEach(function(button){on(button,'click',function(){setMobileView(button.getAttribute('data-view'));});});
-  on('#recenterBtn','click',function(){var art=q('#mapArt');if(art)art.style.transform='scale(1)';state.selected=null;renderMarkers(getFiltered());});
-  on(els.list,'click',onListClick);on(els.markers,'click',onMarkerClick);
-  on('#favoritesBtn','click',showFavorites);on('#bookingsBtn','click',showBookings);on('#footerBookingsBtn','click',showBookings);
-  on('#shareBtn','click',shareApp);on('#footerShareBtn','click',shareApp);on('#allergenInfoBtn','click',function(){openModal('infoModal');});
-  qa('[data-close-modal]').forEach(function(button){on(button,'click',closeModals);});on(els.backdrop,'click',closeModals);
-  on(document,'keydown',function(event){if(event.key==='Escape')closeModals();});
-  on('#partyMinus','click',function(){updateParty(-1);});on('#partyPlus','click',function(){updateParty(1);});
-  on('#reservationForm','submit',submitReservation);on('#downloadCalendarBtn','click',downloadCalendar);on('#shareBookingBtn','click',shareCurrentBooking);on('#savedContent','click',onSavedClick);
-}
-
-function closest(node,selector){while(node&&node!==document){if(node.matches&&node.matches(selector))return node;node=node.parentNode;}return null;}
-function scrollToResults(){var target=q('#explorar');if(target&&target.scrollIntoView)target.scrollIntoView({behavior:'smooth',block:'start'});}
-function toggleSet(set,value){if(set.has(value))set.delete(value);else set.add(value);}
-function normalize(value){return String(value||'').toLocaleLowerCase('es').normalize?String(value||'').toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g,''):String(value||'').toLocaleLowerCase('es');}
-function filteredBySearch(r,query){if(!query)return true;var fields=[r.name,r.cuisine,r.area,r.place,r.description].concat(r.features||[]);return normalize(fields.join(' ')).indexOf(normalize(query))!==-1;}
-
-function getFiltered(){
-  var output=restaurants.filter(function(r){
-    if(!filteredBySearch(r,state.search))return false;
-    if(state.prices.size&&!state.prices.has(Number(r.price)))return false;
-    if(state.allergens.size){var selected=Array.from(state.allergens);for(var i=0;i<selected.length;i+=1){if(r.safe.indexOf(selected[i])===-1)return false;}}
-    if(state.zone!=='all'&&r.zone!==state.zone)return false;
-    return Number(r.distance)<=Number(state.distance);
+let restaurants = [], map;
+function filterAndSort() {
+  const query = state.search.trim().toLocaleLowerCase("es");
+  const filtered = restaurants.filter(r => {
+    const text = `${r.name} ${r.cuisine} ${r.zone} ${r.area} ${r.address} ${r.ambience}`.toLocaleLowerCase("es");
+    return (!state.prices.size || state.prices.has(r.price)) &&
+      (!state.allergies.size || [...state.allergies].every(a => r.allergyOptions.includes(a))) &&
+      (state.zone === "all" || r.zone === state.zone) && r.distance <= state.maxDistance &&
+      (!query || text.includes(query)) && (!state.favoritesOnly || state.favorites.has(r.id));
   });
-  output.sort(function(a,b){
-    if(state.sort==='distance')return a.distance-b.distance;
-    if(state.sort==='rating')return b.rating-a.rating||b.reviews-a.reviews;
-    if(state.sort==='price')return a.price-b.price||b.rating-a.rating;
-    if(state.sort==='name')return a.name.localeCompare(b.name,'es');
-    return (b.rating*20+Math.log(Math.max(1,b.reviews)))-(a.rating*20+Math.log(Math.max(1,a.reviews)));
+  const sorter = {
+    recommended: (a,b) => b.recommended - a.recommended,
+    distance: (a,b) => a.distance - b.distance,
+    rating: (a,b) => b.rating - a.rating || b.reviews - a.reviews,
+    priceAsc: (a,b) => a.price - b.price || b.rating - a.rating
+  }[state.sort];
+  return filtered.sort(sorter);
+}
+
+function renderCard(r) {
+  const tags = r.allergyOptions.slice(0, 3).map(a => `<span class="tag">Sin ${escapeHtml(a)}</span>`).join("");
+  const more = r.allergyOptions.length > 3 ? `<span class="tag">+${r.allergyOptions.length - 3}</span>` : "";
+  return `<article class="restaurant-card${state.selectedId === r.id ? " selected" : ""}" data-id="${r.id}" tabindex="0" aria-label="${escapeHtml(r.name)}, ${r.distance.toFixed(1)} kilómetros">
+    <div class="card-visual" style="background:linear-gradient(135deg,${r.color1},${r.color2})">
+      <div class="plate" aria-hidden="true">${r.icon}</div><div class="cuisine-label">${escapeHtml(r.cuisine)}</div>
+      <span class="distance-badge">${r.distance.toFixed(1).replace(".", ",")} km desde Sol</span>
+      <button class="favorite-btn${state.favorites.has(r.id) ? " active" : ""}" type="button" data-action="favorite" aria-label="${state.favorites.has(r.id) ? "Quitar de" : "Añadir a"} favoritos">${state.favorites.has(r.id) ? "♥" : "♡"}</button>
+    </div>
+    <div class="card-body"><div class="card-meta"><span>${escapeHtml(r.cuisine)} · ${"€".repeat(r.price)}</span><span class="rating">★ ${r.rating.toFixed(1)} (${r.reviews})</span></div>
+      <h2>${escapeHtml(r.name)}</h2><p class="address">${escapeHtml(r.address)} · ${escapeHtml(r.area)}<br>${escapeHtml(r.ambience)}</p>
+      <div class="tags">${tags}${more}</div><div class="card-actions"><button class="reserve-btn" data-action="reserve" type="button">Reservar mesa</button><button class="locate-btn" data-action="locate" type="button" aria-label="Ver ${escapeHtml(r.name)} en el mapa">⌖</button></div>
+    </div></article>`;
+}
+
+function renderList() {
+  const list = $("#restaurantList");
+  if (!state.filtered.length) list.innerHTML = `<div class="empty-state"><b>No hay restaurantes con estos filtros</b><p>Prueba a ampliar la distancia o quitar alguna necesidad alimentaria.</p><button class="clear-btn" data-action="clear">Limpiar filtros</button></div>`;
+  else list.innerHTML = state.filtered.map(renderCard).join("");
+}
+
+function applyFilters({ fit = true } = {}) {
+  state.filtered = filterAndSort();
+  if (state.selectedId && !state.filtered.some(r => r.id === state.selectedId)) state.selectedId = null;
+  $("#resultCount").textContent = state.filtered.length;
+  renderList();
+  map.renderMarkers(state.filtered, state.selectedId, id => selectRestaurant(id, "marker"), fit);
+  window.__MESA_QA__ = {
+    dataCount: restaurants.length, validCoordinates: restaurants.every(r => Number.isFinite(r.lat) && Number.isFinite(r.lng)),
+    filteredCount: state.filtered.length, markerCount: $$(".map-marker", $("#markerLayer")).length, mapReady: map.ready
+  };
+}
+
+function selectRestaurant(id, source) {
+  const item = restaurants.find(r => r.id === id); if (!item) return;
+  state.selectedId = id;
+  $$(".restaurant-card").forEach(c => c.classList.toggle("selected", c.dataset.id === id));
+  map.selectMarker(id); map.focus(item);
+  if (source === "marker") {
+    const card = $(`.restaurant-card[data-id="${CSS.escape(id)}"]`);
+    if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+function clearFilters() {
+  state.prices.clear(); state.allergies.clear(); state.zone = "all"; state.maxDistance = 60; state.search = ""; state.favoritesOnly = false;
+  $$(".filter-chip").forEach(b => b.setAttribute("aria-pressed", "false"));
+  $("#zoneFilter").value = "all"; $("#distanceFilter").value = 60; $("#distanceValue").textContent = 60; $("#searchInput").value = ""; $("#favoritesBtn").setAttribute("aria-pressed", "false");
+  applyFilters();
+}
+
+function saveFavorites() { localStorage.setItem("mesa-favorites", JSON.stringify([...state.favorites])); $("#favoritesCount").textContent = state.favorites.size; }
+function openReservation(id) {
+  const r = restaurants.find(x => x.id === id); if (!r) return;
+  $("#reservationRestaurantId").value = id; $("#reservationTitle").textContent = `Reservar en ${r.name}`;
+  const tomorrow = new Date(Date.now() + 86400000); $("#reservationDate").min = tomorrow.toISOString().slice(0,10); $("#reservationDate").value ||= tomorrow.toISOString().slice(0,10);
+  $("#reservationDialog").showModal();
+}
+function toast(message) { const el = $("#toast"); el.textContent = message; el.classList.add("show"); clearTimeout(toast.timer); toast.timer = setTimeout(() => el.classList.remove("show"), 2600); }
+function getReservations() { return JSON.parse(localStorage.getItem("mesa-reservations") || "[]"); }
+function renderReservations() {
+  const items = getReservations();
+  $("#savedReservations").innerHTML = items.length ? items.map(x => `<div class="saved-item"><strong>${escapeHtml(x.restaurant)}</strong><small>${escapeHtml(x.date)} · ${escapeHtml(x.time)} · ${x.people} personas · ${escapeHtml(x.name)}</small></div>`).join("") : `<p>No hay solicitudes guardadas todavía.</p>`;
+}
+
+function bindUI() {
+  $$("#priceFilters .filter-chip").forEach(btn => btn.addEventListener("click", () => { const v = Number(btn.dataset.price); state.prices.has(v) ? state.prices.delete(v) : state.prices.add(v); btn.setAttribute("aria-pressed", state.prices.has(v)); applyFilters(); }));
+  $$("#allergyFilters .filter-chip").forEach(btn => btn.addEventListener("click", () => { const v = btn.dataset.allergy; state.allergies.has(v) ? state.allergies.delete(v) : state.allergies.add(v); btn.setAttribute("aria-pressed", state.allergies.has(v)); applyFilters(); }));
+  $("#zoneFilter").addEventListener("change", e => { state.zone = e.target.value; applyFilters(); });
+  $("#distanceFilter").addEventListener("input", e => { state.maxDistance = Number(e.target.value); $("#distanceValue").textContent = state.maxDistance; applyFilters(); });
+  let searchTimer; $("#searchInput").addEventListener("input", e => { clearTimeout(searchTimer); searchTimer = setTimeout(() => { state.search = e.target.value; applyFilters(); }, 120); });
+  $("#sortSelect").addEventListener("change", e => { state.sort = e.target.value; applyFilters({ fit: false }); });
+  $("#clearFiltersBtn").addEventListener("click", clearFilters);
+  $("#restaurantList").addEventListener("click", e => {
+    if (e.target.closest("[data-action=clear]")) return clearFilters();
+    const card = e.target.closest(".restaurant-card"); if (!card) return;
+    const action = e.target.closest("[data-action]")?.dataset.action;
+    if (action === "favorite") { e.stopPropagation(); state.favorites.has(card.dataset.id) ? state.favorites.delete(card.dataset.id) : state.favorites.add(card.dataset.id); saveFavorites(); renderList(); return; }
+    if (action === "reserve") { e.stopPropagation(); return openReservation(card.dataset.id); }
+    if (action === "locate") { e.stopPropagation(); $(".content-grid").classList.add("show-map"); $("#mapViewBtn").setAttribute("aria-pressed", "true"); $("#listViewBtn").setAttribute("aria-pressed", "false"); }
+    selectRestaurant(card.dataset.id, "card");
   });
-  return output;
+  $("#restaurantList").addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches(".restaurant-card")) { e.preventDefault(); selectRestaurant(e.target.dataset.id, "card"); }});
+  $("#favoritesBtn").addEventListener("click", e => { state.favoritesOnly = !state.favoritesOnly; e.currentTarget.setAttribute("aria-pressed", state.favoritesOnly); applyFilters(); });
+  $("#shareBtn").addEventListener("click", async () => { const data = { title: "Mesa Madrid", text: "Mira estos restaurantes de Madrid y alrededores", url: location.href }; try { if (navigator.share) await navigator.share(data); else { await navigator.clipboard.writeText(location.href); toast("Enlace copiado"); } } catch (_) {} });
+  $("#reservationsBtn").addEventListener("click", () => { renderReservations(); $("#savedDialog").showModal(); });
+  $("#reservationForm").addEventListener("submit", e => {
+    e.preventDefault(); if (!e.currentTarget.reportValidity()) return;
+    const r = restaurants.find(x => x.id === $("#reservationRestaurantId").value), items = getReservations();
+    items.unshift({ id: Date.now(), restaurant: r.name, name: $("#reservationName").value, phone: $("#reservationPhone").value, date: $("#reservationDate").value, time: $("#reservationTime").value, people: $("#reservationPeople").value, notes: $("#reservationNotes").value });
+    localStorage.setItem("mesa-reservations", JSON.stringify(items)); $("#reservationDialog").close(); toast("Solicitud guardada en este dispositivo");
+  });
+  $("#listViewBtn").addEventListener("click", () => { $(".content-grid").classList.remove("show-map"); $("#listViewBtn").setAttribute("aria-pressed", "true"); $("#mapViewBtn").setAttribute("aria-pressed", "false"); });
+  $("#mapViewBtn").addEventListener("click", () => { $(".content-grid").classList.add("show-map"); $("#listViewBtn").setAttribute("aria-pressed", "false"); $("#mapViewBtn").setAttribute("aria-pressed", "true"); requestAnimationFrame(() => map.fit(state.filtered)); });
 }
 
-function render(){
-  var list=getFiltered();
-  if(els.count)els.count.textContent=String(list.length);
-  var heroCount=q('#heroRestaurantCount');if(heroCount)heroCount.textContent=String(restaurants.length);
-  var cards=[];for(var i=0;i<list.length;i+=1){cards.push(cardTemplate(list[i]));}
-  els.list.innerHTML=cards.join('');
-  renderMarkers(list);
-  els.list.setAttribute('data-rendered-count',String(list.length));
-  els.markers.setAttribute('data-rendered-count',String(list.length));
-  if(els.empty)els.empty.hidden=list.length!==0;
-  if(els.resultsLayout)els.resultsLayout.hidden=false;
-  var active=state.prices.size+state.allergens.size+(state.zone!=='all'?1:0)+(state.distance<60?1:0)+(state.search?1:0);
-  if(els.activeFilterCount)els.activeFilterCount.textContent=String(active);
+async function bootstrap() {
+  try {
+    restaurants = validateRestaurants(window.RESTAURANTS || []);
+    const zones = [...new Set(restaurants.map(r => r.zone))].sort((a,b) => a.localeCompare(b,"es"));
+    $("#zoneFilter").insertAdjacentHTML("beforeend", zones.map(z => `<option>${escapeHtml(z)}</option>`).join(""));
+    saveFavorites(); bindUI();
+    map = new MadridMap($("#mapViewport"), $("#mapWorld"), $("#markerLayer"), $("#mapPopup"));
+    await map.init();                 // 1) Inicializa el mapa y espera dos frames de layout.
+    applyFilters({ fit: true });      // 2) Solo entonces crea los 100 marcadores.
+    console.info("Mesa Madrid QA", window.__MESA_QA__);
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(() => {});
+  } catch (error) {
+    console.error(error); $("#mapStatusText").textContent = "No se pudo inicializar el mapa";
+    $("#restaurantList").innerHTML = `<div class="empty-state"><b>Error al iniciar la aplicación</b><p>${escapeHtml(error.message)}</p></div>`;
+  }
 }
 
-function cardTemplate(r){
-  var favorites=storageRead('mesaMadridFavorites',[]);var active=favorites.indexOf(r.id)!==-1;
-  var tags=(r.safe||[]).slice(0,3).map(function(a){return '<span class="diet-tag">Sin '+escapeHtml((allergenLabels[a]||a).toLowerCase())+'</span>';}).join('');
-  var more=(r.safe||[]).length>3?'<span class="diet-tag more-tag">+'+((r.safe||[]).length-3)+'</span>':'';
-  return '<article class="restaurant-card '+(state.selected===r.id?'selected':'')+'" data-id="'+escapeHtml(r.id)+'">'+
-    '<div class="card-image"><button class="image-button" data-action="detail" aria-label="Ver '+escapeHtml(r.name)+'"><img src="'+imageForRestaurant(r)+'" alt="Propuesta de cocina '+escapeHtml(r.cuisine)+'" loading="lazy" width="960" height="640"></button><span class="distance-pill">'+formatDistance(r.distance)+' km desde Sol</span><button class="favorite-button '+(active?'active':'')+'" data-action="favorite" aria-label="'+(active?'Quitar de':'A\u00f1adir a')+' favoritos">'+heartIcon()+'</button></div>'+
-    '<div class="card-body"><div class="card-kicker"><span>'+escapeHtml(r.cuisine)+' \u00b7 '+priceLabel(r.price)+'</span><span class="rating"><b>\u2605</b> '+escapeHtml(r.rating)+' <small>('+escapeHtml(r.reviews)+')</small></span></div><button class="card-title-button" data-action="detail"><h3>'+escapeHtml(r.name)+'</h3></button><p class="card-location">'+escapeHtml(r.area)+'<br>'+escapeHtml(r.place)+'</p><div class="card-meta">'+tags+more+'</div><div class="card-actions"><button class="primary-button" data-action="reserve">Reservar mesa</button><a class="directions-button" href="'+directionsUrl(r)+'" target="_blank" rel="noopener" aria-label="C\u00f3mo llegar a '+escapeHtml(r.name)+'">\u2197</a></div></div></article>';
-}
-
-function markerPosition(r,placed){
-  var baseX=((Number(r.lng)-bounds.minLng)/(bounds.maxLng-bounds.minLng))*88+6;
-  var baseY=(1-(Number(r.lat)-bounds.minLat)/(bounds.maxLat-bounds.minLat))*84+8;
-  var x=Math.max(4,Math.min(96,baseX));var y=Math.max(5,Math.min(95,baseY));
-  for(var step=0;step<80;step+=1){var free=true;for(var j=0;j<placed.length;j+=1){var dx=x-placed[j].x;var dy=y-placed[j].y;if(dx*dx+dy*dy<3.1){free=false;break;}}if(free)break;var ring=1+Math.floor(step/10);var angle=(step%10)*(Math.PI*2/10)+ring*.41;x=Math.max(4,Math.min(96,baseX+Math.cos(angle)*ring*1.85));y=Math.max(5,Math.min(95,baseY+Math.sin(angle)*ring*2.15));}
-  placed.push({x:x,y:y});return {x:x,y:y};
-}
-function renderMarkers(list){
-  var html=[];var placed=[];for(var i=0;i<list.length;i+=1){var r=list[i];var point=markerPosition(r,placed);html.push('<button type="button" class="map-marker '+(state.selected===r.id?'active':'')+'" style="left:'+point.x.toFixed(3)+'%;top:'+point.y.toFixed(3)+'%" data-id="'+escapeHtml(r.id)+'" title="'+escapeHtml(r.name)+'" aria-label="'+escapeHtml(r.name)+', '+formatDistance(r.distance)+' km"><span>'+(i+1)+'</span></button>');}
-  els.markers.innerHTML=html.join('');
-  els.markers.hidden=false;
-}
-
-function onListClick(event){var card=closest(event.target,'[data-id]');var actionNode=closest(event.target,'[data-action]');if(!card||!actionNode)return;var r=findRestaurant(card.getAttribute('data-id'));if(!r)return;var action=actionNode.getAttribute('data-action');if(action==='favorite')toggleFavorite(r.id);else if(action==='detail')openDetail(r);else if(action==='reserve')openReservation(r);}
-function onMarkerClick(event){var marker=closest(event.target,'[data-id]');if(!marker)return;state.selected=marker.getAttribute('data-id');render();var card=q('.restaurant-card[data-id="'+cssEscape(state.selected)+'"]');if(card){if(window.innerWidth<=850)setMobileView('list');setTimeout(function(){card.scrollIntoView({behavior:'smooth',block:'center'});},30);}}
-function cssEscape(value){return String(value).replace(/(["\\])/g,'\\$1');}
-function findRestaurant(id){for(var i=0;i<restaurants.length;i+=1)if(restaurants[i].id===id)return restaurants[i];return null;}
-function toggleFavorite(id){var fav=storageRead('mesaMadridFavorites',[]);var index=fav.indexOf(id);if(index===-1)fav.push(id);else fav.splice(index,1);storageWrite('mesaMadridFavorites',fav);updateFavoriteCount();render();showToast(index===-1?'A\u00f1adido a favoritos':'Eliminado de favoritos');}
-function updateFavoriteCount(){if(els.favoriteCount)els.favoriteCount.textContent=String(storageRead('mesaMadridFavorites',[]).length);}
-
-function openDetail(r){
-  state.selected=r.id;renderMarkers(getFiltered());var content=q('#detailContent');if(!content)return;
-  content.innerHTML='<div class="detail-hero"><img src="'+imageForRestaurant(r)+'" alt="Propuesta gastron\u00f3mica de '+escapeHtml(r.name)+'"><div class="detail-hero-copy"><p>'+escapeHtml(r.cuisine)+' \u00b7 '+priceLabel(r.price)+'</p><h2 id="detailTitle">'+escapeHtml(r.name)+'</h2></div></div><div class="detail-body"><p class="detail-summary">'+escapeHtml(r.description)+'</p><div class="detail-facts"><div class="detail-fact"><span>Valoraci\u00f3n</span><strong>\u2605 '+escapeHtml(r.rating)+' ('+escapeHtml(r.reviews)+')</strong></div><div class="detail-fact"><span>Distancia</span><strong>'+formatDistance(r.distance)+' km</strong></div><div class="detail-fact"><span>Zona</span><strong>'+escapeHtml(r.area.split('\u00b7').pop().trim())+'</strong></div><div class="detail-fact"><span>Ambiente</span><strong>'+escapeHtml(r.features[0])+'</strong></div></div><div class="detail-allergens"><h3>Opciones adaptables</h3><p>Confirma siempre los al\u00e9rgenos directamente con el restaurante.</p><div class="chip-row">'+r.safe.map(function(a){return '<span class="diet-tag">Sin '+escapeHtml((allergenLabels[a]||a).toLowerCase())+'</span>';}).join('')+'</div></div><div class="detail-actions"><button class="primary-button" data-detail-reserve="'+escapeHtml(r.id)+'">Solicitar reserva</button><a class="secondary-button" href="'+directionsUrl(r)+'" target="_blank" rel="noopener">C\u00f3mo llegar \u2197</a></div></div>';
-  var reserve=q('[data-detail-reserve]',content);on(reserve,'click',function(){openReservation(r);});openModal('detailModal');
-}
-
-function openReservation(r){closeModals();state.party=2;setText('#partyValue','2');var id=q('#reservationRestaurantId');if(id)id.value=r.id;setText('#reservationRestaurantName',r.name+' \u00b7 '+r.area);var time=q('#reservationTime');if(time)time.innerHTML='<option value="">Elige una hora</option>'+r.times.map(function(t){return '<option value="'+escapeHtml(t)+'">'+escapeHtml(t)+'</option>';}).join('');var notes=q('#guestNotes');if(notes){var selected=Array.from(state.allergens).map(function(a){return allergenLabels[a]||a;});notes.value=selected.length?'Necesito opciones sin: '+selected.join(', ')+'. Por favor, confirmar protocolo de al\u00e9rgenos.':'';}openModal('reservationModal');}
-function setText(selector,value){var node=q(selector);if(node)node.textContent=value;}
-function setDateDefaults(){var input=q('#reservationDate');if(!input)return;var today=new Date();var tomorrow=new Date(today.getTime());tomorrow.setDate(tomorrow.getDate()+1);input.min=localIsoDate(today);input.value=localIsoDate(tomorrow);}
-function localIsoDate(date){var y=date.getFullYear();var m=String(date.getMonth()+1).padStart(2,'0');var d=String(date.getDate()).padStart(2,'0');return y+'-'+m+'-'+d;}
-function updateParty(delta){state.party=Math.min(12,Math.max(1,state.party+delta));setText('#partyValue',String(state.party));}
-function submitReservation(event){event.preventDefault();var form=event.currentTarget;if(form.reportValidity&&!form.reportValidity())return;var r=findRestaurant(valueOf('#reservationRestaurantId'));if(!r)return;var booking={id:String(Date.now()),code:'MM-'+Math.random().toString(36).slice(2,7).toUpperCase(),restaurantId:r.id,restaurant:r.name,area:r.area,date:valueOf('#reservationDate'),time:valueOf('#reservationTime'),party:state.party,name:valueOf('#guestName').trim(),phone:valueOf('#guestPhone').trim(),email:valueOf('#guestEmail').trim(),notes:valueOf('#guestNotes').trim(),createdAt:new Date().toISOString()};var bookings=storageRead('mesaMadridBookings',[]);bookings.unshift(booking);storageWrite('mesaMadridBookings',bookings);state.currentBooking=booking;closeModals();setText('#successSummary',r.name+', '+formatDate(booking.date)+' a las '+booking.time+', para '+booking.party+' '+(booking.party===1?'persona':'personas')+'.');setText('#successCode',booking.code);openModal('successModal');if(form.reset)form.reset();setDateDefaults();}
-function valueOf(selector){var node=q(selector);return node?String(node.value||''):'';}
-
-function showFavorites(){var ids=storageRead('mesaMadridFavorites',[]);var items=ids.map(findRestaurant).filter(function(x){return !!x;});setText('#savedEyebrow','Tu selecci\u00f3n');setText('#savedTitle','Restaurantes favoritos');var content=q('#savedContent');if(!content)return;content.innerHTML=items.length?'<div class="saved-list">'+items.map(function(r){return '<div class="saved-item" data-saved-id="'+escapeHtml(r.id)+'"><img src="'+imageForRestaurant(r)+'" alt="Imagen de '+escapeHtml(r.name)+'"><div><h3>'+escapeHtml(r.name)+'</h3><p>'+escapeHtml(r.cuisine)+' \u00b7 '+priceLabel(r.price)+' \u00b7 '+escapeHtml(r.area)+'</p></div><button data-saved-action="reserve">Reservar</button></div>';}).join('')+'</div>':'<div class="no-saved">A\u00fan no has guardado ning\u00fan restaurante.<br>Usa el coraz\u00f3n de cada ficha para crear tu lista.</div>';openModal('savedModal');}
-function showBookings(){var bookings=storageRead('mesaMadridBookings',[]);setText('#savedEyebrow','Tus planes');setText('#savedTitle','Mis solicitudes de reserva');var content=q('#savedContent');if(!content)return;content.innerHTML=bookings.length?'<div class="saved-list">'+bookings.map(function(b){return '<div class="saved-item booking-item" data-booking-id="'+escapeHtml(b.id)+'"><div><h3>'+escapeHtml(b.restaurant)+'</h3><p>'+escapeHtml(formatDate(b.date))+' \u00b7 '+escapeHtml(b.time)+' \u00b7 '+escapeHtml(b.party)+' personas<br><span class="booking-status">\u25cf Pendiente de confirmaci\u00f3n \u00b7 '+escapeHtml(b.code)+'</span></p></div><button class="delete-booking" data-saved-action="delete">Eliminar</button></div>';}).join('')+'</div>':'<div class="no-saved">No tienes solicitudes guardadas en este dispositivo.</div>';openModal('savedModal');}
-function onSavedClick(event){var button=closest(event.target,'[data-saved-action]');if(!button)return;var action=button.getAttribute('data-saved-action');if(action==='reserve'){var item=closest(button,'[data-saved-id]');var r=item?findRestaurant(item.getAttribute('data-saved-id')):null;if(r)openReservation(r);}else if(action==='delete'){var bookingItem=closest(button,'[data-booking-id]');if(!bookingItem)return;var id=bookingItem.getAttribute('data-booking-id');storageWrite('mesaMadridBookings',storageRead('mesaMadridBookings',[]).filter(function(b){return b.id!==id;}));showBookings();showToast('Solicitud eliminada');}}
-
-function resetFilters(){state.search='';state.prices.clear();state.allergens.clear();state.zone='all';state.distance=60;state.sort='recommended';state.selected=null;if(els.search)els.search.value='';if(els.heroSearch)els.heroSearch.value='';if(els.zone)els.zone.value='all';if(els.distance)els.distance.value='60';if(els.distanceValue)els.distanceValue.textContent='60';if(els.sort)els.sort.value='recommended';syncFilterUI();render();}
-function syncFilterUI(){qa('#priceFilters [data-price]').forEach(function(b){b.classList.toggle('active',state.prices.has(Number(b.getAttribute('data-price'))));});qa('#allergenFilters [data-allergen]').forEach(function(b){b.classList.toggle('active',state.allergens.has(b.getAttribute('data-allergen')));});}
-function setMobileView(view){qa('.mobile-view-switch button').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-view')===view);});if(els.resultsLayout)els.resultsLayout.classList.toggle('map-view',view==='map');}
-function openModal(id){closeModals();if(els.backdrop)els.backdrop.hidden=false;var modal=q('#'+id);if(!modal)return;modal.hidden=false;document.body.classList.add('modal-open');setTimeout(function(){var first=q('button, input, select, textarea, a',modal);if(first&&first.focus)first.focus();},20);}
-function closeModals(){qa('.modal').forEach(function(m){m.hidden=true;});if(els.backdrop)els.backdrop.hidden=true;document.body.classList.remove('modal-open');}
-function showToast(message){if(!els.toast)return;els.toast.textContent=message;els.toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(function(){els.toast.classList.remove('show');},2400);}
-
-function shareApp(){var text='Mesa Madrid re\u00fane '+restaurants.length+' restaurantes para comparar por cocina, precio, zona y opciones adaptables.';if(navigator.share){navigator.share({title:'Mesa Madrid',text:text,url:location.href}).catch(function(){});}else{copyText(text+'\n'+location.href);showToast('Enlace copiado para compartir');}}
-function shareCurrentBooking(){var b=state.currentBooking;if(!b)return;var text='\ud83c\udf7d\ufe0f Plan en '+b.restaurant+'\n\ud83d\udcc5 '+formatDate(b.date)+' a las '+b.time+'\n\ud83d\udc65 '+b.party+' '+(b.party===1?'persona':'personas')+'\nC\u00f3digo local: '+b.code+'\n\nPendiente de confirmar con el restaurante.';window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');}
-function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text).catch(function(){fallbackCopy(text);});fallbackCopy(text);return Promise.resolve();}
-function fallbackCopy(text){var area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();try{document.execCommand('copy');}catch(error){}document.body.removeChild(area);}
-function downloadCalendar(){var b=state.currentBooking;if(!b)return;var r=findRestaurant(b.restaurantId);if(!r)return;var start=new Date(b.date+'T'+b.time+':00');var end=new Date(start.getTime()+90*60000);function stamp(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');}var body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mesa Madrid//ES','BEGIN:VEVENT','UID:'+b.id+'@mesamadrid','DTSTAMP:'+stamp(new Date()),'DTSTART:'+stamp(start),'DTEND:'+stamp(end),'SUMMARY:Comida en '+b.restaurant,'DESCRIPTION:Solicitud '+b.code+'. Pendiente de confirmar.','LOCATION:'+r.area,'END:VEVENT','END:VCALENDAR'].join('\r\n');var link=document.createElement('a');link.href=URL.createObjectURL(new Blob([body],{type:'text/calendar'}));link.download='reserva-mesa-madrid.ics';link.click();setTimeout(function(){URL.revokeObjectURL(link.href);},500);showToast('Evento de calendario descargado');}
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+document.addEventListener("DOMContentLoaded", bootstrap);

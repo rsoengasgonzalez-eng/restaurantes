@@ -2,189 +2,175 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#4b1736">
-  <meta name="description" content="Descubre 100 restaurantes de Madrid y alrededores por cocina, precio, zona y opciones adaptables.">
-  <title>Mesa Madrid | 100 restaurantes para elegir bien</title>
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css?v=20261110-3">
-  <script src="./app.js?v=20261110-3" defer></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#4b1235">
+  <meta name="description" content="Descubre restaurantes en Madrid y alrededores, filtra por precio y necesidades alimentarias y solicita una reserva.">
+  <title>Mesa Madrid · Restaurantes y reservas</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#explorar">Saltar a los restaurantes</a>
-
-  <header class="site-header">
-    <a class="brand" href="#inicio" aria-label="Mesa Madrid, inicio">
-      <span class="brand-mark" aria-hidden="true">M</span>
+  <a class="skip-link" href="#results">Saltar a resultados</a>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Mesa Madrid, inicio">
+      <span class="brand-mark">M</span>
       <span><strong>Mesa</strong><small>MADRID</small></span>
     </a>
-    <nav class="header-actions" aria-label="Acciones">
-      <button class="header-button" id="favoritesBtn" type="button"><span aria-hidden="true">&#9825;</span> Favoritos <b id="favoriteCount">0</b></button>
-      <button class="header-button" id="bookingsBtn" type="button"><span aria-hidden="true">&#9638;</span> Mis reservas</button>
-      <button class="header-button primary" id="shareBtn" type="button"><span aria-hidden="true">&#8599;</span> Compartir</button>
-    </nav>
+    <div class="top-actions">
+      <button class="ghost-btn" id="favoritesBtn" type="button" aria-pressed="false">♡ <span>Favoritos</span> <b id="favoritesCount">0</b></button>
+      <button class="ghost-btn" id="reservationsBtn" type="button">▣ <span>Mis reservas</span></button>
+      <button class="primary-btn" id="shareBtn" type="button">↗ <span>Compartir</span></button>
+    </div>
   </header>
 
-  <main id="inicio">
+  <main>
     <section class="hero" aria-labelledby="heroTitle">
-      <div>
-        <p class="eyebrow">COME BIEN, DECIDE F&Aacute;CIL</p>
-        <h1 id="heroTitle">Tu pr&oacute;xima mesa<br><em>empieza aqu&iacute;.</em></h1>
-        <p>Compara cocinas, precios, zonas y opciones adaptables entre <strong id="heroRestaurantCount">100</strong> restaurantes.</p>
+      <div class="hero-copy">
+        <p class="eyebrow">MADRID Y ALREDEDORES · HASTA 60 KM</p>
+        <h1 id="heroTitle">Tu próxima mesa,<br><em>más fácil.</em></h1>
+        <p>Encuentra restaurantes según tu presupuesto y necesidades alimentarias. Comprueba su ubicación real en el mapa y solicita una reserva.</p>
       </div>
-      <form id="heroSearchForm" class="hero-search" role="search">
-        <label for="heroSearch">Busca un restaurante</label>
-        <div><input id="heroSearch" type="search" autocomplete="off" placeholder="Nombre, cocina, barrio o ambiente"><button type="submit">Buscar</button></div>
-      </form>
+      <div class="hero-note"><span>100</span><small>restaurantes<br>de demostración</small></div>
     </section>
 
     <section class="filter-panel" aria-label="Filtros de restaurantes">
       <div class="search-row">
-        <label class="search-field" for="listSearch"><span aria-hidden="true">&#8981;</span><input id="listSearch" type="search" autocomplete="off" placeholder="Filtra por restaurante, cocina, barrio o ambiente..."></label>
-        <button class="clear-button" id="clearFiltersBtn" type="button">Limpiar</button>
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <span class="sr-only">Buscar restaurantes</span>
+          <input id="searchInput" type="search" placeholder="Filtra por restaurante, cocina, barrio o ambiente…" autocomplete="off">
+        </label>
+        <button class="clear-btn" id="clearFiltersBtn" type="button">Limpiar</button>
       </div>
-      <button class="mobile-filter-button" id="mobileFilterBtn" type="button" aria-expanded="false">Filtros activos <b id="activeFilterCount">0</b></button>
-      <div class="filter-body" id="filterBody">
-        <fieldset id="priceFilters">
-          <legend>Precio por persona</legend>
-          <div class="option-row">
-            <button type="button" data-price="1"><strong>&euro;</strong><small>hasta 20 &euro;</small></button>
-            <button type="button" data-price="2"><strong>&euro;&euro;</strong><small>20-35 &euro;</small></button>
-            <button type="button" data-price="3"><strong>&euro;&euro;&euro;</strong><small>m&aacute;s de 35 &euro;</small></button>
+      <div class="filter-grid">
+        <fieldset class="filter-group price-group">
+          <legend>PRECIO POR PERSONA</legend>
+          <div class="chip-row" id="priceFilters">
+            <button class="filter-chip" type="button" data-price="1" aria-pressed="false"><b>€</b><small>hasta 20 €</small></button>
+            <button class="filter-chip" type="button" data-price="2" aria-pressed="false"><b>€€</b><small>20–35 €</small></button>
+            <button class="filter-chip" type="button" data-price="3" aria-pressed="false"><b>€€€</b><small>más de 35 €</small></button>
           </div>
         </fieldset>
-        <fieldset id="allergenFilters">
-          <legend>Necesito opciones sin...</legend>
-          <div class="option-row allergen-row">
-            <button type="button" data-allergen="gluten">Gluten</button>
-            <button type="button" data-allergen="lactosa">Lactosa</button>
-            <button type="button" data-allergen="frutos secos">Frutos secos</button>
-            <button type="button" data-allergen="huevo">Huevo</button>
-            <button type="button" data-allergen="marisco">Marisco</button>
-            <button type="button" data-allergen="soja">Soja</button>
-            <button class="info-button" id="allergenInfoBtn" type="button" aria-label="Informaci&oacute;n sobre al&eacute;rgenos">i</button>
+        <fieldset class="filter-group allergy-group">
+          <legend>NECESITO OPCIONES SIN…</legend>
+          <div class="chip-row compact" id="allergyFilters">
+            <button class="filter-chip" type="button" data-allergy="gluten" aria-pressed="false">Gluten</button>
+            <button class="filter-chip" type="button" data-allergy="lactosa" aria-pressed="false">Lactosa</button>
+            <button class="filter-chip" type="button" data-allergy="frutos secos" aria-pressed="false">Frutos secos</button>
+            <button class="filter-chip" type="button" data-allergy="huevo" aria-pressed="false">Huevo</button>
+            <button class="filter-chip" type="button" data-allergy="marisco" aria-pressed="false">Marisco</button>
+            <button class="filter-chip" type="button" data-allergy="soja" aria-pressed="false">Soja</button>
           </div>
+          <p class="filter-help">Muestra locales que declaran disponer de opciones adaptables. Confirma siempre con el restaurante.</p>
         </fieldset>
-        <fieldset class="location-filter">
-          <legend>Ubicaci&oacute;n</legend>
-          <label for="zoneFilter">Zona</label>
-          <select id="zoneFilter">
-            <option value="all">Todas las zonas</option>
-            <option value="madrid">Madrid</option>
-            <option value="norte">Norte</option>
-            <option value="este">Este</option>
-            <option value="sur">Sur</option>
-            <option value="oeste">Oeste</option>
-          </select>
-          <label class="distance-label" for="distanceFilter">Distancia desde Sol <strong><span id="distanceValue">60</span> km</strong></label>
+        <fieldset class="filter-group location-group">
+          <legend>UBICACIÓN</legend>
+          <label class="select-label">ZONA
+            <select id="zoneFilter"><option value="all">Todas las zonas</option></select>
+          </label>
+          <label class="range-label"><span>DISTANCIA DESDE SOL</span><strong><span id="distanceValue">60</span> KM</strong></label>
           <input id="distanceFilter" type="range" min="2" max="60" value="60" step="1">
-          <div class="range-hints"><span>2 km</span><span>60 km</span></div>
+          <div class="range-scale"><span>2 km</span><span>60 km</span></div>
         </fieldset>
       </div>
     </section>
 
-    <section id="explorar" class="explore-section" aria-labelledby="resultsTitle">
-      <div class="results-toolbar">
-        <p id="resultsTitle"><strong id="resultCount">0</strong> restaurantes encontrados</p>
-        <label for="sortSelect">Ordenar por
+    <section class="results-toolbar" id="results">
+      <div><strong id="resultCount">100</strong> <span>restaurantes encontrados</span></div>
+      <div class="toolbar-actions">
+        <div class="view-switch" role="group" aria-label="Vista en móvil">
+          <button type="button" id="listViewBtn" aria-pressed="true">Lista</button>
+          <button type="button" id="mapViewBtn" aria-pressed="false">Mapa</button>
+        </div>
+        <label>Ordenar por
           <select id="sortSelect">
             <option value="recommended">Recomendados</option>
-            <option value="distance">Distancia</option>
-            <option value="rating">Valoraci&oacute;n</option>
-            <option value="price">Precio</option>
-            <option value="name">Nombre A-Z</option>
+            <option value="distance">Más cercanos</option>
+            <option value="rating">Mejor valorados</option>
+            <option value="priceAsc">Precio más bajo</option>
           </select>
         </label>
       </div>
+    </section>
 
-      <div class="mobile-view-switch" role="group" aria-label="Vista">
-        <button class="active" type="button" data-view="list">Lista</button>
-        <button type="button" data-view="map">Mapa</button>
-      </div>
-
-      <div id="resultsLayout" class="results-layout">
-        <div class="list-column">
-          <div id="restaurantList" class="restaurant-list" aria-live="polite"></div>
-          <div id="emptyState" class="empty-state" hidden>
-            <span aria-hidden="true">&#9675;</span>
-            <h2>No encontramos una mesa con esos filtros</h2>
-            <p>Ampl&iacute;a la distancia o elimina alg&uacute;n filtro para descubrir m&aacute;s opciones.</p>
-            <button id="emptyResetBtn" type="button">Ver todos</button>
+    <section class="content-grid">
+      <div class="restaurant-list" id="restaurantList" aria-live="polite" aria-label="Listado de restaurantes"></div>
+      <aside class="map-column" id="mapColumn" aria-label="Mapa interactivo de restaurantes">
+        <div class="map-shell" id="mapShell">
+          <div class="map-status"><span class="status-dot"></span><strong id="mapStatusText">Inicializando mapa…</strong><button id="fitMapBtn" type="button">Centrar</button></div>
+          <div class="map-viewport" id="mapViewport" tabindex="0" aria-label="Mapa interactivo. Usa la rueda para acercar o alejar y arrastra para desplazarte.">
+            <div class="map-world" id="mapWorld">
+              <svg class="map-base" viewBox="0 0 1600 1100" role="img" aria-label="Mapa vectorial local de Madrid y municipios cercanos">
+                <rect width="1600" height="1100" fill="#edf0e8"/>
+                <path d="M0 170 C260 90 440 210 650 120 S1050 40 1600 130 L1600 0H0Z" fill="#e0e8d9"/>
+                <path d="M0 830 C290 710 410 910 720 820 S1190 690 1600 800 V1100H0Z" fill="#e1eadb"/>
+                <path d="M1030 -30 C980 180 1080 300 1000 470 S960 760 1050 1130" fill="none" stroke="#b9d9df" stroke-width="28" opacity=".9"/>
+                <path d="M1030 -30 C980 180 1080 300 1000 470 S960 760 1050 1130" fill="none" stroke="#d9f0f3" stroke-width="11"/>
+                <g fill="none" stroke-linecap="round">
+                  <ellipse cx="820" cy="560" rx="270" ry="210" stroke="#fff" stroke-width="22"/>
+                  <ellipse cx="820" cy="560" rx="405" ry="320" stroke="#fff" stroke-width="18"/>
+                  <ellipse cx="820" cy="560" rx="585" ry="455" stroke="#fbfcfa" stroke-width="13" stroke-dasharray="26 13"/>
+                  <path d="M70 560 H1540 M820 30 V1060 M170 100 L1435 1000 M155 1010 L1450 80 M60 270 L1540 820 M70 870 L1510 230" stroke="#fff" stroke-width="13"/>
+                  <path d="M400 30 C470 300 620 415 820 560 S1150 850 1250 1090 M20 720 C370 660 620 610 820 560 S1250 440 1580 300" stroke="#d5c3ad" stroke-width="7"/>
+                  <path d="M250 30 C420 240 630 440 820 560 S1200 720 1540 900 M60 380 C350 410 560 470 820 560 S1290 670 1580 650" stroke="#dac8b8" stroke-width="5"/>
+                </g>
+                <g class="place-labels" text-anchor="middle">
+                  <text x="820" y="545" class="city-main">MADRID</text><text x="820" y="570">Puerta del Sol</text>
+                  <text x="1105" y="320">ALCOBENDAS</text><text x="1260" y="430">ALCALÁ DE HENARES</text>
+                  <text x="435" y="340">LAS ROZAS</text><text x="300" y="235">COLLADO VILLALBA</text>
+                  <text x="615" y="720">ALCORCÓN</text><text x="780" y="790">GETAFE</text>
+                  <text x="1110" y="770">RIVAS-VACIAMADRID</text><text x="875" y="980">ARANJUEZ</text>
+                  <text x="220" y="120">SAN LORENZO</text><text x="1185" y="615">TORREJÓN</text>
+                </g>
+              </svg>
+              <div class="marker-layer" id="markerLayer" aria-live="polite"></div>
+            </div>
+            <div class="map-controls" aria-label="Controles del mapa">
+              <button id="zoomInBtn" type="button" aria-label="Acercar">+</button>
+              <button id="zoomOutBtn" type="button" aria-label="Alejar">−</button>
+              <button id="resetMapBtn" type="button" aria-label="Ver todos los restaurantes">⌂</button>
+            </div>
+            <div class="map-help">Arrastra para mover · rueda para ampliar</div>
+            <div class="map-popup" id="mapPopup" hidden></div>
           </div>
+          <div class="map-legend"><span><i></i> Restaurante</span><span><i class="selected-dot"></i> Seleccionado</span><b id="markerCount">0 marcadores</b></div>
         </div>
-
-        <aside class="map-column" aria-label="Mapa de restaurantes">
-          <div id="mapArt" class="map-art">
-            <svg class="map-background" viewBox="0 0 800 800" role="img" aria-label="Mapa esquem&aacute;tico de Madrid y alrededores">
-              <rect width="800" height="800" fill="#eae6dd"/>
-              <path d="M0 100 220 40l160 75 235-45 185 105v185l-120 90 70 210-170 140H235L70 680 0 520Z" fill="#d9e2d2"/>
-              <path d="M410-20c-42 150 34 250-10 380-46 137 35 250 3 470" fill="none" stroke="#a9ced6" stroke-width="12" opacity=".8"/>
-              <g fill="none" stroke="#fff" stroke-linecap="round">
-                <circle cx="400" cy="400" r="132" stroke-width="10"/><circle cx="400" cy="400" r="230" stroke-width="10"/>
-                <path d="M40 225 400 400 760 140M80 620 400 400 730 610M130 40 400 400 690 750M10 390 400 400 790 420M220 780 400 400 350 0" stroke-width="9"/>
-              </g>
-              <g fill="none" stroke="#c9b29a" stroke-width="3" opacity=".8"><path d="M0 560Q230 430 400 400T800 260"/><path d="M150 0Q300 220 400 400T620 800"/><path d="M0 290Q190 325 400 400T800 570"/></g>
-            </svg>
-            <div class="map-status"><span><i></i> Resultados visibles</span><button id="recenterBtn" type="button">Centrar</button></div>
-            <div id="mapMarkers" aria-label="Marcadores de restaurantes"></div>
-            <div class="map-legend"><span><i></i> Restaurante</span><span><i class="selected"></i> Seleccionado</span></div>
-          </div>
-        </aside>
-      </div>
+      </aside>
     </section>
   </main>
 
-  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
-
-  <section class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle" hidden>
-    <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">&times;</button>
-    <div id="detailContent"></div>
-  </section>
-
-  <section class="modal compact-modal" id="reservationModal" role="dialog" aria-modal="true" aria-labelledby="reservationTitle" hidden>
-    <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">&times;</button>
-    <p class="eyebrow">SOLICITUD DE RESERVA</p><h2 id="reservationTitle">Reserva tu mesa</h2>
-    <p id="reservationRestaurantName"></p>
-    <form id="reservationForm">
-      <input id="reservationRestaurantId" type="hidden">
+  <dialog id="reservationDialog" class="modal">
+    <form method="dialog" id="reservationForm">
+      <button class="modal-close" value="cancel" aria-label="Cerrar">×</button>
+      <p class="eyebrow">SOLICITUD DE RESERVA</p>
+      <h2 id="reservationTitle">Reservar mesa</h2>
+      <input type="hidden" id="reservationRestaurantId">
       <div class="form-grid">
-        <label>Fecha<input id="reservationDate" type="date" required></label>
-        <label>Hora<select id="reservationTime" required><option value="">Elige una hora</option></select></label>
-        <label class="party-field">Personas<span><button id="partyMinus" type="button">-</button><b id="partyValue">2</b><button id="partyPlus" type="button">+</button></span></label>
-        <label>Nombre<input id="guestName" type="text" autocomplete="name" required></label>
-        <label>Tel&eacute;fono<input id="guestPhone" type="tel" autocomplete="tel" required></label>
-        <label>Email<input id="guestEmail" type="email" autocomplete="email" required></label>
-        <label class="full-field">Notas<textarea id="guestNotes" rows="3"></textarea></label>
+        <label>Nombre<input id="reservationName" required autocomplete="name"></label>
+        <label>Teléfono<input id="reservationPhone" required type="tel" autocomplete="tel"></label>
+        <label>Fecha<input id="reservationDate" required type="date"></label>
+        <label>Hora<input id="reservationTime" required type="time" value="21:00"></label>
+        <label>Personas<input id="reservationPeople" required type="number" min="1" max="20" value="2"></label>
+        <label class="full">Notas y alergias<textarea id="reservationNotes" rows="3" placeholder="Indica cualquier necesidad para confirmarla con el restaurante"></textarea></label>
       </div>
-      <button class="primary-button full-button" type="submit">Guardar solicitud</button>
+      <p class="demo-warning">Demostración: la solicitud se guarda en este dispositivo y no se envía a un restaurante real.</p>
+      <button class="primary-btn wide" value="default" type="submit">Guardar solicitud</button>
     </form>
-  </section>
+  </dialog>
 
-  <section class="modal compact-modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle" hidden>
-    <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">&times;</button>
-    <p class="eyebrow">SOLICITUD GUARDADA</p><h2 id="successTitle">Tu plan ya est&aacute; listo</h2>
-    <p id="successSummary"></p><p class="success-code">C&oacute;digo: <strong id="successCode"></strong></p>
-    <div class="modal-actions"><button id="downloadCalendarBtn" type="button">A&ntilde;adir al calendario</button><button id="shareBookingBtn" type="button">Compartir por WhatsApp</button></div>
-  </section>
-
-  <section class="modal compact-modal" id="savedModal" role="dialog" aria-modal="true" aria-labelledby="savedTitle" hidden>
-    <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">&times;</button>
-    <p class="eyebrow" id="savedEyebrow">Tu selecci&oacute;n</p><h2 id="savedTitle">Guardados</h2><div id="savedContent"></div>
-  </section>
-
-  <section class="modal compact-modal" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoTitle" hidden>
-    <button class="modal-close" type="button" data-close-modal aria-label="Cerrar">&times;</button>
-    <p class="eyebrow">IMPORTANTE</p><h2 id="infoTitle">Opciones adaptables</h2>
-    <p>Los filtros indican opciones declaradas en este cat&aacute;logo de demostraci&oacute;n. Confirma siempre ingredientes, trazas y protocolos directamente con el restaurante.</p>
-  </section>
+  <dialog id="savedDialog" class="modal saved-modal">
+    <form method="dialog">
+      <button class="modal-close" value="cancel" aria-label="Cerrar">×</button>
+      <p class="eyebrow">MIS RESERVAS</p>
+      <h2>Solicitudes guardadas</h2>
+      <div id="savedReservations"></div>
+    </form>
+  </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <footer>
-    <p>Mesa Madrid &middot; Cat&aacute;logo demostrativo de 100 restaurantes</p>
-    <div><button id="footerBookingsBtn" type="button">Mis reservas</button><button id="footerShareBtn" type="button">Compartir</button></div>
-  </footer>
+  <script src="restaurants.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
