@@ -1,4 +1,4 @@
-const CACHE = 'mesa-madrid-v5';
+const CACHE = 'mesa-madrid-v6';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./favicon.svg','./assets/images/hero-table.webp','./assets/images/food-mediterranean.webp','./assets/images/food-japanese.webp','./assets/images/food-plant.webp','./assets/images/food-spanish.webp','./assets/images/food-italian.webp','./assets/images/food-brunch.webp'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
