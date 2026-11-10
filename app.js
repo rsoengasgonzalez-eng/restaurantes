@@ -126,11 +126,6 @@ function imageForRestaurant(r){
     '<text x="480" y="535" text-anchor="middle" font-family="Georgia,serif" font-size="48" font-weight="700" fill="#fff">'+title+'</text><text x="480" y="580" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" fill="#fff" opacity=".86">'+place+'</text></svg>';
   return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
 }
-function injectRuntimeStyles(){
-  if(q('#mesaMadridRuntimeStyles')||!document.head)return;
-  var style=document.createElement('style');style.id='mesaMadridRuntimeStyles';style.textContent='\
-.restaurant-card .card-image{background:#eee8e3;min-height:180px;overflow:hidden}.restaurant-card .card-image img,.detail-hero img,.saved-item img{display:block;width:100%;height:100%;object-fit:cover}.restaurant-card .image-button{display:block;width:100%;height:100%;min-height:180px;padding:0;border:0;background:transparent}.restaurant-card .card-kicker,.restaurant-card .card-location,.restaurant-card h3{overflow-wrap:anywhere}.rating b{color:#c75b39}.directions-button{font-family:Arial,sans-serif;font-size:0}.directions-button:after{content:"\u2197";font-size:20px}#mapArt,.mesa-map-host{position:relative!important;overflow:hidden}#mapMarkers{position:absolute!important;display:block!important;inset:0!important;width:auto!important;height:auto!important;z-index:20!important;pointer-events:none!important;overflow:hidden!important}#mapMarkers .map-marker{position:absolute!important;display:grid!important;visibility:visible!important;opacity:1!important;place-items:center!important;width:30px!important;height:30px!important;min-width:30px!important;margin:0!important;padding:0!important;transform:translate(-50%,-50%)!important;border:2px solid #fff!important;border-radius:50% 50% 50% 8px!important;background:#4b1736!important;color:#fff!important;box-shadow:0 4px 12px rgba(44,22,34,.34)!important;cursor:pointer!important;pointer-events:auto!important;z-index:2!important;font:700 10px/1 Arial,sans-serif!important;rotate:-45deg!important}#mapMarkers .map-marker span{display:grid!important;place-items:center!important;width:100%!important;height:100%!important;rotate:45deg!important;color:#fff!important}#mapMarkers .map-marker.active{background:#d45f45!important;scale:1.2!important;z-index:4!important}';document.head.appendChild(style);
-}
 
 function init(){
   if(appStarted)return;
@@ -158,14 +153,12 @@ function init(){
   appStarted=true;
   if(els.markers.parentElement)els.markers.parentElement.classList.add('mesa-map-host');
 
-  // Estilos y recursos autocontenidos antes del primer renderizado.
-  injectRuntimeStyles();
   render();
   bindEvents();
   setDateDefaults();
   updateFavoriteCount();
   improveCopy();
-  clearObsoleteWorkerCache();
+  setupServiceWorker();
   window.MesaMadrid={restaurants:restaurants,state:state,render:render,getFiltered:getFiltered,resetFilters:resetFilters};
 }
 
@@ -177,16 +170,11 @@ function improveCopy(){
   var emptyText=q('#emptyState p');if(emptyText)emptyText.textContent='Ampl\u00eda la distancia o elimina alg\u00fan filtro para descubrir m\u00e1s opciones.';
 }
 
-function clearObsoleteWorkerCache(){
-  // Limpieza \u00fanica: evita que el service worker antiguo vuelva a servir un app.js roto.
-  try{
-    var cleanupKey='mesaMadridCacheCleanup';
-    var cleanupVersion='app-utf8-images-map-v2-2026-11-10';
-    if(localStorage.getItem(cleanupKey)===cleanupVersion)return;
-    localStorage.setItem(cleanupKey,cleanupVersion);
-    if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(reg){reg.unregister();});}).catch(function(){});}
-    if(window.caches&&caches.keys){caches.keys().then(function(keys){keys.forEach(function(key){if(/mesa|madrid|restaurant|static|app/i.test(key))caches.delete(key);});}).catch(function(){});}
-  }catch(error){}
+function setupServiceWorker(){
+  if(!('serviceWorker' in navigator)||!location.protocol.startsWith('http'))return;
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./service-worker.js?v=20261110',{updateViaCache:'none'}).then(function(registration){return registration.update();}).catch(function(error){console.warn('No se pudo actualizar el modo sin conexion.',error);});
+  },{once:true});
 }
 
 function bindEvents(){

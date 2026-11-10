@@ -1,61 +1,22 @@
-# Mesa Madrid
+# Mesa Madrid - reemplazo integral
 
-Aplicación web estática y responsive para descubrir restaurantes de Madrid y centros comerciales cercanos (hasta 60 km), filtrar por precio y opciones para alérgenos, explorar un mapa y guardar solicitudes de reserva.
+Sustituye en la raiz del despliegue estos seis archivos:
 
-## Qué incluye
+- `index.html`
+- `styles.css`
+- `app.js`
+- `service-worker.js`
+- `manifest.webmanifest`
+- `favicon.svg`
 
-- 15 restaurantes **de demostración** distribuidos por Madrid y alrededores.
-- Filtros por búsqueda, precio, seis alérgenos, zona y distancia.
-- Mapa vectorial local sin dependencias, API keys ni teselas externas.
-- Favoritos y solicitudes de reserva guardados en `localStorage`.
-- Descarga de una reserva al calendario (`.ics`) y botón para compartir por WhatsApp.
-- Diseño responsive, navegación por teclado, estados vacíos y PWA/offline.
-- Configuración `_headers` compatible con Cloudflare Pages.
+No es necesaria ninguna carpeta `assets`: las imagenes de las 100 tarjetas se generan como SVG autocontenido desde `app.js`, y el mapa base esta incluido directamente en `index.html`.
 
-## Probar en local
+## Publicacion
 
-No es necesario compilar ni instalar paquetes.
+1. Elimina o reemplaza los archivos anteriores con estos archivos exactos.
+2. Conserva los nombres y la ubicacion en la raiz.
+3. Publica todos los archivos en el mismo commit.
+4. Espera al despliegue y abre la web en una pestana nueva.
+5. Haz una recarga forzada (`Ctrl+F5`). Si habia un Service Worker antiguo, en DevTools usa Application > Service Workers > Unregister una sola vez y recarga.
 
-- Windows: doble clic en `iniciar-app.bat`.
-- macOS/Linux: ejecuta `./iniciar-app.sh` y abre `http://127.0.0.1:8080`.
-- Alternativa: `python3 -m http.server 8080`.
-
-> Se puede abrir `index.html` directamente, pero el service worker solo funciona desde HTTP/HTTPS.
-
-## Publicar en Cloudflare Pages
-
-### Desde GitHub
-
-1. Crea un repositorio nuevo.
-2. Sube **el contenido de esta carpeta** a la raíz del repositorio; `index.html` debe quedar arriba del todo.
-3. En Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**.
-4. Selecciona el repositorio y la rama `main`.
-5. Framework preset: `None`.
-6. Build command: déjalo vacío (si la interfaz exige uno, usa `exit 0`).
-7. Build output directory: `.`.
-8. Pulsa **Save and Deploy**.
-
-Cloudflare publicará una URL HTTPS `*.pages.dev` que se puede compartir por WhatsApp.
-
-### Subida directa
-
-También puedes usar **Workers & Pages → Create → Pages → Upload assets** y arrastrar esta carpeta o el ZIP.
-
-## Límites importantes del prototipo
-
-- Los nombres, valoraciones, disponibilidad y datos de restaurantes son ficticios y sirven para mostrar el producto.
-- “Opciones sin…” no garantiza una cocina libre de alérgenos. La app recuerda confirmar ingredientes y contaminación cruzada directamente con el local.
-- La reserva es una **solicitud local de demostración**: no se envía a un restaurante real y no procesa pagos.
-- Favoritos y reservas solo existen en el navegador/dispositivo que los creó.
-
-## Evolución a producción
-
-Para reservas reales y datos compartidos haría falta un backend. En Cloudflare, una arquitectura natural sería:
-
-- Pages/Workers Static Assets para el frontend.
-- Workers para API, validación y notificaciones.
-- D1 para restaurantes, horarios y reservas.
-- Turnstile para limitar abuso.
-- Un proveedor de email/SMS o integración con el motor de reservas de cada restaurante.
-
-Antes de publicar como servicio real también habría que verificar restaurantes y alérgenos, redactar privacidad/cookies y cumplir RGPD.
+La nueva version del Service Worker usa estrategia de red primero para HTML, CSS y JavaScript; las copias cacheadas solo se usan sin conexion.
