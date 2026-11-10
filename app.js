@@ -61,7 +61,7 @@
   {"id":"olio-rozas","name":"Olio Las Rozas","cuisine":"Italiana","price":2,"rating":4.8,"reviews":295,"distance":20.9,"zone":"oeste","area":"EurÃ³polis Â· Las Rozas","place":"Trattoria moderna","lat":40.5007,"lng":-3.8899,"image":"food-italian.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Pasta fresca","Horno","MenÃº infantil"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Olio Las Rozas propone pasta fresca, salsas caseras y especialidades de horno en EurÃ³polis. Un espacio trattoria moderna con servicio cercano y opciones adaptables bajo solicitud."},
   {"id":"jardin-boadilla","name":"JardÃ­n Boadilla","cuisine":"MediterrÃ¡nea","price":2,"rating":4.6,"reviews":368,"distance":18.9,"zone":"oeste","area":"Casco histÃ³rico Â· Boadilla del Monte","place":"JardÃ­n gastronÃ³mico","lat":40.4055,"lng":-3.876,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"JardÃ­n Boadilla propone producto de temporada, verduras, arroces y cocina luminosa en Casco histÃ³rico. Un espacio jardÃ­n gastronÃ³mico con servicio cercano y opciones adaptables bajo solicitud."},
   {"id":"fuego-villaviciosa","name":"Fuego Villaviciosa","cuisine":"Parrilla","price":3,"rating":4.7,"reviews":441,"distance":24.7,"zone":"oeste","area":"Centro Â· Villaviciosa de OdÃ³n","place":"Parrilla castellana","lat":40.3579,"lng":-3.9006,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo"],"features":["Parrilla","Grupos","Producto de temporada"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Fuego Villaviciosa propone verduras y carnes a la brasa con guarniciones para compartir en Centro. Un espacio parrilla castellana con servicio cercano y opciones adaptables bajo solicitud."},
-  {"id":"campiÃ±a-brunete","name":"CampiÃ±a Brunete","cuisine":"EspaÃ±ola","price":2,"rating":4.9,"reviews":514,"distance":28.5,"zone":"oeste","area":"Plaza Mayor Â· Brunete","place":"MesÃ³n de pueblo","lat":40.4053,"lng":-3.9985,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Raciones para compartir","MenÃº del dÃ­a"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"CampiÃ±a Brunete propone recetas espaÃ±olas reconocibles y producto de temporada en Plaza Mayor. Un espacio mesÃ³n de pueblo con servicio cercano y opciones adaptables bajo solicitud."},
+  {"id":"campina-brunete","name":"CampiÃ±a Brunete","cuisine":"EspaÃ±ola","price":2,"rating":4.9,"reviews":514,"distance":28.5,"zone":"oeste","area":"Plaza Mayor Â· Brunete","place":"MesÃ³n de pueblo","lat":40.4053,"lng":-3.9985,"image":"food-spanish.webp","safe":["lactosa","frutos secos","huevo","marisco"],"features":["Producto de temporada","Raciones para compartir","MenÃº del dÃ­a"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"CampiÃ±a Brunete propone recetas espaÃ±olas reconocibles y producto de temporada en Plaza Mayor. Un espacio mesÃ³n de pueblo con servicio cercano y opciones adaptables bajo solicitud."},
   {"id":"bosque-galapagar","name":"El Bosque de Galapagar","cuisine":"MediterrÃ¡nea","price":3,"rating":4.5,"reviews":587,"distance":33.7,"zone":"oeste","area":"Centro Â· Galapagar","place":"Cocina de temporada","lat":40.5783,"lng":-4.0043,"image":"food-mediterranean.webp","safe":["gluten","lactosa","huevo","soja"],"features":["Producto de temporada","Opciones ligeras","Terraza"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"El Bosque de Galapagar propone producto de temporada, verduras, arroces y cocina luminosa en Centro. Un espacio cocina de temporada con servicio cercano y opciones adaptables bajo solicitud."},
   {"id":"mirador-torrelodones","name":"Mirador Torrelodones","cuisine":"FusiÃ³n","price":3,"rating":4.6,"reviews":660,"distance":29.8,"zone":"oeste","area":"Colonia Â· Torrelodones","place":"Mirador gastronÃ³mico","lat":40.5763,"lng":-3.9295,"image":"food-brunch.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco"],"features":["Carta creativa","CÃ³cteles","Platos para compartir"],"times":["13:30","14:00","14:30","20:30","21:00","21:30","22:00"],"description":"Mirador Torrelodones propone una carta viajera con tÃ©cnicas actuales y platos para compartir en Colonia. Un espacio mirador gastronÃ³mico con servicio cercano y opciones adaptables bajo solicitud."},
   {"id":"duna-malasana","name":"Duna MalasaÃ±a","cuisine":"MarroquÃ­","price":2,"rating":4.7,"reviews":733,"distance":1.5,"zone":"madrid","area":"MalasaÃ±a Â· Madrid","place":"Cocina magrebÃ­ contemporÃ¡nea","lat":40.4238,"lng":-3.7068,"image":"food-spanish.webp","safe":["gluten","lactosa","frutos secos","huevo","marisco","soja"],"features":["Tajines","TÃ©s","Opciones vegetales"],"times":["13:00","13:30","14:00","14:30","20:00","20:30","21:00","21:30"],"description":"Duna MalasaÃ±a propone tajines, cuscÃºs y especias cÃ¡lidas en MalasaÃ±a. Un espacio cocina magrebÃ­ contemporÃ¡nea con servicio cercano y opciones adaptables bajo solicitud."},
@@ -96,7 +96,7 @@ var bounds={minLat:40.12,maxLat:40.72,minLng:-4.18,maxLng:-3.30};
 function q(selector,root){return (root||document).querySelector(selector);}
 function qa(selector,root){return Array.prototype.slice.call((root||document).querySelectorAll(selector));}
 function on(target,eventName,handler){var node=typeof target==='string'?q(target):target;if(!node)return;node.addEventListener(eventName,handler);}
-function escapeHtml(value){return String(value==null?'':value).replace(/[&<>'"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c];});}
+function escapeHtml(value){return String(value==null?'':value).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];});}
 function storageRead(key,fallback){try{var value=localStorage.getItem(key);return value?JSON.parse(value):fallback;}catch(error){return fallback;}}
 function storageWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch(error){showToast('No se pudo guardar en este navegador');}}
 function priceLabel(value){var out='';for(var i=0;i<Number(value||0);i+=1)out+='â‚¬';return out;}
@@ -107,7 +107,6 @@ function heartIcon(){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d
 
 function init(){
   if(appStarted)return;
-  appStarted=true;
   els.list=q('#restaurantList');
   els.markers=q('#mapMarkers');
   els.count=q('#resultCount');
@@ -129,6 +128,7 @@ function init(){
     console.error('Mesa Madrid no puede iniciarse: faltan #restaurantList o #mapMarkers.');
     return;
   }
+  appStarted=true;
 
   // El renderizado sucede antes de cualquier mejora opcional.
   render();
@@ -149,8 +149,12 @@ function improveCopy(){
 }
 
 function clearObsoleteWorkerCache(){
-  // Evita que una versiÃ³n anterior de app.js vuelva a servirse desde el service worker.
+  // Limpieza Ãºnica: evita que el service worker antiguo vuelva a servir un app.js roto.
   try{
+    var cleanupKey='mesaMadridCacheCleanup';
+    var cleanupVersion='app-fixed-2026-11-09';
+    if(localStorage.getItem(cleanupKey)===cleanupVersion)return;
+    localStorage.setItem(cleanupKey,cleanupVersion);
     if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(reg){reg.unregister();});}).catch(function(){});}
     if(window.caches&&caches.keys){caches.keys().then(function(keys){keys.forEach(function(key){if(/mesa|madrid|restaurant|static|app/i.test(key))caches.delete(key);});}).catch(function(){});}
   }catch(error){}
@@ -266,7 +270,7 @@ function closeModals(){qa('.modal').forEach(function(m){m.hidden=true;});if(els.
 function showToast(message){if(!els.toast)return;els.toast.textContent=message;els.toast.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(function(){els.toast.classList.remove('show');},2400);}
 
 function shareApp(){var text='Mesa Madrid reÃºne '+restaurants.length+' restaurantes para comparar por cocina, precio, zona y opciones adaptables.';if(navigator.share){navigator.share({title:'Mesa Madrid',text:text,url:location.href}).catch(function(){});}else{copyText(text+'\n'+location.href);showToast('Enlace copiado para compartir');}}
-function shareCurrentBooking(){var b=state.currentBooking;if(!b)return;var text='Plan en '+b.restaurant+'\nFecha: '+formatDate(b.date)+' a las '+b.time+'\nPersonas: '+b.party+'\nCÃ³digo local: '+b.code+'\n\nPendiente de confirmar con el restaurante.';window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');}
+function shareCurrentBooking(){var b=state.currentBooking;if(!b)return;var text='ðŸ½ï¸ Plan en '+b.restaurant+'\nðŸ“… '+formatDate(b.date)+' a las '+b.time+'\nðŸ‘¥ '+b.party+' '+(b.party===1?'persona':'personas')+'\nCÃ³digo local: '+b.code+'\n\nPendiente de confirmar con el restaurante.';window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');}
 function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text).catch(function(){fallbackCopy(text);});fallbackCopy(text);return Promise.resolve();}
 function fallbackCopy(text){var area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();try{document.execCommand('copy');}catch(error){}document.body.removeChild(area);}
 function downloadCalendar(){var b=state.currentBooking;if(!b)return;var r=findRestaurant(b.restaurantId);if(!r)return;var start=new Date(b.date+'T'+b.time+':00');var end=new Date(start.getTime()+90*60000);function stamp(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');}var body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mesa Madrid//ES','BEGIN:VEVENT','UID:'+b.id+'@mesamadrid','DTSTAMP:'+stamp(new Date()),'DTSTART:'+stamp(start),'DTEND:'+stamp(end),'SUMMARY:Comida en '+b.restaurant,'DESCRIPTION:Solicitud '+b.code+'. Pendiente de confirmar.','LOCATION:'+r.area,'END:VEVENT','END:VCALENDAR'].join('\r\n');var link=document.createElement('a');link.href=URL.createObjectURL(new Blob([body],{type:'text/calendar'}));link.download='reserva-mesa-madrid.ics';link.click();setTimeout(function(){URL.revokeObjectURL(link.href);},500);showToast('Evento de calendario descargado');}
