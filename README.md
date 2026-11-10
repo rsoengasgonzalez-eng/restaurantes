@@ -1,6 +1,10 @@
-# Mesa Madrid v4 — mapa interactivo corregido
+# Mesa Madrid v5 — Cloudflare corregido
 
 Aplicación web estática preparada para Cloudflare Pages. Incluye 100 restaurantes de demostración con coordenadas WGS84 válidas, filtros sincronizados con listado y mapa, mapa vectorial interactivo local, favoritos y solicitudes de reserva guardadas en el navegador.
+
+## Corrección de despliegue en Cloudflare
+
+Esta versión **no incluye `_redirects`**. La regla anterior `/* /index.html 200` hacía que Wrangler detectase un bucle infinito al aplicar el tratamiento nativo de rutas HTML de Cloudflare. La aplicación actual no usa rutas dinámicas del lado cliente y no necesita esa reescritura: `index.html` se sirve directamente desde la raíz mediante el routing estático nativo de Cloudflare.
 
 ## Corrección clave
 
@@ -27,6 +31,8 @@ Abre `http://localhost:8080`.
 5. Build command: vacío (o `exit 0`).
 6. Build output directory: `.`.
 7. Deploy.
+
+No añadas un archivo `_redirects`: para esta aplicación basta el routing estático nativo de Cloudflare. Antes de subir el repositorio, confirma que `index.html` está directamente en la raíz.
 
 ## Verificación automática incluida
 
